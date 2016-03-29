@@ -1,0 +1,84 @@
+@charset 'utf-8';
+
+@import 'settings';
+@import 'foundation';
+@import 'motion-ui';
+
+@include foundation-global-styles;
+@include foundation-grid;
+@include foundation-typography;
+@include foundation-button;
+@include foundation-forms;
+@include foundation-visibility-classes;
+@include foundation-float-classes;
+@include foundation-accordion;
+@include foundation-accordion-menu;
+@include foundation-badge;
+@include foundation-breadcrumbs;
+@include foundation-button-group;
+@include foundation-callout;
+@include foundation-close-button;
+@include foundation-drilldown-menu;
+@include foundation-dropdown;
+@include foundation-dropdown-menu;
+@include foundation-flex-video;
+@include foundation-label;
+@include foundation-media-object;
+@include foundation-menu;
+@include foundation-off-canvas;
+@include foundation-orbit;
+@include foundation-pagination;
+@include foundation-progress-bar;
+@include foundation-slider;
+@include foundation-sticky;
+@include foundation-reveal;
+@include foundation-switch;
+@include foundation-table;
+@include foundation-tabs;
+@include foundation-thumbnail;
+@include foundation-title-bar;
+@include foundation-tooltip;
+@include foundation-top-bar;
+
+@include motion-ui-transitions;
+@include motion-ui-animations;
+
+@import 'fonts';
+
+html, body {
+	background-color: #97272b;
+	background-image: url('/images/home_bg.png');
+	background-position: top center;
+	background-size: cover;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi), (-webkit-min-device-pixel-ratio: 144), (min-resolution: 144dppx) {
+	html, body {
+		background-image: url('/images/home_bg_2x.png');
+	}
+}
+h1 {
+	color: #FFF;
+	font-family: 'Exo 2 Light', sans-serif;
+	font-size: 40px;
+}
+p {
+	color: #AD7577;
+}
+p a {
+	color: #F7646A;
+}
+#coming-soon {
+	padding-top: 40vh;
+}
+#coming-soon .logo {
+	height: 101px;
+	width: 103px;
+	background-image: url('/images/logo.png');
+	background-size: 103px 101px;
+	display: inline-block;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi), (-webkit-min-device-pixel-ratio: 144), (min-resolution: 144dppx) {
+	#coming-soon .logo {
+		background-image: url('/images/logo_2x.png');
+	}
+}
