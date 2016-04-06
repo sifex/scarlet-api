@@ -104,7 +104,7 @@
 
 		$("#keyForm").submit(function(e) {
 			e.preventDefault();
-				window.external.saveKeyAndRestart( $(input).val() );
+				window.external.saveKeyAndRestart( $('input').val() );
 		});
 
 		$("#draggable").mousedown(function() {
