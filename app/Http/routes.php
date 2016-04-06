@@ -15,6 +15,12 @@ Route::get('/', function () {
 	return view('index');
 });
 
+Route::get('/key/', function() {
+	return view('key.index');
+});
+
+Route::post('/key/', 'KeyController@installed');
+
 
 /* ------------- API --------------- */
 
