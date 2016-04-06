@@ -104,9 +104,7 @@
 
 		$("#keyForm").submit(function(e) {
 			e.preventDefault();
-			$.get("http://scarlet.australianarmedforces.org/api/user/info/" + $("input").val() + "/key/", function( data ) {
 				window.external.saveKeyAndRestart( data );
-			});
 		});
 
 		$("#draggable").mousedown(function() {
