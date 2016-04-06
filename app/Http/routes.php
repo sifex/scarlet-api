@@ -24,6 +24,11 @@ Route::post('/key/', 'KeyController@installed');
 
 /* ------------- API --------------- */
 
+// Scarlet Test API
+Route::get('/api/', function() {
+	return '';
+});
+
 // ADD
 Route::get('/api/user/add/{username}/{clanID}/', 'UserController@add');
 
