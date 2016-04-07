@@ -49,7 +49,7 @@ class UserController extends Controller
 
     if(DB::table('scar_users')->where('key', $key)->first())
     {
-      DB::table('scar_users')->where('key', $key)->update(['installDir'=>$request->installDir])
+      DB::table('scar_users')->where('key', $key)->update(['installDir'=>$request->installDir]);
     }
   }
 
