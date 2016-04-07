@@ -44,7 +44,7 @@ class UserController extends Controller
   public function install(Request $request, $key)
   {
     // Log
-    Log::info('Installing Directory for ' . $key . ': ' $request->installDir);
+    Log::info('Installing Directory for ' . $key . ': ' . $request->installDir);
 
 
     if(DB::table('scar_users')->where('key', $key)->first())
