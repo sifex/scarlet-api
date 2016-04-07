@@ -47,18 +47,10 @@ class UserController extends Controller
     Log::info('Installing Directory for ' . $key . ': ' . $var);
 
 
-    if(DB::table('scar_users')->where('key', $var)->first())
+    if(DB::table('scar_users')->where('key', $key)->first())
     {
-      DB::table('scar_users')->where('key', $var)->first()->$type;
+      DB::table('scar_users')->where('key', $key)->update(['installDir'=>$request->installDir])
     }
-
-
-    $dbc = $this->DB;
-    $this->logger->info("API Request: - Update Install: " . $args['key'] . " fetching " . $request->getParam('installDir'));
-
-
-    $dbc->update("scar_users", ['installDir' => $request->getParam('installDir')], ['key' => $args['key']]);
-    print_r($dbc->get("scar_users", 'installDir', ['key' => $args['key']]));
   }
 
   public function post(Request $request) {
