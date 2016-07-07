@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request, Illuminate\Http\Response;
 use Log, DB;
 
 class UserController extends Controller
@@ -37,7 +37,8 @@ class UserController extends Controller
 
     if(DB::table('scar_users')->where('key', $var)->first())
     {
-      echo DB::table('scar_users')->where('key', $var)->first()->$return;
+      $content = DB::table('scar_users')->where('key', $var)->first()->$return;
+      return response($content)->header('Access-Control-Allow-Origin', '*');
     }
   }
 
@@ -45,7 +46,6 @@ class UserController extends Controller
   {
     // Log
     Log::info('Installing Directory for ' . $key . ': ' . $request->installDir);
-
 
     if(DB::table('scar_users')->where('key', $key)->first())
     {
