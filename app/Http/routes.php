@@ -23,7 +23,7 @@ Route::get('/key/', function() {
 
 // Scarlet Test API
 Route::get('/api/', function() {
-	return response()->json('Scarlet API');
+	return response()->json(['name' => 'Scarlet API', 'version' => '1']);
 });
 
 // ADD
