@@ -19,14 +19,11 @@ Route::get('/key/', function() {
 	return view('key.index');
 });
 
-Route::post('/key/', 'KeyController@installed');
-
-
 /* ------------- API --------------- */
 
 // Scarlet Test API
 Route::get('/api/', function() {
-	return '';
+	return response()->json(['name' => 'Scarlet API', 'version' => '1']);
 });
 
 // ADD
