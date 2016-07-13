@@ -10,7 +10,9 @@ use Curl;
 class DownloadController extends Controller
 {
     public function download() {
-        $data = Curl::to('http://127.0.0.1:8080/api/user/info/omega')->get();
+        $data = Curl::to('http://127.0.0.1:8080/api/user/info/omega')
+        ->enableDebug('/logFile.txt');
+        ->get();
         return response($data);
     }
 }
