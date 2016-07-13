@@ -26,6 +26,10 @@ Route::get('/api/', function() {
 	return response()->json(['name' => 'Scarlet API', 'version' => '1']);
 });
 
+Route::get('/api/version/', function() {
+	return '1.0';
+});
+
 // ADD
 Route::get('/api/user/add/{username}/{clanID}/', 'UserController@add');
 
