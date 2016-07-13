@@ -9,13 +9,7 @@ use App\Http\Requests, App\Http\Responses;
 class DownloadController extends Controller
 {
     public function download() {
-        $url = 'http://xx.xxx.xx.xx:xxxx/apps/index.php';
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        $data = curl_exec($curl);
-        curl_close($curl);
-        return response($data)->header('Access-Control-Allow-Origin', '*');
+        $data = Curl::to('http://127.0.0.1:8080/api/user/info/omega')->get();
+        return response($data);
     }
 }
