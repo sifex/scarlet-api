@@ -22,8 +22,7 @@ class UserController extends Controller
             'clanid' => $clanID
         ]))
         {
-            $content = $username . " (" . $key . ") - " . $clanID;
-            return response($content)->header('Access-Control-Allow-Origin', '*');
+            return response()->json(['username' =>  $username, 'key' => $key, 'clan' => $clanID])->header('Access-Control-Allow-Origin', '*');
 
             // Log
             Log::info('Created User: ' . $username . " (" . $key . ") - " . $clanID);
@@ -31,15 +30,20 @@ class UserController extends Controller
         }
     }
 
-    public function info($var, $return)
+    public function info($var)
     {
         // Log
-        Log::info('Fetching info(' . $var . ') for: ' . $return);
+        Log::info('Fetching info(' . $var . ')');
 
         if(DB::table('scar_users')->where('key', $var)->first())
         {
-            $content = DB::table('scar_users')->where('key', $var)->first()->$return;
-            return response($content)->header('Access-Control-Allow-Origin', '*');
+            $content = DB::table('scar_users')->where('key', $var)->first();
+            return response()->json(['username' =>  $content->username, 'key' => $content->key, 'clan' => $content->clanid])->header('Access-Control-Allow-Origin', '*');
+        }
+        elseif(DB::table('scar_users')->where('username', $var)->first())
+        {
+            $content = DB::table('scar_users')->where('username', $var)->first();
+            return response()->json(['username' =>  $content->username, 'key' => $content->key, 'clan' => $content->clanid])->header('Access-Control-Allow-Origin', '*');
         }
     }
 

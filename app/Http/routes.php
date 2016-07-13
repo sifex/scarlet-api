@@ -15,28 +15,22 @@ Route::get('/', function () {
 	return view('index');
 });
 
-Route::get('/key/', function() {
-	return view('key.index');
-});
+Route::get('/auth/{key}', 'AuthController@login');
+
+Route::get('/download/', 'DownloadController@download');
 
 /* ------------- API --------------- */
 
 // Scarlet Test API
 Route::get('/api/', function() {
-	return response()->json(['name' => 'Scarlet API', 'version' => '1']);
-});
-
-Route::get('/api/version/', function() {
-	return '1.0';
+	return response()->json(['name' => 'Scarlet API', 'Version' => '1.0']);
 });
 
 // ADD
 Route::get('/api/user/add/{username}/{clanID}/', 'UserController@add');
 
 // INFO
-Route::get('/api/user/info/{var}/{key}/', 'UserController@info');
+Route::get('/api/user/info/{var}/', 'UserController@info');
 
 // SET INSTALL
 Route::post('/api/user/install/{key}/', 'UserController@install');
-
-Route::get('/asd/', 'UserController@post');
