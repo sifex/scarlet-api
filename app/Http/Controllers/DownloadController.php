@@ -10,9 +10,8 @@ use Curl;
 class DownloadController extends Controller
 {
     public function download() {
-        $data = Curl::to('http://127.0.0.1:8080/api/user/info/omega')
-        ->enableDebug('/var/www/scarlet.australianarmedforces.org/logFile.txt')
-        ->get();
-        return response($data);
+
+        // Redirect if not Authed
+        return view('download.index');
     }
 }
