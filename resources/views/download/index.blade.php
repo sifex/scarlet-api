@@ -9,6 +9,7 @@
             <div id="output">
                 Connecting to Updater
             </div>
+            <input type="button" name="name" value="Testing" onclick="doSend('Sending Test Message')">
         </p>
     </div>
 @endsection
@@ -38,7 +39,6 @@
        function onOpen(evt)
        {
        writeToScreen("CONNECTED");
-       doSend("WebSocket rocks");
        }
 
        function onClose(evt)
