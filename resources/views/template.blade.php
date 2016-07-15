@@ -14,9 +14,8 @@
 <body>
 
     @yield('content')
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
-    <script type="text/javascript">
-        document.write('<script src="//localhost:35729/livereload.js?snipver=1" type="text/javascript"><\/script>')
-    </script>
+    @yield('scripts')
 </body>
 </html>
