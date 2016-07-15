@@ -16,7 +16,7 @@
 
 @section('scripts')
 <script>
-    $.get( "//download.australianarmedforces.org:1235/", function( data ) {
+    $.get( "//download.australianarmedforces.org:9000/", function( data ) {
         $( ".data" ).html( data );
         alert( "Load was performed." );
     });
