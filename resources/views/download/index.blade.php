@@ -6,10 +6,11 @@
     <div id="coming-soon" class="small-10 small-centered columns text-center">
         <div class="logo"></div>
         <p>
-            <div id="output">
+            <div id="output" style="color: #000;">
                 Connecting to Updater
             </div>
-            <input type="button" name="name" value="Testing" onclick="doSend('Sending Test Message')">
+            <input type="text" name="name" id="missionText" />
+            <input type="button" name="name" value="Testing" onclick="missionStarting()">
         </p>
     </div>
 @endsection
@@ -17,6 +18,11 @@
 
 @section('scripts')
 <script language="javascript" type="text/javascript">
+
+        function missionStarting() {
+            var missionText = $('#missionText').val();
+            doSend(missionText);
+        }
 
        var wsUri = "ws://scarlet.australianarmedforces.org:8080";
        var output;
@@ -43,12 +49,12 @@
 
        function onClose(evt)
        {
-       writeToScreen("DISCONNECTED");
+           testWebSocket();
        }
 
        function onMessage(evt)
        {
-       writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+       writeToScreen('<span style="color: red;">RESPONSE: ' + evt.data+'</span>');
        }
 
        function onError(evt)
