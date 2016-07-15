@@ -11,17 +11,28 @@
             </div>
             <input type="text" name="name" id="missionText" />
             <input type="button" name="name" value="Testing" onclick="missionStarting()">
+            <br>
+            <input type="button" name="name" value="Download" onclick="sendDownload()">
         </p>
     </div>
 @endsection
 
 
 @section('scripts')
+<script type="text/javascript">
+  var userip;
+</script>
+<script type="text/javascript" src="https://l2.io/ip.js?var=userip"></script>
+
+
 <script language="javascript" type="text/javascript">
 
         function missionStarting() {
             var missionText = $('#missionText').val();
-            doSend(missionText);
+            doSend("Updater" + "|" + "*" + "|" + "Broadcast" + "|" + missionText);
+        }
+        function sendDownload() {
+            doSend("Updater" + "|" + userip + "|" + "startDownload");
         }
 
        var wsUri = "ws://scarlet.australianarmedforces.org:8080";
