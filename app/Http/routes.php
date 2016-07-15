@@ -19,6 +19,8 @@ Route::get('/auth/{key}', 'AuthController@login');
 
 Route::get('/download/', 'DownloadController@download');
 
+Route::get('/missionPush/', 'AdminController@download');
+
 /* ------------- API --------------- */
 
 // Scarlet Test API

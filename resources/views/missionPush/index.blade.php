@@ -9,7 +9,8 @@
             <div id="output" style="color: #000;">
                 Connecting to Updater
             </div>
-            <input class="button" type="button" name="name" value="Start Download" onclick="startDownload()">
+            <input type="text" name="name" id="missionText" />
+            <input type="button" name="name" value="Testing" onclick="missionStarting()">
         </p>
     </div>
 @endsection
@@ -27,10 +28,9 @@
             );
         });
 
-        var downloadLocation = "C:/Users/Alex/Desktop";
-
-        function startDownload() {
-            doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + downloadLocation);
+        function missionStarting() {
+            var missionText = $('#missionText').val();
+            doSend("Updater" + "|" + IP + "|" + "Broadcast" + "|" + missionText);
         }
 
        var wsUri = "ws://scarlet.australianarmedforces.org:8080";
@@ -80,10 +80,6 @@
        {
        writeToScreen("SENT: " + message);
        websocket.send(message);
-       }
-
-       function updateFile() {
-
        }
 
        function writeToScreen(message)
