@@ -4,10 +4,10 @@ var WebSocketServer = require('ws').Server,
     });
 
 wss.on('connection', function connection(ws) {
-    console.log('Connected');
+    console.log('Connected from ' + ws.upgradeReq.connection.remoteAddress);
 
     ws.on('message', function incoming(message) {
-        console.log('received: %s', message);
+        wss.broadcast(message);
     });
 
     ws.send('something');
