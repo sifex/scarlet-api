@@ -9,6 +9,7 @@
             <div id="output" style="color: #000;">
                 Connecting to Updater
             </div>
+            <span class="status"> </span> - <span class="file"> </span>
             <input class="button" type="button" name="name" value="Start Download" onclick="startDownload()">
         </p>
     </div>
@@ -62,11 +63,16 @@
 
        function onMessage(evt)
        {
-           console.log(evt.data)
+
            var array = evt.data.split("|");
             if(array[0] == "Browser") {
                 if(array[1] == IP) {
-                    writeToScreen('<span style="color: red;">RESPONSE: ' + array[3]+'</span>');
+                    if(array[2] == "UpdateStatus") {
+                        updateStatus(array[3]);
+                    }
+                    if(array[2] == "UpdateFile") {
+                        updateFile(array[3]);
+                    }
                 }
            }
        }
@@ -82,8 +88,13 @@
        websocket.send(message);
        }
 
-       function updateFile() {
+       function updateFile(message) {
+            $(".file").html(message);
+       }
 
+
+       function updateStatus(message) {
+            $(".status").html(message);
        }
 
        function writeToScreen(message)
