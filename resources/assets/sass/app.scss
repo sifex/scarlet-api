@@ -88,12 +88,31 @@ html, body {
     background-image: url("/images/home_bg.png");
     background-position: top center;
     background-size: cover;
-}
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi), (-webkit-min-device-pixel-ratio: 144), (min-resolution: 144dppx) {
-    html, body {
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi), (-webkit-min-device-pixel-ratio: 144), (min-resolution: 144dppx) {
         background-image: url("/images/home_bg_2x.png");
     }
+}
+
+.progress {
+    height: 50px;
+    border-radius: 4px;
+    padding: 4px;
+
+    .progress-meter {
+        background-color: #da3b40;
+        border-radius: 3px;
+    }
+}
+
+#output {
+    color: #FFF;
+    margin-bottom: 10px;
+}
+
+input.button {
+    background-color: #da3b40;
+    margin-top: 10px;
 }
 
 h1 {

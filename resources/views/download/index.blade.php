@@ -6,11 +6,18 @@
     <div id="coming-soon" class="small-10 small-centered columns text-center">
         <div class="logo"></div>
         <p>
-            <div id="output" style="color: #000;">
+            <div id="output">
                 Connecting to Updater
             </div>
-            <span class="status"> </span> - <span class="file"> </span>
-            <input class="button" type="button" name="name" value="Start Download" onclick="startDownload()">
+            <div class="progress" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-meter"></div>
+            </div>
+        </p>
+    </div>
+    <div class="small-10 small-centered columns">
+        <p>
+            <span class="status"> </span> - <span class="file"> </span><br />
+            <input class="button disabled" disabled="disabled" type="button" name="name" value="Start Download" onclick="startDownload()">
         </p>
     </div>
 @endsection
@@ -19,6 +26,8 @@
 @section('scripts')
 <script language="javascript" type="text/javascript">
         var IP;
+        var connected = false;
+        var connectedNo = 1;
 
         $(function() {
             $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
@@ -54,11 +63,36 @@
 
        function onOpen(evt)
        {
+           writeToScreen("Connected to Scarlet Servers");
+            browserConnect();
        }
 
        function onClose(evt)
        {
            testWebSocket();
+       }
+
+       function browserConnect() {
+           setTimeout(function () {
+             doSend("Updater" + "|" + IP + "|" + "browserConnect");
+              connectedNo++;
+              if (connected == false) {
+                  if(connectedNo < 50) {
+                     browserConnect();
+                     console.log("Updater Ping - Not Connected");
+                 }
+                 else {
+                     writeToScreen("Could not Connect to Updater");
+                 }
+              }
+              else {
+                  writeToScreen("Connected to Updater");
+                    console.log("Updater Ping - Connected");
+                    $('input').removeAttr("disabled");
+                    $('input').removeAttr("class");
+                    $('input').attr("class", "button");
+              }
+          }, 2000);
        }
 
        function onMessage(evt)
@@ -67,11 +101,17 @@
            var array = evt.data.split("|");
             if(array[0] == "Browser") {
                 if(array[1] == IP) {
+                    if(array[2] == "browserConfirmation") {
+                        connected = true;
+                    }
                     if(array[2] == "UpdateStatus") {
                         updateStatus(array[3]);
                     }
                     if(array[2] == "UpdateFile") {
                         updateFile(array[3]);
+                    }
+                    if(array[2] == "UpdateProgress") {
+                        updateProgress(array[3]);
                     }
                 }
            }
@@ -84,7 +124,7 @@
 
        function doSend(message)
        {
-       writeToScreen("SENT: " + message);
+       console.log("SENT: " + message);
        websocket.send(message);
        }
 
@@ -92,9 +132,16 @@
             $(".file").html(message);
        }
 
-
        function updateStatus(message) {
             $(".status").html(message);
+       }
+
+       function updateProgress(message) {
+            var array = message.split("/");
+            console.log(array[0]);
+            var percent = parseFloat(array[0]);
+            $(".progress-meter").css("width", percent + "%");
+
        }
 
        function writeToScreen(message)
