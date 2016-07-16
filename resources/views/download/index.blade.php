@@ -119,7 +119,7 @@
 
        function onError(evt)
        {
-       writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+           writeToScreen('<span style="color: red;">ERROR:</span> ' + "Unable to connect to Scarlet Servers");
        }
 
        function doSend(message)
