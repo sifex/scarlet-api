@@ -3602,13 +3602,17 @@ html, body {
     background-color: #da3b40;
     border-radius: 3px; }
 
+.status {
+  color: #FFF; }
+
 #output {
   color: #FFF;
   margin-bottom: 10px; }
 
 input.button {
-  background-color: #da3b40;
   margin-top: 10px; }
+  input.button#start {
+    background-color: #da3b40; }
 
 h1 {
   color: #FFF;

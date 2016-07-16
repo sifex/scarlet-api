@@ -16,8 +16,9 @@
 </div>
 <div class="small-10 small-centered columns">
     <p>
-        <span class="status"> </span> - <span class="file"> </span><br />
-        <input class="button disabled" disabled="disabled" type="button" name="name" value="Start Download" onclick="startDownload()">
+        <span class="status"> </span> <span class="file"> </span><br />
+        <input class="button disabled" id="start" disabled="disabled" type="button" name="name" value="Start Download" onclick="startDownload()">
+        <input class="button disabled" id="location" disabled="disabled" type="button" name="name" value="Change Download Location" onclick="changeLocation()">
     </p>
 </div>
 @endsection
@@ -77,10 +78,10 @@
 
         function browserConnect() {
             setTimeout(function () {
-                        doSend("Updater" + "|" + IP + "|" + "browserConnect");
+                doSend("Updater" + "|" + IP + "|" + "browserConnect");
                 connectedNo++;
                 if (connected == false) {
-                    if(connectedNo < 50) {
+                    if(connectedNo < 20) {
                         browserConnect();
                         console.log("Updater Ping - Not Connected");
                     }
@@ -106,35 +107,32 @@
                     if(array[2] == "browserConfirmation") {
                         connected = true;
                     }
-                    if(array[2] == "UpdateInstallLocation") {
+                    else if(array[2] == "UpdateInstallLocation") {
                         updateInstallLocation(array[3]);
                     }
-                    if(array[2] == "UpdateStatus") {
+                    else if(array[2] == "UpdateStatus") {
                         updateStatus(array[3]);
                     }
-                    if(array[2] == "UpdateFile") {
+                    else if(array[2] == "UpdateFile") {
                         updateFile(array[3]);
                     }
-                    if(array[2] == "UpdateProgress") {
+                    else if(array[2] == "UpdateProgress") {
                         updateProgress(array[3]);
+                    }
+                    else if(array[2] == "Completed") {
+                        completed();
                     }
                 }
             }
         }
 
-        function onError(evt)
-        {
+        function onError(evt) {
             writeToScreen('<span style="color: red;">ERROR:</span> ' + "Unable to connect to Scarlet Servers");
         }
 
-        function doSend(message)
-        {
+        function doSend(message) {
             console.log("SENT: " + message);
             websocket.send(message);
-        }
-
-        function updateInstallLocation(location) {
-            $
         }
 
         function updateFile(message) {
@@ -150,11 +148,21 @@
             console.log(array[0]);
             var percent = parseFloat(array[0]);
             $(".progress-meter").css("width", percent + "%");
-
         }
 
-        function writeToScreen(message)
-        {
+        function updateInstallLocation(message) {
+            console.log(message);
+        }
+
+        function completed() {
+            updateFile("");
+        }
+
+        function changeLocation() {
+            doSend("Updater" + "|" + IP + "|" + "locationChange");
+        }
+
+        function writeToScreen(message) {
             var pre = document.createElement("p");
             pre.style.wordWrap = "break-word";
 
