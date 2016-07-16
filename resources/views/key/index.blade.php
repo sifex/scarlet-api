@@ -27,6 +27,7 @@
     function submitKey() {
         $.get( "http://scarlet.australianarmedforces.org/api/user/info/" + $(".cleave").val(), function( data ) {
             $( ".result" ).html( data );
+            console.log(data);
             alert( "Load was performed." );
         });
     }
