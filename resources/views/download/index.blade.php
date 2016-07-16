@@ -45,10 +45,8 @@
         );
         });
 
-        var downloadLocation = info.installDir;
-
         function startDownload() {
-            doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + downloadLocation);
+            doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + info.installDir);
             writeToScreen("Commencing Download");
         }
 
