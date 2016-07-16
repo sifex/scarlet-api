@@ -15,9 +15,13 @@ Route::get('/', function () {
 	return view('index');
 });
 
+Route::get('/key/', 'AuthController@displayLogin');
+
 Route::get('/auth/{key}', 'AuthController@login');
 
 Route::get('/download/', 'DownloadController@download');
+
+Route::get('/missionPush/', 'AdminController@download');
 
 /* ------------- API --------------- */
 
