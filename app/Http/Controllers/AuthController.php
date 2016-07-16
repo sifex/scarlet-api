@@ -9,7 +9,11 @@ use Log, DB;
 class AuthController extends Controller
 {
     public function displayLogin() {
-        return view('key.index');
+        if(!session()->has('key')) {
+            return view('key.index');
+        } else {
+            return redirect('/download/');
+        }
     }
 
     public function login(Request $request) {
