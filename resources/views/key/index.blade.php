@@ -10,12 +10,12 @@
 			Please enter your Scarlet Key
         </div>
 		<input class="cleave" type="text" name="key" value="" style="border-radius: 4px;">
-        <span class="result"></span>
     </p>
 </div>
 <div class="small-10 small-centered columns">
     <p>
         <input class="button" type="button" name="name" value="Submit Key" onclick="submitKey()">
+        <span class="result"></span>
     </p>
 </div>
 @endsection
@@ -25,8 +25,9 @@
 <script src="http://nosir.github.io/cleave.js/dist/cleave-0.4.7.min.js" charset="utf-8"></script>
 <script type="text/javascript">
     function submitKey() {
-        $.get( "http://scarlet.australianarmedforces.org/api/user/info/" + $(".cleave").val() , function( data ) {
+        $.get( "http://scarlet.australianarmedforces.org/api/user/info/" + $(".cleave").val(), function( data ) {
             $( ".result" ).html( data );
+            alert( "Load was performed." );
         });
     }
 
