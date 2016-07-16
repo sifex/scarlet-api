@@ -15,6 +15,8 @@ Route::get('/', function () {
 	return view('index');
 });
 
+Route::get('/key/', 'AuthController@displayLogin');
+
 Route::get('/auth/{key}', 'AuthController@login');
 
 Route::get('/download/', 'DownloadController@download');
