@@ -31,9 +31,5 @@
         });
     }
 
-    var cleave = new Cleave('.cleave', {
-        blocks: [4, 4, 4, 4, 4, 4, 4, 4]
-    });
-
 </script>
 @endsection
