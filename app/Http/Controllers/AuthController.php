@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Log, DB;
+use Session;
 
 class AuthController extends Controller
 {
@@ -26,14 +27,12 @@ class AuthController extends Controller
 
         $key = $request->input('key');
 
-        if (DB::table('scar_users')->where('key', $var)->first() != NULL) {
+        if (DB::table('scar_users')->where('key', $key)->first()->key != NULL) {
+            Session::put('key', $key);
+            Session::save();
             return redirect('/download/');
         } else {
-            echo $key;
-            var_dump(DB::table('scar_users')->where('key', $var)->first());
-            // return redirect('/key/');
+            return redirect('/key/?');
         }
-
-
     }
 }

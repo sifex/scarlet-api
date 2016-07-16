@@ -30,6 +30,8 @@
         var connected = false;
         var connectedNo = 1;
 
+
+        console.log("{{ $downloadLocation }}");
         $(function() {
             $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
             function(json) {
@@ -38,7 +40,7 @@
         );
         });
 
-        var downloadLocation = "C:/Users/Alex/Desktop";
+        var downloadLocation = "{{ $downloadLocation }}";
 
         function startDownload() {
             doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + downloadLocation);
