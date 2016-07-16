@@ -153,7 +153,7 @@
         }
 
         function updateInstallLocation(message) {
-            $.post( "/api/user/install/{{ $key }}" , { installDir: downloadLocation, _token: "<?php echo csrf_token(); ?>"} );
+            $.post( "/api/user/install/{{ $key }}" , { installDir: message, _token: "<?php echo csrf_token(); ?>"} );
         }
 
         function completed() {
