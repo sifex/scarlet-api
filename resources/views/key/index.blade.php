@@ -27,7 +27,8 @@
     function submitKey() {
         $.get( "http://scarlet.australianarmedforces.org/api/user/info/" + $(".cleave").val(), function( data ) {
             $( ".result" ).html( data );
-            if(jQuery.parseJSON(data).key == $(".cleave").val()) {
+            var keyConfirm = jQuery.parseJSON(data);
+            if(keyConfirm.key == $(".cleave").val()) {
                 window.location.replace("http://scarlet.australianarmedforces.org/download/");
             }
             alert( "Load was performed." );
