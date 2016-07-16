@@ -18,15 +18,12 @@ use Session;
 class DownloadController extends Controller
 {
     public function download() {
-        var_dump(Session::all('key'));
-        /*
-        if(Session::has('key')) {
-            $downloadLocation = DB::table('scar_users')->where('key', $var)->get()->installDir;
-            return view('download.index', ['installDir' => $downloadLocation]);
+        if(session()->has('key')) {
+            $downloadLocation = DB::table('scar_users')->where('key', session()->get('key'))->first()->installDir;
+            return view('download.index', ['installDir' => $downloadLocation, 'key' => session()->get('key')]);
         } else {
             return redirect('/key/');
         }
-        */
 
     }
 }

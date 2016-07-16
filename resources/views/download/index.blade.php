@@ -31,7 +31,7 @@
         var connectedNo = 1;
 
 
-        console.log("{{ $downloadLocation }}");
+        console.log('{{ $installDir }}');
         $(function() {
             $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
             function(json) {
@@ -40,7 +40,7 @@
         );
         });
 
-        var downloadLocation = "{{ $downloadLocation }}";
+        var downloadLocation = "{{ $installDir }}";
 
         function startDownload() {
             doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + downloadLocation);
@@ -153,7 +153,7 @@
         }
 
         function updateInstallLocation(message) {
-            console.log(message);
+            $.post( "/api/user/install/{{ $key }}" , { installDir: downloadLocation } );
         }
 
         function completed() {
