@@ -105,6 +105,21 @@ html, body {
     }
 }
 
+.username {
+    text-transform: capitalize;
+}
+
+.logout {
+    padding-top: 10px;
+    font-size: 8px;
+    font-weight: bold;
+    color: #000;
+    text-transform: uppercase;
+    &:hover {
+        color: #5d3232;
+    }
+}
+
 .status {
     color: #FFF;
 }
@@ -139,7 +154,7 @@ p {
 
 
 #coming-soon {
-  padding-top: 40vh;
+  padding-top: 30vh;
 
     .logo {
       height: 101px;

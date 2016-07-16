@@ -30,7 +30,7 @@
 
         function missionStarting() {
             var missionText = $('#missionText').val();
-            doSend("Updater" + "|" + IP + "|" + "Broadcast" + "|" + missionText);
+            doSend("Updater" + "|" + "*" + "|" + "Broadcast" + "|" + missionText);
         }
 
        var wsUri = "ws://scarlet.australianarmedforces.org:8080";

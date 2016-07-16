@@ -19,8 +19,8 @@ class DownloadController extends Controller
 {
     public function download() {
         if(session()->has('key')) {
-            $downloadLocation = DB::table('scar_users')->where('key', session()->get('key'))->first()->installDir;
-            return view('download.index', ['installDir' => $downloadLocation, 'key' => session()->get('key')]);
+            $userInfo = User::where('key', session()->get('key'))->first();
+            return view('download.index', ['userInfo' => $userInfo]);
         } else {
             return redirect('/key/');
         }

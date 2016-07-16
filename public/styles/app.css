@@ -3602,6 +3602,18 @@ html, body {
     background-color: #da3b40;
     border-radius: 3px; }
 
+.username {
+  text-transform: capitalize; }
+
+.logout {
+  padding-top: 10px;
+  font-size: 8px;
+  font-weight: bold;
+  color: #000;
+  text-transform: uppercase; }
+  .logout:hover {
+    color: #5d3232; }
+
 .status {
   color: #FFF; }
 
@@ -3625,7 +3637,7 @@ p {
     color: #F7646A; }
 
 #coming-soon {
-  padding-top: 40vh; }
+  padding-top: 30vh; }
   #coming-soon .logo {
     height: 101px;
     width: 103px;

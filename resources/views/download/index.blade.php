@@ -3,6 +3,11 @@
 @section('title', 'Download')
 
 @section('content')
+<div class="row">
+    <div class="small-12 columns">
+        <a class="float-right logout" href="/logout/">Logout</a>
+    </div>
+</div>
 <div id="coming-soon" class="small-10 small-centered columns text-center">
     <div class="logo"></div>
     <p>
@@ -29,9 +34,9 @@
         var IP;
         var connected = false;
         var connectedNo = 1;
+        var info = {!! json_encode($userInfo) !!};
 
 
-        console.log('{{ $installDir }}');
         $(function() {
             $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
             function(json) {
@@ -40,13 +45,11 @@
         );
         });
 
-        var downloadLocation = "{{ $installDir }}";
+        var downloadLocation = info.installDir;
 
         function startDownload() {
             doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + downloadLocation);
-        }
-        function sendDownload() {
-            doSend("Updater" + "|" + userip + "|" + "startDownload");
+            writeToScreen("Commencing Download");
         }
 
         var wsUri = "ws://scarlet.australianarmedforces.org:8080";
@@ -71,6 +74,8 @@
         {
             writeToScreen("Connected to Scarlet Servers");
             browserConnect();
+            updateStatus("Hello <span class='username'>" + info.username + "</span>");
+            updateFile("Current Install Location is: " + info.installDir);
         }
 
         function onClose(evt)
@@ -111,6 +116,7 @@
                     }
                     else if(array[2] == "UpdateInstallLocation") {
                         updateInstallLocation(array[3]);
+                        console.log(array[3]);
                     }
                     else if(array[2] == "UpdateStatus") {
                         updateStatus(array[3]);
@@ -147,17 +153,24 @@
 
         function updateProgress(message) {
             var array = message.split("/");
-            console.log(array[0]);
             var percent = parseFloat(array[0]);
             $(".progress-meter").css("width", percent + "%");
         }
 
         function updateInstallLocation(message) {
-            $.post( "/api/user/install/{{ $key }}" , { installDir: message, _token: "<?php echo csrf_token(); ?>"} );
+            $.post( "/api/user/install/" +  info.key , { installDir: message })
+                .done( function() {
+                    $.get("/api/user/info/" + info.key, function( data ) {
+                        info = data;
+                        updateFile("Current Install Location is: " + info.installDir);
+                    });
+
+            } );
         }
 
         function completed() {
-            updateFile("");
+            updateFile("Start ARMA 3 using the Steam Launcher");
+            writeToScreen("Download Complete");
         }
 
         function changeLocation() {
