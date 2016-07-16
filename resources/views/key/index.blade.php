@@ -15,7 +15,7 @@
 <div class="small-10 small-centered columns">
     <p>
         <input class="button" type="button" name="name" value="Submit Key" onclick="submitKey()">
-        <span class="result"></span>
+        <div class="result"></div>
     </p>
 </div>
 @endsection
@@ -32,7 +32,6 @@
     }
 
     var cleave = new Cleave('.cleave', {
-        delimiter: '-',
         blocks: [4, 4, 4, 4, 4, 4, 4, 4]
     });
 
