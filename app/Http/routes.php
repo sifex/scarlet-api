@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::get('/key/', 'AuthController@displayLogin');
 
-Route::get('/auth/{key}', 'AuthController@login');
+Route::post('/auth/', 'AuthController@login');
 
 Route::get('/download/', 'DownloadController@download');
 
