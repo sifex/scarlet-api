@@ -63,12 +63,6 @@
        function onMessage(evt)
        {
            console.log(evt.data)
-           var array = evt.data.split("|");
-            if(array[0] == "Browser") {
-                if(array[1] == IP) {
-                    writeToScreen('<span style="color: red;">RESPONSE: ' + array[3]+'</span>');
-                }
-           }
        }
 
        function onError(evt)
