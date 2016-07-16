@@ -48,6 +48,9 @@
         function startDownload() {
             doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + info.installDir);
             writeToScreen("Commencing Download");
+            $('input#location').attr("disabled", "disabled");
+            $('input').removeAttr("class");
+            $('input').attr("class", "button disabled");
         }
 
         var wsUri = "ws://scarlet.australianarmedforces.org:8080";
