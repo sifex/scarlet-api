@@ -26,7 +26,7 @@
         <input class="button disabled" id="location" disabled="disabled" type="button" name="name" value="Change Download Location" onclick="changeLocation()">
     </p>
 </div>
-@endsection
+@stop
 
 
 @section('scripts')
@@ -97,13 +97,6 @@
                         writeToScreen("Could not Connect to Updater");
                     }
                 }
-                else {
-                    writeToScreen("Connected to Updater");
-                    console.log("Updater Ping - Connected");
-                    $('input').removeAttr("disabled");
-                    $('input').removeAttr("class");
-                    $('input').attr("class", "button");
-                }
             }, 2000);
         }
 
@@ -113,7 +106,7 @@
             if(array[0] == "Browser") {
                 if(array[1] == IP) {
                     if(array[2] == "browserConfirmation") {
-                        connected = true;
+                        updaterNowConnected(array[3]);
                     }
                     else if(array[2] == "UpdateInstallLocation") {
                         updateInstallLocation(array[3]);
@@ -132,6 +125,16 @@
                         completed();
                     }
                 }
+            }
+        }
+
+        function updaterNowConnected(free) {
+            writeToScreen("Connected to Updater");
+            console.log("Updater Ping - Connected");
+            if(free == "free") {
+                $('input').removeAttr("disabled");
+                $('input').removeAttr("class");
+                $('input').attr("class", "button");
             }
         }
 
@@ -188,4 +191,4 @@
         window.addEventListener("load", init, false);
 
     </script>
-@endsection
+@stop

@@ -26,6 +26,8 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/missionPush/', 'AdminController@download');
 
+	Route::get('session', function() { return Session::all(); });
+
     // your routes here
 });
 

@@ -11,9 +11,11 @@
             </div>
             <input type="text" name="name" id="missionText" />
             <input type="button" name="name" value="Testing" onclick="missionStarting()">
+            <br />
+            <input type="button" name="name" value="QuitAllClients" onclick="quitAllClients()">
         </p>
     </div>
-@endsection
+@stop
 
 
 @section('scripts')
@@ -31,6 +33,9 @@
         function missionStarting() {
             var missionText = $('#missionText').val();
             doSend("Updater" + "|" + "*" + "|" + "Broadcast" + "|" + missionText);
+        }
+        function missionStarting() {
+            doSend("Updater" + "|" + "*" + "|" + "Quit");
         }
 
        var wsUri = "ws://scarlet.australianarmedforces.org:8080";
@@ -87,4 +92,4 @@
        window.addEventListener("load", init, false);
 
  </script>
-@endsection
+@stop
