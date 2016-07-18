@@ -12,7 +12,7 @@ class AuthController extends Controller
         if(!session()->has('key')) {
             return view('key.index');
         } else {
-            return redirect('/download/');
+            return redirect('/');
         }
     }
 
@@ -31,6 +31,6 @@ class AuthController extends Controller
 
     public function logout(Request $request) {
         $request->session()->flush();
-        return redirect('/key/?');
+        return redirect('/key/');
     }
 }

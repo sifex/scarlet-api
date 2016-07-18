@@ -23,7 +23,7 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/admin/', 'AdminController@admin');
 
-	Route::get('session', function() { return Session::all(); });
+	Route::get('/session', function() { return Session::all(); });
 
     // your routes here
 });

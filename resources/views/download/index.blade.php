@@ -53,7 +53,7 @@
             $('input').attr("class", "button disabled");
         }
 
-        var wsUri = "ws://scarlet.australianarmedforces.org:8080";
+        var wsUri = "{{ getenv('APP_SCARLET_WS') }}";
         var output;
 
         function init()

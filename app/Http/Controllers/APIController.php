@@ -67,7 +67,7 @@ class APIController extends Controller
     }
 
     public function badge() {
-        $img = Image::make(file_get_contents('https://img.shields.io/badge/Scarlet Version-' . $this->version . '-red.png?style=flat'));
+        $img = Image::make(file_get_contents('http://img.shields.io/badge/Scarlet Version-' . $this->version . '-red.png?style=flat'));
 
         // create response and add encoded image data
         $response = response(($img->encode('png')));
