@@ -12,7 +12,8 @@
             <input type="text" name="name" id="missionText" />
             <input type="button" class="button" name="name" value="Testing" onclick="missionStarting()">
             <br />
-            <input type="button" class="button" name="name" value="QuitAllClients" onclick="quitAllClients()">
+            <input type="button" class="button" name="name" value="Quit All" onclick="quitAllClients()">
+            <input type="button" class="button" name="name" value="Restart All" onclick="restartAllClients()">
         </p>
     </div>
 @stop
@@ -36,6 +37,9 @@
         }
         function quitAllClients() {
             doSend("Updater" + "|" + "*" + "|" + "quit");
+        }
+        function restartAllClients() {
+            doSend("Updater" + "|" + "*" + "|" + "restart");
         }
 
         var wsUri = "ws://scarlet.australianarmedforces.org:8080";

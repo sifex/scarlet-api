@@ -12,7 +12,7 @@
     <div class="logo"></div>
     <p>
         <div id="output">
-            Connecting to Updater
+            Connecting to Scarlet Servers
         </div>
         <div class="progress" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
             <div class="progress-meter"></div>
@@ -135,6 +135,8 @@
                 $('input').removeAttr("disabled");
                 $('input').removeAttr("class");
                 $('input').attr("class", "button");
+            } else {
+                doSend("Updater" + "|" + IP + "|" + "fetchStatus");
             }
         }
 
