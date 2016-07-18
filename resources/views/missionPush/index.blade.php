@@ -38,7 +38,7 @@
             doSend("Updater" + "|" + "*" + "|" + "Quit");
         }
 
-       var wsUri = "{{ getenv('APP_SCARLET_WS') }}";
+        var wsUri = "ws://scarlet.australianarmedforces.org:8080";
        var output;
 
        function init()
