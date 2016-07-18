@@ -10,9 +10,9 @@
                 Connecting to Updater
             </div>
             <input type="text" name="name" id="missionText" />
-            <input type="button" name="name" value="Testing" onclick="missionStarting()">
+            <input type="button" class="button" name="name" value="Testing" onclick="missionStarting()">
             <br />
-            <input type="button" name="name" value="QuitAllClients" onclick="quitAllClients()">
+            <input type="button" class="button" name="name" value="QuitAllClients" onclick="quitAllClients()">
         </p>
     </div>
 @stop
@@ -34,7 +34,7 @@
             var missionText = $('#missionText').val();
             doSend("Updater" + "|" + "*" + "|" + "Broadcast" + "|" + missionText);
         }
-        function missionStarting() {
+        function quitAllClients() {
             doSend("Updater" + "|" + "*" + "|" + "Quit");
         }
 

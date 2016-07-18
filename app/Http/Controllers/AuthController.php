@@ -23,7 +23,7 @@ class AuthController extends Controller
         if (DB::table('scar_users')->where('key', $key)->first() != NULL) {
             $request->session()->put('key', $key);
             var_dump($request->session()->all());
-            return redirect('/download/');
+            return redirect('/');
         } else {
             return redirect('/key/?');
         }

@@ -12,9 +12,8 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
-	Route::get('/', function () {
-		return view('index');
-	});
+
+	Route::get('/', 'DownloadController@download');
 
 	Route::get('/key/', 'AuthController@displayLogin');
 
@@ -22,9 +21,7 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get("/logout/", 'AuthController@logout');
 
-	Route::get('/download/', 'DownloadController@download');
-
-	Route::get('/missionPush/', 'AdminController@download');
+	Route::get('/admin/', 'AdminController@admin');
 
 	Route::get('session', function() { return Session::all(); });
 
@@ -35,7 +32,7 @@ Route::group(['middleware' => ['web']], function () {
 
 // Scarlet Test API
 Route::get('/api/', function() {
-	return response()->json(['name' => 'Scarlet API', 'Version' => '1.0']);
+	return response()->json(['name' => 'Scarlet API', 'Version' => '1.0.1']);
 });
 
 // ADD
