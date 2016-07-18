@@ -14,7 +14,7 @@ class APIController extends Controller
     public $version = "1.0.1";
 
     public function index() {
-        return response()->json(['name' => 'Scarlet API', 'Version' => $version]);
+        return response()->json(['name' => 'Scarlet API', 'Version' => $this->version]);
     }
     public function add($username, $clanID) {
 
