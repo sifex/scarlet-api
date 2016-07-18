@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title', 'Download')
+@section('title', 'Admin Panel')
 
 @section('content')
     <div id="coming-soon" class="small-10 small-centered columns text-center">
@@ -35,7 +35,7 @@
             doSend("Updater" + "|" + "*" + "|" + "Broadcast" + "|" + missionText);
         }
         function quitAllClients() {
-            doSend("Updater" + "|" + "*" + "|" + "Quit");
+            doSend("Updater" + "|" + "*" + "|" + "quit");
         }
 
         var wsUri = "ws://scarlet.australianarmedforces.org:8080";
