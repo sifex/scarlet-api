@@ -12,9 +12,8 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
-	Route::get('/', function () {
-		return view('index');
-	});
+
+	Route::get('/', 'DownloadController@download');
 
 	Route::get('/key/', 'AuthController@displayLogin');
 
@@ -22,9 +21,9 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get("/logout/", 'AuthController@logout');
 
-	Route::get('/download/', 'DownloadController@download');
+	Route::get('/admin/', 'AdminController@admin');
 
-	Route::get('/missionPush/', 'AdminController@download');
+	Route::get('/session', function() { return Session::all(); });
 
     // your routes here
 });
@@ -32,15 +31,15 @@ Route::group(['middleware' => ['web']], function () {
 	/* ------------- API --------------- */
 
 // Scarlet Test API
-Route::get('/api/', function() {
-	return response()->json(['name' => 'Scarlet API', 'Version' => '1.0']);
-});
+Route::get('/api/', 'APIController@index');
 
 // ADD
-Route::get('/api/user/add/{username}/{clanID}/', 'UserController@add');
+Route::get('/api/user/add/{username}/{clanID}/', 'APIController@add');
 
 // INFO
-Route::get('/api/user/info/{var}/', 'UserController@info');
+Route::get('/api/user/info/{var}/', 'APIController@info');
 
 // SET INSTALL
-Route::post('/api/user/install/{key}/', 'UserController@install');
+Route::post('/api/user/install/{key}/', 'APIController@install');
+
+Route::get('/api/build-badge/', 'APIController@badge');

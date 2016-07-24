@@ -9,7 +9,7 @@ use Curl;
 
 class AdminController extends Controller
 {
-    public function download() {
+    public function admin() {
 
         // Redirect if not Authed
         return view('missionPush.index');

@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request, Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Log, DB;
 use App\User;
+use Image;
 
-class UserController extends Controller
+class APIController extends Controller
 {
+
+    // 1.0.1 | Maintenance Mode
+    public $version = "1.0.1";
+
+    public function index() {
+        return response()->json(['name' => 'Scarlet API', 'Version' => $this->version]);
+    }
     public function add($username, $clanID) {
 
-        $user = DB::table('scar_users')->where('username', $username)->get();
+        $user = User::where('username', $username)->get();
         $key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
 
         if($user != null) {
@@ -58,7 +67,16 @@ class UserController extends Controller
         }
     }
 
-    public function post(Request $request) {
-        echo $request->name;
+    public function badge() {
+        $img = Image::make(file_get_contents('https://img.shields.io/badge/Scarlet Version-' . $this->version . '-red.png?style=flat'));
+
+        // create response and add encoded image data
+        $response = response(($img->encode('png')));
+
+        // set content-type
+        $response->header('Content-Type', 'image/png');
+
+        // output
+        return $response;
     }
 }

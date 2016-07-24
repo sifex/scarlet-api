@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title', 'Download')
+@section('title', 'Admin Panel')
 
 @section('content')
     <div id="coming-soon" class="small-10 small-centered columns text-center">
@@ -10,10 +10,13 @@
                 Connecting to Updater
             </div>
             <input type="text" name="name" id="missionText" />
-            <input type="button" name="name" value="Testing" onclick="missionStarting()">
+            <input type="button" class="button" name="name" value="Testing" onclick="missionStarting()">
+            <br />
+            <input type="button" class="button" name="name" value="Quit All" onclick="quitAllClients()">
+            <input type="button" class="button" name="name" value="Restart All" onclick="restartAllClients()">
         </p>
     </div>
-@endsection
+@stop
 
 
 @section('scripts')
@@ -30,10 +33,16 @@
 
         function missionStarting() {
             var missionText = $('#missionText').val();
-            doSend("Updater" + "|" + "*" + "|" + "Broadcast" + "|" + missionText);
+            doSend("Updater" + "|" + "125.253.46.62" + "|" + "broadcast" + "|" + missionText);
+        }
+        function quitAllClients() {
+            doSend("Updater" + "|" + "*" + "|" + "quit");
+        }
+        function restartAllClients() {
+            doSend("Updater" + "|" + "*" + "|" + "restart");
         }
 
-       var wsUri = "ws://scarlet.australianarmedforces.org:8080";
+        var wsUri = "ws://scarlet.australianarmedforces.org:8080";
        var output;
 
        function init()
@@ -87,4 +96,4 @@
        window.addEventListener("load", init, false);
 
  </script>
-@endsection
+@stop

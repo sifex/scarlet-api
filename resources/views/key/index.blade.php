@@ -16,7 +16,7 @@
         </form>
     </p>
 </div>
-@endsection
+@stop
 
 
 @section('scripts')
@@ -24,4 +24,4 @@
 <script type="text/javascript">
 
 </script>
-@endsection
+@stop

@@ -12,7 +12,7 @@ class AuthController extends Controller
         if(!session()->has('key')) {
             return view('key.index');
         } else {
-            return redirect('/download/');
+            return redirect('/');
         }
     }
 
@@ -23,7 +23,7 @@ class AuthController extends Controller
         if (DB::table('scar_users')->where('key', $key)->first() != NULL) {
             $request->session()->put('key', $key);
             var_dump($request->session()->all());
-            return redirect('/download/');
+            return redirect('/');
         } else {
             return redirect('/key/?');
         }
@@ -31,6 +31,6 @@ class AuthController extends Controller
 
     public function logout(Request $request) {
         $request->session()->flush();
-        return redirect('/key/?');
+        return redirect('/key/');
     }
 }
