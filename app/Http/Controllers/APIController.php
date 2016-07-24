@@ -11,7 +11,7 @@ use Image;
 class APIController extends Controller
 {
 
-    public $version = "1.0.1";
+    public $version = "m";
 
     public function index() {
         return response()->json(['name' => 'Scarlet API', 'Version' => $this->version]);
