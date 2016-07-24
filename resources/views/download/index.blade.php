@@ -179,7 +179,6 @@
                         info = data;
                         updateFile("Current Install Location is: " + info.installDir);
                     });
-
             } );
         }
 
