@@ -39,19 +39,11 @@
 
         $(function() {
             $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
-            function(json) {
-                IP = json.ip;
-            }
-        );
+                function(json) {
+                    IP = json.ip;
+                }
+            );
         });
-
-        function startDownload() {
-            doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + info.installDir);
-            writeToScreen("Commencing Download");
-            $('input#location').attr("disabled", "disabled");
-            $('input').removeAttr("class");
-            $('input').attr("class", "button disabled");
-        }
 
         var wsUri = "ws://scarlet.australianarmedforces.org:8080";
         var output;
@@ -85,9 +77,9 @@
         }
 
         function browserConnect() {
+            doSend("Updater" + "|" + IP + "|" + "browserConnect");
+            connectedNo++;
             setTimeout(function () {
-                doSend("Updater" + "|" + IP + "|" + "browserConnect");
-                connectedNo++;
                 if (connected == false) {
                     if(connectedNo < 20) {
                         browserConnect();
@@ -131,13 +123,30 @@
         function updaterNowConnected(free) {
             writeToScreen("Connected to Updater");
             console.log("Updater Ping - Connected");
+            connected = true;
             if(free == "free") {
                 $('input').removeAttr("disabled");
                 $('input').removeAttr("class");
                 $('input').attr("class", "button");
             } else {
                 doSend("Updater" + "|" + IP + "|" + "fetchStatus");
+                $('input#location').removeAttr("class").attr("class", "button disabled").attr("disabled", "disabled");
+                $('input#start').attr("value", "Stop Download").attr("onClick", "stopDownload()");
             }
+        }
+
+        function startDownload() {
+            doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + info.installDir);
+            writeToScreen("Commencing Download");
+            $('input#location').removeAttr("class").attr("class", "button disabled").attr("disabled", "disabled");
+            $('input#start').attr("value", "Stop Download").attr("onClick", "stopDownload()");
+        }
+
+        function stopDownload() {
+            doSend("Updater" + "|" + IP + "|" + "stopDownload");
+            writeToScreen("Download Stopped");
+            $('input#location').removeAttr("class").attr("class", "button").removeAttr("disabled");
+            $('input#start').removeAttr("onClick").attr("onClick", "startDownload()").attr("value", "Start Download");
         }
 
         function onError(evt) {

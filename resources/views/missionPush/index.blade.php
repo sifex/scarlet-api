@@ -33,7 +33,7 @@
 
         function missionStarting() {
             var missionText = $('#missionText').val();
-            doSend("Updater" + "|" + "*" + "|" + "Broadcast" + "|" + missionText);
+            doSend("Updater" + "|" + "125.253.46.62" + "|" + "broadcast" + "|" + missionText);
         }
         function quitAllClients() {
             doSend("Updater" + "|" + "*" + "|" + "quit");
