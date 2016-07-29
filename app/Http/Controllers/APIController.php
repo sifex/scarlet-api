@@ -22,7 +22,7 @@ class APIController extends Controller
         $user = User::where('username', $username)->first();
         $key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
 
-        if(!$user) {
+        if($user) {
             echo "User " . $username . " already in database";
         }
         elseif(DB::table('scar_users')->insert(
