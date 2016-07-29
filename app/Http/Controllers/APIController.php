@@ -23,6 +23,7 @@ class APIController extends Controller
         $key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
 
         if($user != null) {
+            print_f($user);
             echo "User " . $username . " already in database";
         }
         elseif(DB::table('scar_users')->insert(
