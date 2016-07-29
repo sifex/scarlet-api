@@ -19,10 +19,10 @@ class APIController extends Controller
     }
     public function add($username, $clanID) {
 
-        $user = User::where('username', $username)->get();
+        $user = User::where('username', $username)->first();
         $key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
 
-        if($user != null) {
+        if($user) {
             echo "User " . $username . " already in database";
         }
         elseif(DB::table('scar_users')->insert(
