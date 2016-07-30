@@ -19,6 +19,7 @@ html, body {
     background-image: url("/images/home_bg.png");
     background-position: top center;
     background-size: cover;
+    font-family: 'Exo 2', sans-serif;
 
     @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi), (-webkit-min-device-pixel-ratio: 144), (min-resolution: 144dppx) {
         background-image: url("/images/home_bg_2x.png");
@@ -37,6 +38,7 @@ html, body {
 }
 
 .username {
+    font-family: 'Exo 2', sans-serif;
     text-transform: capitalize;
 }
 
@@ -52,12 +54,14 @@ html, body {
 }
 
 .status {
+    font-family: 'Exo 2', sans-serif;
     color: #FFF;
 }
 
 #output {
     color: #FFF;
     margin-bottom: 10px;
+    font-family: 'Exo 2', sans-serif;
 }
 
 input.button {
@@ -70,13 +74,14 @@ input.button {
 
 h1 {
   color: #FFF;
-  font-family: 'Exo', sans-serif;
+  font-family: 'Exo 2', sans-serif;
   font-weight: 300;
   font-size: 40px;
 }
 
 p {
   color: #AD7577;
+  font-family: 'Exo 2', sans-serif;
 
   a {
       color: #F7646A;
