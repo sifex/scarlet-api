@@ -45,7 +45,11 @@ class APIController extends Controller
         // Log
         Log::info('Fetching info(' . $var . ')');
 
-        if(User::where('key', $var)->first())
+        if($var == "*")
+        {
+            return response()->json(User::all()->toArray())->header('Access-Control-Allow-Origin', '*');
+        }
+        elseif(User::where('key', $var)->first())
         {
             return response()->json(User::where('key', $var)->first()->toArray())->header('Access-Control-Allow-Origin', '*');
         }
