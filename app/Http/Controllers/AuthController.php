@@ -8,8 +8,8 @@ use Log, DB;
 
 class AuthController extends Controller
 {
-    public function displayLogin() {
-        if(!session()->has('key')) {
+    public function displayLogin(Request $request) {
+        if(!session()->has('username')) {
             return view('key.index');
         } else {
             return redirect('/');
@@ -18,11 +18,11 @@ class AuthController extends Controller
 
     public function login(Request $request) {
 
-        $key = $request->input('key');
+        $username = $request->input('username');
 
-        if (DB::table('scar_users')->where('key', $key)->first() != NULL) {
-            $request->session()->put('key', $key);
-            var_dump($request->session()->all());
+        if (DB::table('scar_users')->where('username', $username)->first() != NULL) {
+            $request->session()->put('username', $username);
+            $request->session()->save();
             return redirect('/');
         } else {
             return redirect('/key/?');

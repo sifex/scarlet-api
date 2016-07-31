@@ -18,8 +18,8 @@ use Session;
 class DownloadController extends Controller
 {
     public function download() {
-        if(session()->has('key')) {
-            $userInfo = User::where('key', session()->get('key'))->first();
+        if(session()->has('username')) {
+            $userInfo = User::where('username', session()->get('username'))->first();
             return view('download.index', ['userInfo' => $userInfo]);
         } else {
             return redirect('/key/');
