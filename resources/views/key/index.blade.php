@@ -7,12 +7,12 @@
     <div class="logo"></div>
     <p>
         <div id="output" style="text-align: left; color: #EEE;">
-			Please enter your Scarlet Key
+			Please enter your AAF Username
         </div>
         <form action="/auth" method="POST">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input class="cleave" type="text" name="key" value="" style="border-radius: 4px;">
-            <input class="button" type="submit" name="name" value="Submit Key">
+            <input class="cleave" type="text" name="username" value="" style="border-radius: 4px;">
+            <input class="button" type="submit" name="name" value="Login">
         </form>
     </p>
 </div>
