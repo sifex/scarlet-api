@@ -11,7 +11,13 @@ class AdminController extends Controller
 {
     public function admin() {
 
-        // Redirect if not Authed
-        return view('missionPush.index');
+        if(session()->has('username')) {
+
+            // Redirect if not Authed
+            return view('missionPush.index');
+            
+        } else {
+            return redirect('/');
+        }
     }
 }

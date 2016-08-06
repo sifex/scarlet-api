@@ -3,19 +3,28 @@
 @section('title', 'Admin Panel')
 
 @section('content')
-    <div id="coming-soon" class="small-10 small-centered columns text-center">
-        <div class="logo"></div>
-        <p>
-            <div id="output" style="color: #000;">
-                Connecting to Updater
+	<div class="row">
+	    <div id="coming-soon" class="small-12 small-centered columns">
+			<div class="small-12 columns">
+		        <div class="logo"></div>
+		        <p>
+		            <div id="output">
+		                Connecting to Updater
+		            </div>
+				</p>
+			</div>
+
+            <div class="small-6 columns">
+	            <input type="text" name="name" id="missionText" />
+	            <input type="button" class="button" name="name" value="Send Message to all Clients" onclick="missionStarting()">
             </div>
-            <input type="text" name="name" id="missionText" />
-            <input type="button" class="button" name="name" value="Testing" onclick="missionStarting()">
-            <br />
-            <input type="button" class="button" name="name" value="Quit All" onclick="quitAllClients()">
-            <input type="button" class="button" name="name" value="Restart All" onclick="restartAllClients()">
-        </p>
-    </div>
+			<div class="small-6 columns last">
+	            <input style="margin-top: 0;" type="button" class="button secondary disabled" name="name" disabled="disabled" value="Quit All Clients">
+	            <input style="margin-top: 0;" type="button" class="button warning" name="name" value="Restart All Clients" onclick="restartAllClients()">
+	            <input style="margin-top: 0;" type="button" class="button alert" name="name" value="Force Verify All Clients" onclick="forceVerify()">
+			</div>
+	    </div>
+	</div>
 @stop
 
 
@@ -33,13 +42,17 @@
 
         function missionStarting() {
             var missionText = $('#missionText').val();
-            doSend("Updater" + "|" + "125.253.46.62" + "|" + "broadcast" + "|" + missionText);
+            doSend("Updater" + "|" + "*" + "|" + "broadcast" + "|" + missionText);
         }
         function quitAllClients() {
             doSend("Updater" + "|" + "*" + "|" + "quit");
         }
         function restartAllClients() {
             doSend("Updater" + "|" + "*" + "|" + "restart");
+        }
+
+        function restartAllClients() {
+            doSend("Updater" + "|" + "*" + "|" + "forceVerify");
         }
 
         var wsUri = "ws://scarlet.australianarmedforces.org:8080";
