@@ -7,7 +7,7 @@
     <div class="logo"></div>
     <p>
         <div id="output" style="text-align: left; color: #EEE;">
-			Please enter your AAF Username
+			Please enter your Username
         </div>
         <form action="/auth" method="POST">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
