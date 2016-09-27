@@ -17,6 +17,20 @@ class APIController extends Controller
     public function index() {
         return response()->json(['name' => 'Scarlet API', 'Version' => $this->version]);
     }
+
+    public function ip() {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        return response()->json(['ip' => $ip]);
+    }
+
+
     public function add($username, $clanID) {
 
         $user = User::where('username', $username)->first();

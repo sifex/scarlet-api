@@ -33,6 +33,10 @@ Route::group(['middleware' => ['web']], function () {
 // Scarlet Test API
 Route::get('/api/', 'APIController@index');
 
+/* Get IP */
+/* Previously this was done using ipify, but this caused some problems with AdBlockers in Browsers */
+Route::get('/api/ip/', 'APIController@ip');
+
 // ADD
 Route::get('/api/user/add/{username}/{clanID}/', 'APIController@add');
 
