@@ -38,7 +38,7 @@
 
 
         $(function() {
-            $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
+            $.getJSON("/api/ip/",
                 function(json) {
                     IP = json.ip;
                 }
