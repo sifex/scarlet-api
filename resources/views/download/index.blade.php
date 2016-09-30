@@ -45,7 +45,7 @@
             );
         });
 
-        var wsUri = "ws://10.0.0.1:9090";
+        var wsUri = "ws://127.0.0.1:9090";
         var output;
 
         function init()
