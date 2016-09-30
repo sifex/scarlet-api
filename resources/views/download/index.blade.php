@@ -45,7 +45,7 @@
             );
         });
 
-        var wsUri = "ws://0.0.0.0:9090";
+        var wsUri = "ws://localhost";
         var output;
 
         function init()
