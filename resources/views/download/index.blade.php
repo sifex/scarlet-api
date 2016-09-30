@@ -45,7 +45,7 @@
             );
         });
 
-        var wsUri = "ws://10.0.0.1:9090";
+        var wsUri = "ws://scarlet.australianarmedforces.org:8080";
         var output;
 
         function init()
@@ -77,7 +77,7 @@
         }
 
         function browserConnect() {
-            doSend("Updater" + "|" + "browserConnect");
+            doSend("Updater" + "|" + IP + "|" + "browserConnect");
             connectedNo++;
             setTimeout(function () {
                 if (connected == false) {
@@ -96,26 +96,28 @@
         {
             var array = evt.data.split("|");
             if(array[0] == "Browser") {
-                    if(array[1] == "browserConfirmation") {
-                        updaterNowConnected(array[2]);
+                if(array[1] == IP) {
+                    if(array[2] == "browserConfirmation") {
+                        updaterNowConnected(array[3]);
                     }
-                    else if(array[1] == "UpdateInstallLocation") {
-                        updateInstallLocation(array[2]);
-                        console.log(array[2]);
+                    else if(array[2] == "UpdateInstallLocation") {
+                        updateInstallLocation(array[3]);
+                        console.log(array[3]);
                     }
-                    else if(array[1] == "UpdateStatus") {
-                        updateStatus(array[2]);
+                    else if(array[2] == "UpdateStatus") {
+                        updateStatus(array[3]);
                     }
-                    else if(array[1] == "UpdateFile") {
-                        updateFile(array[2]);
+                    else if(array[2] == "UpdateFile") {
+                        updateFile(array[3]);
                     }
-                    else if(array[1] == "UpdateProgress") {
-                        updateProgress(array[2]);
+                    else if(array[2] == "UpdateProgress") {
+                        updateProgress(array[3]);
                     }
-                    else if(array[1] == "Completed") {
+                    else if(array[2] == "Completed") {
                         completed();
                     }
                 }
+            }
         }
 
         function updaterNowConnected(free) {
@@ -127,21 +129,21 @@
                 $('input').removeAttr("class");
                 $('input').attr("class", "button");
             } else {
-                doSend("Updater" + "|" + "fetchStatus");
+                doSend("Updater" + "|" + IP + "|" + "fetchStatus");
                 $('input#location').removeAttr("class").attr("class", "button disabled").attr("disabled", "disabled");
                 $('input#start').attr("value", "Stop Download").attr("onClick", "stopDownload()");
             }
         }
 
         function startDownload() {
-            doSend("Updater" + "|" + "startDownload" + "|" + info.installDir);
+            doSend("Updater" + "|" + IP + "|" + "startDownload" + "|" + info.installDir);
             writeToScreen("Commencing Download");
             $('input#location').removeAttr("class").attr("class", "button disabled").attr("disabled", "disabled");
             $('input#start').attr("value", "Stop Download").attr("onClick", "stopDownload()");
         }
 
         function stopDownload() {
-            doSend("Updater" + "|" + "stopDownload");
+            doSend("Updater" + "|" + IP + "|" + "stopDownload");
             writeToScreen("Download Stopped");
             $('input#location').removeAttr("class").attr("class", "button").removeAttr("disabled");
             $('input#start').removeAttr("onClick").attr("onClick", "startDownload()").attr("value", "Start Download");
@@ -186,7 +188,7 @@
         }
 
         function changeLocation() {
-            doSend("Updater" + "|" + "locationChange");
+            doSend("Updater" + "|" + IP + "|" + "locationChange");
         }
 
         function writeToScreen(message) {
