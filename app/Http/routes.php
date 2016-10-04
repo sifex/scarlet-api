@@ -26,24 +26,25 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/session', function() { return Session::all(); });
 
     // your routes here
-});
 
 	/* ------------- API --------------- */
 
-// Scarlet Test API
-Route::get('/api/', 'APIController@index');
+	// Scarlet Test API
+	Route::get('/api/', 'APIController@index');
 
-/* Get IP */
-/* Previously this was done using ipify, but this caused some problems with AdBlockers in Browsers */
-Route::get('/api/ip/', 'APIController@ip');
+	/* Get IP */
+	/* Previously this was done using ipify, but this caused some problems with AdBlockers in Browsers */
+	Route::get('/api/ip/', 'APIController@ip');
 
-// ADD
-Route::get('/api/user/add/{username}/{clanID}/', 'APIController@add');
+	// ADD
+	Route::get('/api/user/add/{username}/{clanID}/', 'APIController@add');
 
-// INFO
-Route::get('/api/user/info/{var}/', 'APIController@info');
+	// INFO
+	Route::get('/api/user/info/{var}/', 'APIController@info');
 
-// SET INSTALL
-Route::post('/api/user/install/{key}/', 'APIController@install');
+	// SET INSTALL
+	Route::post('/api/user/install/{key}/', 'APIController@install');
 
-Route::get('/api/build-badge/', 'APIController@badge');
+	Route::get('/api/build-badge/', 'APIController@badge');
+
+});
