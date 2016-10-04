@@ -77,7 +77,7 @@
         }
 
         function browserConnect() {
-            doSend("Updater" + "|" + "browserConnect");
+            doSend("Updater" + "|" + "browserConnect" + "|" + info.username);
             connectedNo++;
             setTimeout(function () {
                 if (connected == false) {
@@ -96,26 +96,26 @@
         {
             var array = evt.data.split("|");
             if(array[0] == "Browser") {
-                    if(array[1] == "browserConfirmation") {
-                        updaterNowConnected(array[2]);
-                    }
-                    else if(array[1] == "UpdateInstallLocation") {
-                        updateInstallLocation(array[2]);
-                        console.log(array[2]);
-                    }
-                    else if(array[1] == "UpdateStatus") {
-                        updateStatus(array[2]);
-                    }
-                    else if(array[1] == "UpdateFile") {
-                        updateFile(array[2]);
-                    }
-                    else if(array[1] == "UpdateProgress") {
-                        updateProgress(array[2]);
-                    }
-                    else if(array[1] == "Completed") {
-                        completed();
-                    }
+                if(array[1] == "browserConfirmation") {
+                    updaterNowConnected(array[2]);
                 }
+                else if(array[1] == "UpdateInstallLocation") {
+                    updateInstallLocation(array[2]);
+                    console.log(array[2]);
+                }
+                else if(array[1] == "UpdateStatus") {
+                    updateStatus(array[2]);
+                }
+                else if(array[1] == "UpdateFile") {
+                    updateFile(array[2]);
+                }
+                else if(array[1] == "UpdateProgress") {
+                    updateProgress(array[2]);
+                }
+                else if(array[1] == "Completed") {
+                    completed();
+                }
+            }
         }
 
         function updaterNowConnected(free) {
