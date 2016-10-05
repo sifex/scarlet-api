@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Log, DB;
 use App\User;
 use Image;
+use AustinB\GameQ;
 
 class APIController extends Controller
 {
@@ -28,6 +29,23 @@ class APIController extends Controller
         }
 
         return response()->json(['ip' => $ip]);
+    }
+
+    public function armaserver() {
+        $servers = [
+            [
+                'type'    => 'armedassault3',
+                'host'    => '58.162.184.102:2302',
+            ]
+        ];
+
+        $GameQ = new \GameQ\GameQ(); // or $GameQ = \GameQ\GameQ::factory();
+        $GameQ->addServers($servers);
+        $GameQ->setOption('timeout', 5); // seconds
+
+        $results = $GameQ->process();
+
+        return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
     }
 
 
