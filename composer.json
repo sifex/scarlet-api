@@ -15,7 +15,8 @@
         "phpunit/phpunit": "~4.0",
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
-        "ixudra/curl": "6.*"
+        "ixudra/curl": "6.*",
+        "austinb/gameq": "3.*@dev"
     },
     "autoload": {
         "classmap": [

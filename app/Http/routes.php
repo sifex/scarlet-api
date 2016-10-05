@@ -36,6 +36,9 @@ Route::group(['middleware' => ['web']], function () {
 	/* Previously this was done using ipify, but this caused some problems with AdBlockers in Browsers */
 	Route::get('/api/ip/', 'APIController@ip');
 
+	/* ARMA Server Ping */
+	Route::get('/api/armaserver/', 'APIController@armaserver');
+
 	// ADD
 	Route::get('/api/user/add/{username}/{clanID}/', 'APIController@add');
 
