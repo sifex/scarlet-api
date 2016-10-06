@@ -21,7 +21,7 @@ class AuthController extends Controller
         if(!session()->has('username')) {
                 return view('keye.index');
         } else {
-            return response()->make( '', 302 )->header( 'Location', "http://australianarmedforces.org/mods/electron/" . "?username=" . session()->get('username') );
+            return response()->make( '', 302 )->header( 'Location', "http://australianarmedforces.org/mods/electron/" . "?" . session()->get('username') );
         }
     }
 
