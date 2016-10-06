@@ -45,7 +45,7 @@ class APIController extends Controller
 
         $results = $GameQ->process();
 
-        return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json')->header('Access-Control-Allow-Origin', '*');;
+        return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
     }
 
 

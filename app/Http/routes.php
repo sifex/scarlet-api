@@ -15,8 +15,10 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/', 'DownloadController@download');
 
+	Route::get('/key/electron/', 'AuthController@displayElectronLogin');
 	Route::get('/key/', 'AuthController@displayLogin');
 
+	Route::match(['get','post'], "/auth/electron/", 'AuthController@loginToElectron');
 	Route::post("/auth/", 'AuthController@login');
 
 	Route::get("/logout/", 'AuthController@logout');
