@@ -56,4 +56,9 @@ class AuthController extends Controller
         $request->session()->flush();
         return redirect('/key/');
     }
+
+    public function logoutElectron(Request $request) {
+        $request->session()->flush();
+        return redirect('/key/electron/');
+    }
 }

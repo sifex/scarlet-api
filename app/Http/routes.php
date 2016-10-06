@@ -21,6 +21,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::match(['get','post'], "/auth/electron/", 'AuthController@loginToElectron');
 	Route::post("/auth/", 'AuthController@login');
 
+	Route::get("/logout/electron/", 'AuthController@logoutElectron');
 	Route::get("/logout/", 'AuthController@logout');
 
 	Route::get('/admin/', 'AdminController@admin');
