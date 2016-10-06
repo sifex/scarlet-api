@@ -45,7 +45,7 @@ class AuthController extends Controller
         if (DB::table('scar_users')->where('username', $username)->first() != NULL) {
             $request->session()->put('username', $username);
             $request->session()->save();
-            return response()->make( '', 302 )->header( 'Location', "http://australianarmedforces.org/mods/electron/" . "?username=" . $username );
+            return response()->make( '', 302 )->header( 'Location', "http://australianarmedforces.org/mods/electron/" . "?" . $username );
 
         } else {
             return redirect('/key/?e=1');
