@@ -28,7 +28,7 @@ class APIController extends Controller
             $ip = $_SERVER['REMOTE_ADDR'];
         }
 
-        return response()->json(['ip' => $ip])->header('Access-Control-Allow-Origin', '*');
+        return response()->json(['ip' => $ip]);
     }
 
     public function armaserver() {
@@ -64,7 +64,7 @@ class APIController extends Controller
             'clanid' => $clanID
         ]))
         {
-            return response()->json(['username' =>  $username, 'key' => $key, 'clan' => $clanID])->header('Access-Control-Allow-Origin', '*');
+            return response()->json(['username' =>  $username, 'key' => $key, 'clan' => $clanID]);
 
             // Log
             Log::info('Created User: ' . $username . " (" . $key . ") - " . $clanID);
@@ -79,15 +79,15 @@ class APIController extends Controller
 
         if($var == "*")
         {
-            return response()->json(User::all()->toArray())->header('Access-Control-Allow-Origin', '*');
+            return response()->json(User::all()->toArray());
         }
         elseif(User::where('key', $var)->first())
         {
-            return response()->json(User::where('key', $var)->first()->toArray())->header('Access-Control-Allow-Origin', '*');
+            return response()->json(User::where('key', $var)->first()->toArray());
         }
         elseif(User::where('username', $var)->first())
         {
-            return response()->json(User::where('username', $var)->first()->toArray())->header('Access-Control-Allow-Origin', '*');
+            return response()->json(User::where('username', $var)->first()->toArray());
         }
     }
 
@@ -99,7 +99,7 @@ class APIController extends Controller
         if(DB::table('scar_users')->where('key', $key)->first())
         {
             DB::table('scar_users')->where('key', $key)->update(['installDir'=>$request->installDir]);
-            return response('')->header('Access-Control-Allow-Origin', '*');
+            return response('');
         }
     }
 
