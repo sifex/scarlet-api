@@ -79,7 +79,7 @@ class APIController extends Controller
 
         if($var == "*")
         {
-            return response()->json(User::all()->get()->toArray())->header('Access-Control-Allow-Origin', '*');
+            return response()->json(User::all()->toArray())->header('Access-Control-Allow-Origin', '*');
         }
         elseif(User::where('key', $var)->first())
         {

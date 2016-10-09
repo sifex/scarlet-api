@@ -48,7 +48,7 @@ class AuthController extends Controller
             return response()->make( '', 302 )->header( 'Location', "http://australianarmedforces.org/mods/electron/" . "?" . $username );
 
         } else {
-            return redirect('/key/?e=1');
+            return redirect('/key/electron/');
         }
     }
 
