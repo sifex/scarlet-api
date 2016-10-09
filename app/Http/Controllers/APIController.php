@@ -28,7 +28,7 @@ class APIController extends Controller
             $ip = $_SERVER['REMOTE_ADDR'];
         }
 
-        return response()->json(['ip' => $ip]);
+        return response()->json(['ip' => $ip])->header('Access-Control-Allow-Origin', '*');
     }
 
     public function armaserver() {
