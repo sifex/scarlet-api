@@ -42,6 +42,9 @@ Route::group(['middleware' => ['web']], function () {
 	/* ARMA Server Ping */
 	Route::get('/api/armaserver/', 'APIController@armaserver');
 
+	/* Discord Rally Up */
+	Route::get('/api/rally/', 'APIController@rallyUp');
+
 	// ADD
 	Route::get('/api/user/add/{username}/{clanID}/', 'APIController@add');
 

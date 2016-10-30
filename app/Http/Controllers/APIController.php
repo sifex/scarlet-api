@@ -8,6 +8,7 @@ use Log, DB;
 use App\User;
 use Image;
 use AustinB\GameQ;
+use GuzzleHttp\Client;
 
 class APIController extends Controller
 {
@@ -46,6 +47,28 @@ class APIController extends Controller
         $results = $GameQ->process();
 
         return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
+    }
+
+    public function rallyUp() {
+        $client = new Client();
+        $res = $client->request('POST', 'http://api.buddy.works/workspaces/chess2ryme/projects/aaf-website/pipelines/35631/executions?access_token=785ed523-204a-41d5-b40b-671bb916ba63', [
+            'json' => [
+                'to_revision' => [
+                    'revision' => ''
+                ],
+                'comment' => 'hotfix'
+            ],
+            'form_params' => [
+                'client_id' => 'test_id',
+                'secret' => 'test_secret',
+            ]
+        ]);
+        echo $res->getStatusCode();
+        // "200"
+        echo $res->getHeader('content-type');
+        // 'application/json; charset=utf8'
+        echo $res->getBody();
+        // {"type":"User"...'
     }
 
 
