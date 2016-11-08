@@ -40,7 +40,10 @@ Route::group(['middleware' => 'web'], function () {
 	Route::get('/api/ip/', 'APIController@ip');
 
 	/* ARMA Server Ping */
-	Route::post('/api/armaserver/', 'APIController@armaserver');
+	Route::post('/api/armaserver/', 'APIController@armaServer');
+
+	/* Teamspeak Ping */
+	Route::post('/api/teamspeak/', 'APIController@teamspeakServer');
 
 	/* Discord Rally Up */
 	Route::post('/api/rally/', 'APIController@rallyUp');

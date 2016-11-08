@@ -32,11 +32,31 @@ class APIController extends Controller
         return response()->json(['ip' => $ip]);
     }
 
-    public function armaserver() {
+    public function armaServer() {
         $servers = [
             [
                 'type'    => 'armedassault3',
                 'host'    => '58.162.184.102:2302',
+            ]
+        ];
+
+        $GameQ = new \GameQ\GameQ(); // or $GameQ = \GameQ\GameQ::factory();
+        $GameQ->addServers($servers);
+        $GameQ->setOption('timeout', 5); // seconds
+
+        $results = $GameQ->process();
+
+        return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
+    }
+
+    public function teamspeakServer() {
+        $servers = [
+            [
+                'type'    => 'teamspeak3',
+                'host'    => 'ts.australianarmedforces.org:9987',
+                'options' => [
+                    'query_port' => 10011,
+                ],
             ]
         ];
 
