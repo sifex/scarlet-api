@@ -7,3 +7,4 @@ Homestead.json
 /bower_components
 *.scssc
 storage/
+.idea/

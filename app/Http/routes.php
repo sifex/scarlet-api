@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => 'web'], function () {
 
 	Route::get('/', 'DownloadController@download');
 
@@ -40,16 +40,16 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/api/ip/', 'APIController@ip');
 
 	/* ARMA Server Ping */
-	Route::get('/api/armaserver/', 'APIController@armaserver');
+	Route::post('/api/armaserver/', 'APIController@armaserver');
 
 	/* Discord Rally Up */
-	Route::get('/api/rally/', 'APIController@rallyUp');
+	Route::post('/api/rally/', 'APIController@rallyUp');
 
 	// ADD
-	Route::get('/api/user/add/{username}/{clanID}/', 'APIController@add');
+	Route::post('/api/user/add/{username}/{clanID}/', 'APIController@add');
 
 	// INFO
-	Route::get('/api/user/info/{var}/', 'APIController@info');
+	Route::post('/api/user/info/{var}/', 'APIController@info');
 
 	// SET INSTALL
 	Route::post('/api/user/install/{key}/', 'APIController@install');

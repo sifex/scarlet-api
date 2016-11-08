@@ -49,26 +49,34 @@ class APIController extends Controller
         return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
     }
 
-    public function rallyUp() {
-        $client = new Client();
-        $res = $client->request('POST', 'http://api.buddy.works/workspaces/chess2ryme/projects/aaf-website/pipelines/35631/executions?access_token=785ed523-204a-41d5-b40b-671bb916ba63', [
-            'json' => [
-                'to_revision' => [
-                    'revision' => ''
-                ],
-                'comment' => 'hotfix'
-            ],
-            'form_params' => [
-                'client_id' => 'test_id',
-                'secret' => 'test_secret',
-            ]
-        ]);
-        echo $res->getStatusCode();
-        // "200"
-        echo $res->getHeader('content-type');
-        // 'application/json; charset=utf8'
-        echo $res->getBody();
-        // {"type":"User"...'
+    public function rallyUp(Request $request) {
+
+        // Check AuthKey
+        if($request->authKey == "4f64MC76YMLsC8rW89QZaMDVTdYZN4C2") {
+            if($request->has("customMessage")) {
+                $meessage = "@everyone " . $request->customMessage;
+            } else {
+                $message = "@everyone Mission Notification. Rally Up.";
+            }
+
+            $client = new Client();
+            $res = $client->request('POST', 'https://api.buddy.works/workspaces/chess2ryme/projects/aaf-website/pipelines/35631/executions?access_token=a6dc5887-ba50-464a-ba46-f91a18330f42', [
+                'json' => [
+                    'to_revision' => [
+                        'revision' => 'HEAD'
+                    ],
+                    'comment' => 'hotfix'
+                ]
+            ]);
+            echo $res->getStatusCode();
+            // "200"
+            echo $res->getHeader('content-type');
+            // 'application/json; charset=utf8'
+            echo $res->getBody();
+            // {"type":"User"...'
+        } else {
+            return abort(401);
+        }
     }
 
 
