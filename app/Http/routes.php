@@ -37,7 +37,7 @@ Route::group(['middleware' => 'web'], function () {
 
 	/* Get IP */
 	/* Previously this was done using ipify, but this caused some problems with AdBlockers in Browsers */
-	Route::get('/api/ip/', 'APIController@ip');
+	Route::post('/api/ip/', 'APIController@ip');
 
 	/* ARMA Server Ping */
 	Route::post('/api/armaserver/', 'APIController@armaServer');
