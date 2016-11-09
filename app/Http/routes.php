@@ -33,26 +33,26 @@ Route::group(['middleware' => 'web'], function () {
 	/* ------------- API --------------- */
 
 	// Scarlet Test API
-	Route::get('/api/', 'APIController@index');
+	Route::match(['get', 'post'], '/api/', 'APIController@index');
 
 	/* Get IP */
 	/* Previously this was done using ipify, but this caused some problems with AdBlockers in Browsers */
 	Route::match(['get', 'post'], '/api/ip/', 'APIController@ip');
 
 	/* ARMA Server Ping */
-	Route::post('/api/armaserver/', 'APIController@armaServer');
+	Route::match(['get', 'post'], '/api/armaserver/', 'APIController@armaServer');
 
 	/* Teamspeak Ping */
-	Route::post('/api/teamspeak/', 'APIController@teamspeakServer');
+	Route::match(['get', 'post'], '/api/teamspeak/', 'APIController@teamspeakServer');
 
 	/* Discord Rally Up */
 	Route::post('/api/rally/', 'APIController@rallyUp');
 
 	// ADD
-	Route::post('/api/user/add/{username}/{clanID}/', 'APIController@add');
+	Route::match(['get', 'post'], '/api/user/add/{username}/{clanID}/', 'APIController@add');
 
 	// INFO
-	Route::post('/api/user/info/{var}/', 'APIController@info');
+	Route::match(['get', 'post'], '/api/user/info/{var}/', 'APIController@info');
 
 	// SET INSTALL
 	Route::post('/api/user/install/{key}/', 'APIController@install');
