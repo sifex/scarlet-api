@@ -14,7 +14,7 @@ class APIController extends Controller
 {
 
     // 1.0.1 | Maintenance Mode
-    public $version = "Maintenance Mode";
+    public $version = "1.2.1";
 
     public function index() {
         return response()->json(['name' => 'Scarlet API', 'Version' => $this->version]);
