@@ -59,4 +59,10 @@ Route::group(['middleware' => 'web'], function () {
 
 	Route::get('/api/build-badge/', 'APIController@badge');
 
+
+	/**
+     * Website Login
+     */
+
+	Route::post('/api/website/login', 'WebsiteController@login');
 });

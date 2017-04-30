@@ -17,6 +17,6 @@
 </IfModule>
 
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin http://mods.australianarmedforces.org
+    Header set Access-Control-Allow-Origin *
     Header set Access-Control-Allow-Credentials true
 </IfModule>
