@@ -64,5 +64,7 @@ Route::group(['middleware' => 'web'], function () {
      * Website Login
      */
 
-	Route::post('/api/website/login', 'WebsiteController@login');
+	Route::match(['get', 'post'], '/api/website/login', 'WebsiteController@login');
+
+    Route::match(['post'], '/api/website/changerole', 'WebsiteController@changerole');
 });

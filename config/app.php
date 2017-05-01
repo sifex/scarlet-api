@@ -156,7 +156,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Ixudra\Curl\CurlServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
 
 
     ],

@@ -17,9 +17,22 @@ class WebsiteController extends Controller
         $user = DB::table('scar_users')->where(['username' => $username])->first();
         if($user != null && Hash::check($password, $user->password)) {
             return response()->json(['response' => true]);
-        } else {
-            return response()->json(['response' => false]);
         }
+
+        return response()->json(['response' => false]);
+
+    }
+
+    public function changeRole(Request $request) {
+        $newData = ((object) $request->all());
+        $user = \App\User::where(['id' => $newData->id])->first();
+        if($user->exists) {
+
+            $collection = collect($user)->merge($newData);
+            dd($collection);
+            return response()->json($collection);
+        }
+        return response()->json(['response' => false]);
     }
 
 
