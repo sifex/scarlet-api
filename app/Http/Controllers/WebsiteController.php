@@ -24,13 +24,18 @@ class WebsiteController extends Controller
     }
 
     public function changeRole(Request $request) {
-        $newData = ((object) $request->all());
-        $user = \App\User::where(['id' => $newData->id])->first();
-        if($user->exists) {
+        $allRequestData = ($request->all());
+        $user = \App\User::where(['id' => $allRequestData["id"]])->first();
 
-            $collection = collect($user)->merge($newData);
-            dd($collection);
-            return response()->json($collection);
+        if($user->exists) {
+            foreach($allRequestData as $key=>$value) {
+                if($key != 'authKey') {
+                    $user[$key] = $value;
+                }
+            }
+
+            $user->save();
+            return response()->json($user);
         }
         return response()->json(['response' => false]);
     }
