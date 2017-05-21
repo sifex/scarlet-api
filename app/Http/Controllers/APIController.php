@@ -100,22 +100,23 @@ class APIController extends Controller
     }
 
 
-    public function add($username, $clanID) {
+    public function add($username, $clanID, $type) {
 
         $user = User::where('username', $username)->first();
         $key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
 
         if($user) {
-            echo "User " . $username . " already in database";
+            return response()->json(['error' => true, 'message' => 'User already exists']);
         }
         elseif(DB::table('scar_users')->insert(
         [
             'username' => $username,
             'key' => $key,
-            'clanid' => $clanID
+            'clanid' => $clanID,
+			'type' => $type
         ]))
         {
-            return response()->json(['username' =>  $username, 'key' => $key, 'clan' => $clanID]);
+            return response()->json(['username' =>  $username, 'key' => $key, 'clan' => $clanID, 'type' => $type]);
 
             // Log
             Log::info('Created User: ' . $username . " (" . $key . ") - " . $clanID);

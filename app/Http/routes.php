@@ -49,7 +49,7 @@ Route::group(['middleware' => 'web'], function () {
 	Route::post('/api/rally/', 'APIController@rallyUp');
 
 	// ADD
-	Route::match(['get', 'post'], '/api/user/add/{username}/{clanID}/', 'APIController@add');
+	Route::match(['get', 'post'], '/api/user/add/{username}/{clanID}/{type}', 'APIController@add');
 
 	// INFO
 	Route::match(['get', 'post'], '/api/user/info/{var}/', 'APIController@info');
