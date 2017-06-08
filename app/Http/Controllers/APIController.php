@@ -74,30 +74,43 @@ class APIController extends Controller
 
     public function add($username, $clanID, $type) {
 
-		/**
-		 * Add User to Eloquent Model
-		 */
-		$user = new User();
-		$user->username = $username;
-		$user->key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
-		$user->clanID = $clanID;
-		$user->type = $type;
+        /**
+         * Add User to Eloquent Model
+         */
+        $user = new User();
+        $user->username = $username;
+        $user->key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
+        $user->clanID = $clanID;
+        $user->type = $type;
 
-		/**
-		 * Try and add it,
-		 */
-		try {
-			$user->save();
-		} catch(Exception $exception) {
-			/**
-			 * Catch duplicate entry exception
-			 */
-			return response()->json(['error' => true, 'message' => 'User already exists']);
-		}
+        /**
+         * Try and add it,
+         */
+        try {
+            $user->save();
+        } catch(Exception $exception) {
+            /**
+             * Catch duplicate entry exception
+             */
+            return response()->json(['error' => true, 'message' => 'User already exists']);
+        }
 
-		// Log
-		Log::info('Created User: ' . $user->username . " (" . $user->key . ") - " . $user->clanID);
-		return response()->json($user);
+        // Log
+        Log::info('Created User: ' . $user->username . " (" . $user->key . ") - " . $user->clanID);
+        return response()->json($user);
+    }
+
+    public function remove($id) {
+
+        $user = User::find($id);
+
+        if($user) {
+            $user->delete();
+            Log::info('Removed user ' . $user->username);
+            return response()->json(["status" => "deleted"]);
+        } else {
+            return response()->json(["status" => "User not found: " . $id]);
+        }
     }
 
     public function info($var)

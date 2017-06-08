@@ -30,6 +30,9 @@ Route::match(['get', 'post'], '/teamspeak/', 'APIController@teamspeakServer');
 // ADD
 Route::match(['get', 'post'], '/user/add/{username}/{clanID}/{type}', 'APIController@add');
 
+// ADD
+Route::match(['post'], '/user/remove/{id}', 'APIController@remove');
+
 // INFO
 Route::match(['get', 'post'], '/user/info/{var}/', 'APIController@info');
 
