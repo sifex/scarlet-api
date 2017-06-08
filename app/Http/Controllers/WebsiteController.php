@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Hash;
+use App\User;
 
 use App\Http\Requests;
 
@@ -14,7 +15,7 @@ class WebsiteController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
-        $user = DB::table('scar_users')->where(['username' => $username])->first();
+        $user = User::where(['username' => $username])->first();
         if($user != null && Hash::check($password, $user->password)) {
             return response()->json(['response' => true]);
         }

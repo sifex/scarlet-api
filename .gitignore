@@ -8,3 +8,4 @@ Homestead.json
 *.scssc
 storage/
 .idea/
+.DS_Store

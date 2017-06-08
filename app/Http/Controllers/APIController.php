@@ -9,6 +9,7 @@ use App\User;
 use Image;
 use AustinB\GameQ;
 use GuzzleHttp\Client;
+use Exception;
 
 class APIController extends Controller
 {
@@ -33,6 +34,8 @@ class APIController extends Controller
     }
 
     public function armaServer() {
+
+		return response()->json("Awesome");
         $servers = [
             [
                 'type'    => 'armedassault3',
@@ -69,59 +72,32 @@ class APIController extends Controller
         return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
     }
 
-    public function rallyUp(Request $request) {
-
-        // Check AuthKey
-        if($request->authKey == "4f64MC76YMLsC8rW89QZaMDVTdYZN4C2") {
-            if($request->has("customMessage")) {
-                $meessage = "@everyone " . $request->customMessage;
-            } else {
-                $message = "@everyone Mission Notification. Rally Up.";
-            }
-
-            $client = new Client();
-            $res = $client->request('POST', 'https://api.buddy.works/workspaces/chess2ryme/projects/aaf-website/pipelines/35631/executions?access_token=a6dc5887-ba50-464a-ba46-f91a18330f42', [
-                'json' => [
-                    'to_revision' => [
-                        'revision' => 'HEAD'
-                    ],
-                    'comment' => 'hotfix'
-                ]
-            ]);
-            echo $res->getStatusCode();
-            // "200"
-            echo $res->getHeader('content-type');
-            // 'application/json; charset=utf8'
-            echo $res->getBody();
-            // {"type":"User"...'
-        } else {
-            return abort(401);
-        }
-    }
-
-
     public function add($username, $clanID, $type) {
 
-        $user = User::where('username', $username)->first();
-        $key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
+		/**
+		 * Add User to Eloquent Model
+		 */
+		$user = new User();
+		$user->username = $username;
+		$user->key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
+		$user->clanID = $clanID;
+		$user->type = $type;
 
-        if($user) {
-            return response()->json(['error' => true, 'message' => 'User already exists']);
-        }
-        elseif(DB::table('scar_users')->insert(
-        [
-            'username' => $username,
-            'key' => $key,
-            'clanid' => $clanID,
-			'type' => $type
-        ]))
-        {
-            return response()->json(['username' =>  $username, 'key' => $key, 'clan' => $clanID, 'type' => $type]);
+		/**
+		 * Try and add it,
+		 */
+		try {
+			$user->save();
+		} catch(Exception $exception) {
+			/**
+			 * Catch duplicate entry exception
+			 */
+			return response()->json(['error' => true, 'message' => 'User already exists']);
+		}
 
-            // Log
-            Log::info('Created User: ' . $username . " (" . $key . ") - " . $clanID);
-
-        }
+		// Log
+		Log::info('Created User: ' . $user->username . " (" . $user->key . ") - " . $user->clanID);
+		return response()->json($user);
     }
 
     public function info($var)
@@ -141,6 +117,7 @@ class APIController extends Controller
         {
             return response()->json(User::where('username', $var)->first()->toArray());
         }
+		return response()->json("Awesome");
     }
 
     public function install(Request $request, $key)
@@ -148,10 +125,21 @@ class APIController extends Controller
         // Log
         Log::info('Installing Directory for ' . $key . ': ' . $request->installDir);
 
-        if(DB::table('scar_users')->where('key', $key)->first())
+		$user = User::where('key', $key)->first();
+
+        if($user)
         {
-            DB::table('scar_users')->where('key', $key)->update(['installDir'=>$request->installDir]);
-            return response('');
+            $user->installDir = $request->installDir;
+
+			try {
+				$user->save();
+			} catch(Exception $exception) {
+				/**
+				 * This should return a json value, but this means pushing another scarlet updater update. TODO
+				 * @return {[type] [description]
+				 */
+            	return response('');
+			}
         }
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request, Illuminate\Http\Reponse;
 use App\Http\Controllers\Controller;
 use Log, DB;
+use App\User;
 
 class AuthController extends Controller
 {
@@ -15,7 +16,6 @@ class AuthController extends Controller
             return redirect('/');
         }
     }
-
 
     public function displayElectronLogin(Request $request) {
         if(!session()->has('username')) {
@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         $username = $request->input('username');
 
-        if (DB::table('scar_users')->where('username', $username)->first() != NULL) {
+        if (User::where('username', $username)->first() != NULL) {
             $request->session()->put('username', $username);
             $request->session()->save();
             return redirect('/');
@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         $username = $request->input('username');
 
-        if (DB::table('scar_users')->where('username', $username)->first() != NULL) {
+        if (User::where('username', $username)->first() != NULL) {
             $request->session()->put('username', $username);
             $request->session()->save();
             return response()->make( '', 302 )->header( 'Location', "http://australianarmedforces.org/mods/electron/" . "?username=" . $username );
