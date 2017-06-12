@@ -24,4 +24,4 @@ Route::get("/logout/", 'AuthController@logout');
 
 Route::get('/admin/', 'AdminController@admin');
 
-Route::get('/session', function() { return Session::all(); });
+Route::get('/xml/', 'XMLController@display');
