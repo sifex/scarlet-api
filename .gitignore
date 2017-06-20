@@ -9,3 +9,4 @@ Homestead.json
 storage/
 .idea/
 .DS_Store
+composer.lock
