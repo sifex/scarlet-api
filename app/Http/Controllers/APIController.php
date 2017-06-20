@@ -79,6 +79,7 @@ class APIController extends Controller
          */
         $user = new User();
         $user->username = $username;
+		$user->installDir = "";
         $user->key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
         $user->clanID = $clanID;
         $user->type = $type;
