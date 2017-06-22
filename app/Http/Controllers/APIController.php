@@ -35,7 +35,7 @@ class APIController extends Controller
 
     public function armaServer() {
 
-		return response()->json("Awesome");
+		// return response()->json("Awesome");
         $servers = [
             [
                 'type'    => 'armedassault3',
