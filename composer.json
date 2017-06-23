@@ -6,8 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "austinb/gameq": "^3.0",
+        "austinb/gameq": "dev-issues/382",
         "barryvdh/laravel-cors": "^0.9.2",
+        "ehesp/steam-login": "^1.1",
         "filp/whoops": "^2.1",
         "guzzlehttp/guzzle": "^6.2",
         "intervention/image": "^2.3",
@@ -20,6 +21,12 @@
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.7"
     },
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sifex/GameQ"
+        }
+    ],
     "autoload": {
         "classmap": [
             "database"
