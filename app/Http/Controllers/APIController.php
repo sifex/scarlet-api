@@ -9,6 +9,7 @@ use App\User;
 use Image;
 use AustinB\GameQ;
 use GuzzleHttp\Client;
+use Ehesp\SteamLogin\SteamLogin;
 use Exception;
 
 class APIController extends Controller
@@ -48,6 +49,8 @@ class APIController extends Controller
         $GameQ->setOption('timeout', 5); // seconds
 
         $results = $GameQ->process();
+
+
 
         return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
     }

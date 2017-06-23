@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddedPlayerIDColumn extends Migration
+class AddedSteamID extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,7 @@ class AddedPlayerIDColumn extends Migration
      */
     public function up()
     {
-		Schema::table('users', function (Blueprint $table) {
-            $table->string('steamID')->nullable();
-        });
+        //
     }
 
     /**

@@ -25,3 +25,7 @@ Route::get("/logout/", 'AuthController@logout');
 Route::get('/admin/', 'AdminController@admin');
 
 Route::get('/xml/', 'XMLController@display');
+
+
+Route::get('/steam/login', 'SteamController@showSteamURL');
+Route::get('/steam/verify/{username}', 'SteamController@steamVerify');

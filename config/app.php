@@ -180,6 +180,9 @@ return [
 		Barryvdh\Cors\ServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,
 
+
+		Ehesp\SteamLogin\Laravel\SteamLoginServiceProvider::class,
+
     ],
 
     /*
@@ -229,7 +232,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-		'Image' => Intervention\Image\Facades\Image::class
+		'Image' => Intervention\Image\Facades\Image::class,
+
+		'SteamLogin' => Ehesp\SteamLogin\Laravel\Facades\SteamLogin::class,
 
     ],
 
