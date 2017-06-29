@@ -29,8 +29,16 @@ class SteamController extends Controller
 
 		$user = \App\User::where('username', $username)->first();
 		$user->playerID = $steamID;
+
 		if($user->save()) {
-			return redirect($request->session()->get('returnURL'));
+			event(new \App\Events\SteamConnect(array("data" => "124", "key" => "124")));
+			$returnURL = $request->session()->get('returnURL');
+			if(is_string($returnURL)) {
+                return redirect($request->session()->get('returnURL'));
+            } else {
+                return redirect(url('/'));
+            }
+
 		} else {
 			return response()->json('Error saving steam ID into scarlet');
 		}
