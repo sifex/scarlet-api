@@ -22,7 +22,7 @@ class DownloadController extends Controller
             $userInfo = User::where('username', session()->get('username'))->first();
             return view('download.index', ['userInfo' => $userInfo]);
         } else {
-            return redirect('/key/');
+            return redirect()->route('login');
         }
 
     }

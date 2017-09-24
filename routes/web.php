@@ -5,8 +5,8 @@ use Illuminate\Http\Request;
 
 Route::get('/', 'DownloadController@download');
 
-Route::get('/key/electron/', 'AuthController@displayElectronLogin');
-Route::get('/key/', 'AuthController@displayLogin');
+Route::get('/login/electron/', 'AuthController@displayElectronLogin')->name('login-electron');
+Route::get('/login/', 'AuthController@displayLogin')->name('login');
 
 Route::match(['get','post'], "/auth/electron/", 'AuthController@loginToElectron');
 Route::post("/auth/", 'AuthController@login');

@@ -34,7 +34,7 @@ class AuthController extends Controller
             $request->session()->save();
             return redirect('/');
         } else {
-            return redirect('/key/?');
+            return redirect()->route('login');
         }
     }
 
@@ -48,17 +48,17 @@ class AuthController extends Controller
             return response()->make( '', 302 )->header( 'Location', "http://australianarmedforces.org/mods/electron/" . "?username=" . $username );
 
         } else {
-            return redirect('/key/electron/');
+            return redirect()->route('login-electrion');
         }
     }
 
     public function logout(Request $request) {
         $request->session()->flush();
-        return redirect('/key/');
+        return redirect()->route('login');
     }
 
     public function logoutElectron(Request $request) {
         $request->session()->flush();
-        return redirect('/key/electron/');
+        return redirect()->route('login-electrion');
     }
 }
