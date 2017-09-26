@@ -4,6 +4,7 @@ php:
   - 7.0
 
 before_script:
+  - ping -c 1 google.com
   - cp .env.travis .env
   - composer config --global github-oauth.github.com $GITHUBPAK
   - composer self-update
