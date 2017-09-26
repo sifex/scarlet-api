@@ -6,6 +6,7 @@ php:
 
 before_script:
   - cp .env.travis .env
+  - composer config --global github-oauth.github.com $GITHUBPAK
   - composer self-update
   - composer install -n
   - php artisan key:generate
