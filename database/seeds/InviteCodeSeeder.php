@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Scarlet\InviteCode;
 
-class DatabaseSeeder extends Seeder
+class InviteCodeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(AddUsersSeeder::class);
-        $this->call(InviteCodeSeeder::class);
+        InviteCode::create();
     }
 }

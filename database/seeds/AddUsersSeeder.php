@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Scarlet\User;
 
-class AddUsers extends Seeder
+class AddUsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,15 +12,15 @@ class AddUsers extends Seeder
      */
     public function run()
     {
-        factory('App\User', 5)->create();
+        factory(User::class, 5)->create();
 
-        App\User::create([
+        User::create([
             'username' => 'omega',
             'password' => Hash::make('1827129361'),
             'email' => 'chess2ryme@gmail.com'
         ]);
 
-        App\User::create([
+        User::create([
             'username' => 'test',
             'password' => Hash::make('test'),
             'email' => 'test@test.com'

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class InviteController extends Controller
 {
-
     public function index(Request $request) {
         return view('V2/index');
     }
@@ -39,7 +38,6 @@ class InviteController extends Controller
             return false;
         }
 
-        dd($invite_row);
         if($invite_row->user !== null) {
             return false;
         }
