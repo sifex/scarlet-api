@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class InviteController extends Controller
 {
-
     public function index(Request $request) {
         return view('V2/index');
     }
