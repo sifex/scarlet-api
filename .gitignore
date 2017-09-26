@@ -10,3 +10,4 @@ storage/
 .idea/
 .DS_Store
 composer.lock
+npm-debug.log

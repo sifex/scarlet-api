@@ -2,17 +2,24 @@
 
 use App\Events\SteamConnect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
+
+Route::prefix('v2')->group(function() {
+    Route::get('/', 'V2\InviteController@index')->middleware('auth.basic.once');
+});
 
 Route::get('/', 'DownloadController@download');
 
-Route::get('/key/electron/', 'AuthController@displayElectronLogin');
-Route::get('/key/', 'AuthController@displayLogin');
+Route::get('/login/electron/', 'AuthController@displayElectronLogin')->name('login-electron');
+Route::get('/login/', 'AuthController@displayLogin')->name('login');
 
-Route::match(['get','post'], "/auth/electron/", 'AuthController@loginToElectron');
-Route::post("/auth/", 'AuthController@login');
+Route::match(['get','post'], '/auth/electron/', 'AuthController@loginToElectron');
+Route::post('/auth/', 'AuthController@login');
 
-Route::get("/logout/electron/", 'AuthController@logoutElectron');
-Route::get("/logout/", 'AuthController@logout');
+Route::get('/logout/electron/', 'AuthController@logoutElectron');
+Route::get('/logout/', 'AuthController@logout');
 
 Route::get('/admin/', 'AdminController@admin');
 
@@ -29,5 +36,5 @@ Route::get('fire', function (Request $request) {
 	if($user) {
     	event(new SteamConnect($user));
 	}
-    return "event fired";
+    return 'event fired';
 });

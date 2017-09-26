@@ -20,7 +20,6 @@
 
 
 @section('scripts')
-<script src="http://nosir.github.io/cleave.js/dist/cleave-0.4.7.min.js" charset="utf-8"></script>
 <script type="text/javascript">
 
 </script>
