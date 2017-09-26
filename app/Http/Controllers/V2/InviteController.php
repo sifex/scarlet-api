@@ -4,6 +4,7 @@ namespace Scarlet\Http\Controllers\V2;
 
 use Scarlet\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Scarlet\Steam\SteamUser;
 
 class InviteController extends Controller
 {
@@ -21,9 +22,19 @@ class InviteController extends Controller
     }
 
     public function steamverify() {
-        if(!SteamController::callback()) {
+        $steamID = SteamController::callback();
+
+        if(!$steamID) {
             return redirect()->route('v2index');
         }
+
+        $steamUser = new SteamUser($steamID, env('STEAM_API_KEY'));
+
+        return response()->json($steamUser);
+    }
+
+    public function createUserWithSteamID($user) {
+
     }
 
     /**
