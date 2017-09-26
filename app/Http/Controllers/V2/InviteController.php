@@ -5,13 +5,32 @@ namespace App\Http\Controllers\V2;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\InviteCode;
+use App\Http\Controllers\V2\SteamController;
 
 class InviteController extends Controller
 {
 
     public function index(Request $request) {
-        dd(self::checkInviteCode('EY86QP6'));
         return view('V2/index');
+    }
+
+    public function invite($invite_code, Request $request) {
+        if(!self::checkInviteCode($invite_code)) {
+            redirect()->route('v2index');
+        }
+
+        $request->session()->put('invite_code', $invite_code);
+        return redirect(SteamController::url(route('v2steamverify', ['invite_code' => $invite_code])));
+    }
+
+    public function steamverify(Request $request) {
+        $invite_code = $request->session()->get('invite_code', null);
+
+        if(!$invite_code) {
+            return redirect()->route('v2index');
+        }
+
+        SteamController::url(route('v2steamverify', ['invite_code' => $invite_code]));
     }
 
     /**
