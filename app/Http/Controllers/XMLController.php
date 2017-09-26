@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Scarlet\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \FluidXml\FluidXml;
 use \FluidXml\FluidNamespace;
-use App\User;
+use Scarlet\User;
 
 class XMLController extends Controller
 {

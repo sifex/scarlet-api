@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Scarlet\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Log, DB;
-use App\User;
+use Scarlet\User;
 use Image;
 use AustinB\GameQ;
 use GuzzleHttp\Client;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Scarlet\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\Broadcaster;

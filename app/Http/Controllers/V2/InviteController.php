@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\V2;
+namespace Scarlet\Http\Controllers\V2;
 
+use Scarlet\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\InviteCode;
-use App\Http\Controllers\V2\SteamController;
 
 class InviteController extends Controller
 {
@@ -16,21 +14,17 @@ class InviteController extends Controller
 
     public function invite($invite_code, Request $request) {
         if(!self::checkInviteCode($invite_code)) {
-            redirect()->route('v2index');
+            return redirect()->route('v2index');
         }
 
         $request->session()->put('invite_code', $invite_code);
         return redirect(SteamController::url(route('v2steamverify', ['invite_code' => $invite_code])));
     }
 
-    public function steamverify(Request $request) {
-        $invite_code = $request->session()->get('invite_code', null);
-
-        if(!$invite_code) {
+    public function steamverify() {
+        if(!SteamController::callback()) {
             return redirect()->route('v2index');
         }
-
-        SteamController::url(route('v2steamverify', ['invite_code' => $invite_code]));
     }
 
     /**
@@ -40,10 +34,12 @@ class InviteController extends Controller
      */
     public static function checkInviteCode($invite_to_check) {
 
-        $invite_row = \App\InviteCode::where('invite_code', $invite_to_check)->first();
+        $invite_row = \Scarlet\InviteCode::where('invite_code', $invite_to_check)->first();
         if(!is_object($invite_row)) {
             return false;
         }
+
+        dd($invite_row);
         if($invite_row->user !== null) {
             return false;
         }
@@ -58,7 +54,7 @@ class InviteController extends Controller
      */
     public function assignInviteCode($invite_code, $user) {
 
-        $invite_row = \App\InviteCode::where('invite_code', $invite_code)->first();
+        $invite_row = \Scarlet\InviteCode::where('invite_code', $invite_code)->first();
 
         if(!$invite_row || !$user) {
             return false;

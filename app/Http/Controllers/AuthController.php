@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Scarlet\Http\Controllers;
 
 use Illuminate\Http\Request, Illuminate\Http\Reponse;
-use App\Http\Controllers\Controller;
+use Scarlet\Http\Controllers\Controller;
 use Log, DB;
-use App\User;
+use Scarlet\User;
 
 class AuthController extends Controller
 {

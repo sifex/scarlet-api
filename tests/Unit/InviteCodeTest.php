@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\InviteCode;
+use Scarlet\InviteCode;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use \App\Http\Controllers\V2\InviteController;
-use \App\User;
+use Scarlet\Http\Controllers\V2\InviteController;
+use Scarlet\User;
 use Hash;
 
 class InviteCodeTest extends TestCase
@@ -21,7 +21,7 @@ class InviteCodeTest extends TestCase
      */
     public function testCheckInviteCode()
     {
-        $ic = new \App\InviteCode();
+        $ic = new InviteCode();
         $ic->save();
 
         $this->assertTrue(InviteController::checkInviteCode($ic->invite_code));
@@ -52,7 +52,7 @@ class InviteCodeTest extends TestCase
         ]);
         $user->save();
 
-        $ic = new \App\InviteCode();
+        $ic = new InviteCode();
         $ic->save();
 
         $invite_controller = new InviteController();

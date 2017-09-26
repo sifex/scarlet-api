@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\V2;
+namespace Scarlet\Http\Controllers\V2;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Events\SteamConnect;
-use App\User;
+use Scarlet\Http\Controllers\Controller;
+use Scarlet\Events\SteamConnect;
+use Scarlet\User;
 use Ehesp\SteamLogin\SteamLogin;
 
 class SteamController extends Controller
@@ -22,15 +22,15 @@ class SteamController extends Controller
         return $login->url($callbackURL);
     }
 
-    public function callback($username, Request $request) {
+    public static function callback() {
         $login = new SteamLogin();
         try {
             $steamID = $login->validate();
         } catch(\Exception $exception) {
-
+            $steamID = false;
         }
 
-        dd($steamID);
+        return $steamID;
 
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Scarlet\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests, App\Http\Responses;
+use Scarlet\Http\Requests, Scarlet\Http\Responses;
 use Curl;
 
 class AdminController extends Controller

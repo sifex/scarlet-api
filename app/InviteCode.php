@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Scarlet;
 
 use Illuminate\Database\Eloquent\Model;
 use Hash;

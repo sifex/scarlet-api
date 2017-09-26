@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::prefix('v2')->middleware('auth.basic.once')->group(function() {
     Route::get('/', 'V2\InviteController@index')->name('v2index');
+    Route::get('/invite/', function() { return redirect()->route('v2index'); });
     Route::get('/invite/{invite_code}', 'V2\InviteController@invite');
 
     Route::get('/steam/verify/{invite_code}/', 'V2\InviteController@steamverify')->name('v2steamverify');
