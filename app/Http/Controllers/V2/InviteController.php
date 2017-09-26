@@ -38,7 +38,6 @@ class InviteController extends Controller
             return false;
         }
 
-        dd($invite_row);
         if($invite_row->user !== null) {
             return false;
         }
