@@ -6,7 +6,7 @@ use Closure;
 use App, Auth;
 
 
-class BasicAuthOnStaging
+class BasicAuth
 {
     /**
      * Handle an incoming request.
@@ -17,13 +17,6 @@ class BasicAuthOnStaging
      */
     public function handle($request, Closure $next)
     {
-
-        if (App::environment(['staging'])) {
-            return Auth::onceBasic() ?: $next($request);
-        } else {
-            return $next($request);
-        }
-
-
+        return Auth::onceBasic() ?: $next($request);
     }
 }
