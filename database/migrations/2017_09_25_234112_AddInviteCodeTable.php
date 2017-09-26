@@ -16,7 +16,8 @@ class AddInviteCodeTable extends Migration
         Schema::create('invite_codes', function(Blueprint $table) {
             $table->increments('id');
             $table->string('invite_code');
-            $table->integer('userID')->nullable;
+            $table->integer('userID')->nullable();
+            $table->timestamps();
         });
     }
 

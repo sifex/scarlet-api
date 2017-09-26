@@ -10,7 +10,14 @@ class InviteCode extends Model
     public function __construct()
     {
         parent::__construct();
-        $this->invite_code = substr((rand(1, 1000)), 0, 7);
-        var_dump($this->invite_code);
+
+        $length = 7;
+        $characters = "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+
+        for ($p = 0; $p < $length; $p++) {
+            $this->invite_code .= $characters[mt_rand($length, strlen($characters)) - 1];
+        }
+
     }
 }
