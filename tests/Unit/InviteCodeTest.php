@@ -6,7 +6,7 @@ use Scarlet\InviteCode;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Scarlet\Http\Controllers\V2\InviteController;
+use Scarlet\Http\Controllers\InviteController;
 use Scarlet\User;
 use Hash;
 

@@ -14,7 +14,6 @@ class InviteCode extends Model
         $length = 7;
         $characters = "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 
-
         for ($p = 0; $p < $length; $p++) {
             $this->invite_code .= $characters[mt_rand($length, strlen($characters)) - 1];
         }

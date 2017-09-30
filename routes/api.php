@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,7 +17,7 @@ Route::match(['get', 'post'], '/', 'APIController@index');
 
 /* Get IP */
 /* Previously this was done using ipify, but this caused some problems with AdBlockers in Browsers */
-Route::match(['get', 'post'], '/ip/', 'APIController@ip');
+Route::match(['get', 'post'], '/ip/', 'APIController@ArmaServer');
 
 /* ARMA Server Ping */
 Route::match(['get', 'post'], '/armaserver/', 'APIController@armaServer');
@@ -27,25 +25,5 @@ Route::match(['get', 'post'], '/armaserver/', 'APIController@armaServer');
 /* Teamspeak Ping */
 Route::match(['get', 'post'], '/teamspeak/', 'APIController@teamspeakServer');
 
-// ADD
-Route::match(['get', 'post'], '/user/add/{username}/{clanID}/{type}', 'APIController@add');
-
-// ADD
-Route::match(['post'], '/user/remove/{id}', 'APIController@remove');
-
-// INFO
-Route::match(['get', 'post'], '/user/info/{var}/', 'APIController@info');
-
-// SET INSTALL
-Route::post('/user/install/{key}/', 'APIController@install');
-
 Route::get('/build-badge/', 'APIController@badge');
 
-
-/**
- * Website Login
- */
-
-Route::match(['get', 'post'], '/website/login', 'WebsiteController@login');
-
-Route::match(['post'], '/website/changerole', 'WebsiteController@changerole');

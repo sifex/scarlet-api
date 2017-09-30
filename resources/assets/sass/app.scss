@@ -1,4 +1,5 @@
 // Foundation
-@import "node_modules/foundation-sites/scss/foundation";
+@import "foundation";
+@import 'settings';
 
 @include foundation-everything();

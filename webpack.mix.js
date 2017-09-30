@@ -11,8 +11,10 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/v2/js')
-   .sass('resources/assets/sass/app.scss', 'public/v2/css');
+mix.js('resources/assets/js/app.js', 'public/js');
+mix.sass('resources/assets/sass/app.scss', 'public/css', {
+    includePaths: ["node_modules/foundation-sites/scss/"]
+});
 
 
 mix.browserSync('localhost:8080');

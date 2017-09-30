@@ -3,32 +3,34 @@
 namespace Scarlet\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Scarlet\Http\Controllers\Controller;
+use Scarlet\Events\SteamConnect;
+use Scarlet\User;
 use Ehesp\SteamLogin\SteamLogin;
 
 class SteamController extends Controller
 {
-    public function showSteamURL(Request $request) {
-		if(session('username')) {
-			$request->session()->put('returnURL', request()->headers->get('referer'));
 
-			$login = new SteamLogin();
-			return redirect($login->url(url('steam/verify/' . session('username'))));
-		} else {
-			return redirect(url('/'));
-		}
-	}
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public static function url($callbackURL) {
+        // New Steam Login
+        $login = new SteamLogin();
+        return $login->url($callbackURL);
+    }
 
-	public function steamVerify($username, Request $request) {
-		$login = new SteamLogin();
-		try {
-			$steamID = $login->validate();
-		} catch(\Exception $exception) {
-			return redirect('/');
-		}
+    public static function callback() {
+        $login = new SteamLogin();
+        try {
+            $steamID = $login->validate();
+        } catch(\Exception $exception) {
+            $steamID = false;
+        }
 
-		return $steamID;
+        return $steamID;
 
-
-	}
+    }
 }

@@ -11,9 +11,14 @@ before_script:
   - php artisan key:generate
   - php artisan config:clear
   - php artisan migrate:refresh --seed
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - ./vendor/laravel/dusk/bin/chromedriver-linux &
+  - php artisan serve > /dev/null 2>&1 &
 
 script:
   - vendor/bin/phpunit
+  - php artisan dusk
 
 cache:
   directories:

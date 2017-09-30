@@ -1,11 +1,13 @@
-@extends('template')
+@extends('layouts.splash')
 
-@section('title', 'Home')
+@section('title', 'Welcome to Scarlet')
 
 @section('content')
-    <div id="coming-soon" class="small-10 small-centered columns text-center">
-      <div class="logo"></div>
-      <h1>The ultimate solution to your ARMA 3® mods.</h1>
-      <p>Scarlet has ceased development. Contact <a href="mailto:scarlet@australianarmedforces.org">scarlet@australianarmedforces.org</a> for more info.</p>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell">
+                Welcome to scarlet, please enter invite code
+            </div>
+        </div>
     </div>
-@stop
+@endsection
