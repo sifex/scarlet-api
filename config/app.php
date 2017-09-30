@@ -171,11 +171,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Scarlet\Providers\AppServiceProvider::class,
+        Scarlet\Providers\AuthServiceProvider::class,
+        // Scarlet\Providers\BroadcastServiceProvider::class,
+        Scarlet\Providers\EventServiceProvider::class,
+        Scarlet\Providers\RouteServiceProvider::class,
 
 		Barryvdh\Cors\ServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,

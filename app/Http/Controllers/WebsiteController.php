@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Scarlet\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
 use Hash;
-use App\User;
+use Scarlet\User;
 
-use App\Http\Requests;
+use Scarlet\Http\Requests;
 
 class WebsiteController extends Controller
 {
@@ -26,7 +26,7 @@ class WebsiteController extends Controller
 
     public function changeRole(Request $request) {
         $allRequestData = ($request->all());
-        $user = \App\User::where(['id' => $allRequestData["id"]])->first();
+        $user = \Scarlet\User::where(['id' => $allRequestData["id"]])->first();
 
         if($user->exists) {
             foreach($allRequestData as $key=>$value) {
