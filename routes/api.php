@@ -1,19 +1,47 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+/** General Information */
+Route::get( '/', 'GeneralController@index')
+    ->name('api/index');
 
-Route::group('v1', function () {
+/** ARMA Server Ping */
+Route::get( '/arma/', 'GeneralController@armaServer')
+    ->name('api/armaserver');
 
+/** Teamspeak Ping */
+Route::get('/teamspeak/', 'GeneralController@teamspeakServer')
+    ->name('api/teamspeak');
+
+
+Route::group(['prefix' => '/user/'], static function() {
+    /** Get all users */
+    Route::get('/', 'UserController@getAll')
+        ->name('api/user/get');
+
+    /** Create User */
+    Route::post('/', 'UserController@add')
+        ->name('api/user/create');
+
+    Route::group(['prefix' => '/{user:key}/'], static function() {
+        /** Get User */
+        Route::get('/', 'UserController@get')
+            ->name('api/user/get');
+
+        /** Update User */
+        Route::post('/', 'UserController@install')
+            ->name('api/user/update');
+
+        /** Remove User */
+        Route::delete('/', 'UserController@remove')
+            ->name('api/user/remove');
+    });
 });
+
+/**
+ * Website Login
+ */
+
+Route::get('/website/login', 'WebsiteController@login');
+
+Route::match(['post'], '/website/changerole', 'WebsiteController@changerole');
