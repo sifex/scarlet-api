@@ -16,8 +16,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
+        'installDir',
+        'clanID',
+        'type'
+    ];
+
+    /**
+     * Visible
+     */
+    protected $visible = [
         'username',
         'installDir',
         'key',
@@ -42,4 +50,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(static function (User $user) {
+            $user->key = $user->generateKey();
+        });
+
+        static::updating(static function (User $user) {
+            $user->key = $user->generateKey();
+        });
+    }
+
+    /**
+     * Generate User Key
+     * @return string
+     */
+    private function generateKey(): string
+    {
+        return md5(strtolower($this->username) . 'E6hJ9X2AptWH6bqU32');
+    }
 }

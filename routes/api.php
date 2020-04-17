@@ -14,22 +14,22 @@ Route::get('/teamspeak/', 'GeneralController@teamspeakServer')
     ->name('api/teamspeak');
 
 
-Route::group(['prefix' => '/user/'], static function() {
+Route::group(['prefix' => '/users/'], static function() {
     /** Get all users */
     Route::get('/', 'UserController@getAll')
-        ->name('api/user/get');
+        ->name('api/user/getAll');
 
     /** Create User */
     Route::post('/', 'UserController@add')
         ->name('api/user/create');
 
-    Route::group(['prefix' => '/{user:key}/'], static function() {
+    Route::group(['prefix' => '/{user}/'], static function() {
         /** Get User */
         Route::get('/', 'UserController@get')
             ->name('api/user/get');
 
         /** Update User */
-        Route::post('/', 'UserController@install')
+        Route::post('/', 'UserController@update')
             ->name('api/user/update');
 
         /** Remove User */

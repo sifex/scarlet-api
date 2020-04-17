@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,14 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        /**
+         * Allow user to be bound to "Key" or "Username"
+         */
+        Route::bind('user', function($value) {
+            return User::where('key', $value)
+                ->orWhere('username', $value)
+                ->first();
+        });
 
         parent::boot();
     }

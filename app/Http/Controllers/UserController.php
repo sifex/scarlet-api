@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
@@ -14,7 +16,7 @@ class UserController extends Controller
      * Used for the administration of Scarlet
      * @return JsonResponse
      */
-    public function getAll()
+    public function getAll(): JsonResponse
     {
         return response()->json(User::all()->toArray());
     }
@@ -24,27 +26,32 @@ class UserController extends Controller
      * @param User $user
      * @return JsonResponse
      */
-    public function get(User $user)
+    public function get(User $user): JsonResponse
     {
         return response()->json($user);
     }
 
     /**
+     * @param User $user
      * @return array
      */
-    private function rules()
+    private function rules(User $user): array
     {
         return [
-            'username' => 'string',
-            'clanID' => 'number',
-            'type' => 'string'
+            'username' => [
+                'required',
+                'string',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'clanID' => 'required|numeric',
+            'type' => 'required|string'
         ];
     }
 
     /**
      * @return array
      */
-    private function messages()
+    private function messages(): array
     {
         return [];
     }
@@ -54,14 +61,13 @@ class UserController extends Controller
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function addUser(Request $request): JsonResponse
+    public function add(Request $request): JsonResponse
     {
-        $this->validate($request, $this->rules(), $this->messages());
+        $this->validate($request, $this->rules(User::make()), $this->messages());
 
         $user = User::create([
             'username' => $request->get('username'),
             'installDir' => '',
-            'key' => md5(strtolower($request->get('username')) . 'E6hJ9X2AptWH6bqU32'),
             'clanID' => $request->get('clanID'),
             'type' => $request->get('type')
         ]);
@@ -89,31 +95,17 @@ class UserController extends Controller
         return response()->json(['status' => 'deleted']);
     }
 
-    /**
-     * @param Request $request
-     * @param $key
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
     public function update(Request $request, User $user)
     {
-        // Log
-        Log::info('Installing Directory for ' . $key . ': ' . $request->installDir);
+        $this->validate($request, $this->rules($user), $this->messages());
 
-        $user = User::where('key', $key)->first();
+        Log::info('Updating User ' . $user->username);
 
-        if($user)
-        {
-            $user->installDir = $request->installDir;
+        $user->fill([
+            'installDir' => $request->get('installDir')
+        ])->save();
 
-            try {
-                $user->save();
-            } catch(Exception $exception) {
-                /**
-                 * This should return a json value, but this means pushing another scarlet updater update. TODO
-                 * @return {[type] [description]
-                 */
-                return response('');
-            }
-        }
+
+        return response()->json($user->fresh());
     }
 }
