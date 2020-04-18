@@ -14,11 +14,12 @@ class AuthController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function displayLogin(Request $request) {
-        if(!session()->has('username')) {
-            return view('key.index');
-        }
+        // if(!session()->has('username')) {
+        // dd('test');
+        return view('key.index');
+        // }
 
-        return redirect('/');
+        // return redirect('/');
     }
 
     public function displayElectronLogin(Request $request) {

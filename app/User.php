@@ -30,7 +30,8 @@ class User extends Authenticatable
         'installDir',
         'key',
         'clanID',
-        'type'
+        'type',
+        'steamID'
     ];
 
     /**
