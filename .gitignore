@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 _ide*
 /.idea
+_ide_helper.php
+/tests/Browser/_browser_ide_helper.php
