@@ -7,6 +7,8 @@
 Route::get( '/', 'GeneralController@index')
     ->name('api/index');
 
+Route::get('/ip/', 'GeneralController@index'); // TODO LEGACY
+
 /**
  * ARMA Server Ping
  */
@@ -19,6 +21,7 @@ Route::get( '/arma/', 'GeneralController@armaServer')
 Route::get('/teamspeak/', 'GeneralController@teamspeakServer')
     ->name('api/teamspeak');
 
+Route::match(['get', 'post'], '/user/info/{user}/', 'UserController@get'); // TODO LEGACY
 
 Route::group(['prefix' => '/users/'], static function() {
     /**
@@ -40,10 +43,10 @@ Route::group(['prefix' => '/users/'], static function() {
         Route::get('/', 'UserController@get')
             ->name('api/user/get');
 
-        Route::post('/', 'UserController@update')
         /**
          * Update User
          */
+        Route::post('/', 'UserController@update')
             ->name('api/user/update');
 
         /**
@@ -58,6 +61,6 @@ Route::group(['prefix' => '/users/'], static function() {
  * Website Login
  */
 
-Route::get('/website/login', 'WebsiteController@login');
+Route::post('/website/login', 'WebsiteController@login');
 
-Route::match(['post'], '/website/changerole', 'WebsiteController@changerole');
+Route::post('/website/changerole', 'WebsiteController@changerole');

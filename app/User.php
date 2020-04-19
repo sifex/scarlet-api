@@ -19,7 +19,10 @@ class User extends Authenticatable
         'username',
         'installDir',
         'clanID',
-        'type'
+        'type',
+        'steamID',
+        'comment',
+        'remark'
     ];
 
     /**
@@ -31,7 +34,9 @@ class User extends Authenticatable
         'key',
         'clanID',
         'type',
-        'steamID'
+        'steamID',
+        'comment',
+        'remark'
     ];
 
     /**

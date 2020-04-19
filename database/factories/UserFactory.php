@@ -22,6 +22,6 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'username' => 'Omega ' . $faker->name,
         'clanID' => 2,
-        'type' => 'Member'
+        'type' => 'member'
     ];
 });

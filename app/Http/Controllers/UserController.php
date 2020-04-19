@@ -101,9 +101,15 @@ class UserController extends Controller
 
         Log::info('Updating User ' . $user->username);
 
-        $user->fill([
-            'installDir' => $request->get('installDir')
-        ])->save();
+        $user->fill(
+            $request->only([
+                'installDir',
+                'remark',
+                'steamID',
+                'comment',
+                'type'
+            ])
+        )->save();
 
 
         return response()->json($user->fresh());
