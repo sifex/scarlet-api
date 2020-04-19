@@ -38,7 +38,10 @@ class XMLController extends Controller
 			 * If user doesn't have a player ID assigned to them, then don't add them to the list
 			 */
 			if($user->steamID != null && $user->steamID != '') {
-				$book->addChild('member', true , ['id' => '76561198132980843', 'nick' => ucwords($user->username)])->addChild([
+				$book->addChild('member', true , [
+				    'id' => $user->steamID,
+                    'nick' => ucwords($user->username)
+                ])->addChild([
 					'name' => ucwords($user->username),
 					'email' => 'N/A',
 					'icq' => 'N/A',
