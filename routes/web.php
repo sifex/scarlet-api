@@ -22,12 +22,12 @@ Route::get('/xml/', 'XMLController@display');
 Route::get('/steam/login', 'SteamController@showSteamURL');
 Route::get('/steam/verify/{username}', 'SteamController@steamVerify');
 
-Route::get('fire', function (Request $request) {
-    // this fires the event
-    $user = App\User::where('id', $request->input('user_id'))->first();
-
-    if($user) {
-        event(new SteamConnect($user));
-    }
-    return "event fired";
-});
+//Route::get('fire', function (Request $request) {
+//    // this fires the event
+//    $user = App\User::where('id', $request->input('user_id'))->first();
+//
+//    if($user) {
+//        event(new SteamConnect($user));
+//    }
+//    return "event fired";
+//});
