@@ -1,0 +1,19 @@
+
+
+# ------------ Manual Deployments ------------ #
+
+
+# Dev+Preview
+staging:
+  hostname: fallout
+  configFile: /Users/alex/.ssh/config
+  stage: staging
+  branch: staging
+  deploy_path: /var/www/staging.scarlet.australianarmedforces.org/
+
+production:
+  hostname: fallout
+  configFile: /Users/alex/.ssh/config
+  stage: production
+  branch: live
+  deploy_path: /var/www/scarlet.australianarmedforces.org/

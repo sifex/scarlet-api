@@ -19,6 +19,8 @@
         "servo/fluidxml": "^1.20.3"
     },
     "require-dev": {
+        "deployer/deployer": "^6.7.3",
+        "deployer/recipes": "^6.0",
         "barryvdh/laravel-ide-helper": "^2.6",
         "doctrine/dbal": "^2.10",
         "facade/ignition": "^2.0",
