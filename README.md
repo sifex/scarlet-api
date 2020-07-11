@@ -1,4 +1,4 @@
-# Scarlet [![Build Status](https://travis-ci.org/sifex/scarlet.australianarmedforces.org.svg?branch=locomotive)](https://travis-ci.org/sifex/scarlet.australianarmedforces.org) ![Scarlet Version](https://scarlet.australianarmedforces.org/api/build-badge)
+# Scarlet [![Build Status](https://travis-ci.org/sifex/scarlet.australianarmedforces.org.svg?branch=locomotive)](https://travis-ci.org/sifex/scarlet.australianarmedforces.org)
 https://scarlet.australianarmedforces.org/key/
 
-This is the Laravel Install for Scarlet – Built by AAF.
+This is the Laravel API for Scarlet – Built by AAF.
