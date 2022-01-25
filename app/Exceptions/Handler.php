@@ -3,34 +3,41 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that should not be reported.
+     * A list of the exception types that are not reported.
      *
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+        //
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
     /**
      * Report or log an exception.
      *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $exception
+     * @param Throwable $exception
      * @return void
+     *
+     * @throws Exception
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         parent::report($exception);
     }
@@ -38,57 +45,14 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $exception)
-    {
-
-		if ($this->isHttpException($exception))
-        {
-            return $this->renderHttpException($exception);
-        }
-
-        if (config('app.debug'))
-        {
-            return $this->renderExceptionWithWhoops($exception);
-        }
-
-        return parent::render($request, $exception);
-    }
-
-	/**
-	 * Render an exception using Whoops.
-	 * 
-	 * @param  \Exception $e
-	 * @return \Illuminate\Http\Response
-	 */
-	protected function renderExceptionWithWhoops(Exception $e)
-	{
-		$whoops = new \Whoops\Run;
-		$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-
-		return new \Illuminate\Http\Response(
-			$whoops->handleException($e),
-			$e->getStatusCode(),
-			$e->getHeaders()
-		);
-	}
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
+     * @param  Request  $request
+     * @param Throwable $exception
+     * @return Response
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
+     * @throws Throwable
      */
-    protected function unauthenticated($request, AuthenticationException $exception)
+    public function render($request, Throwable $exception)
     {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return redirect()->guest(route('login'));
+        return parent::render($request, $exception);
     }
 }

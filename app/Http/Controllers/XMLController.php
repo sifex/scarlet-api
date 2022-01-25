@@ -23,9 +23,9 @@ class XMLController extends Controller
 		$book->setAttribute('nick', 'AAF')
 			->addChild('name', 'Australian Armed Forces')
 			->addChild('email', 'australianarmedforces@gmail.com')
-			->addChild('web', "https://australianarmedforces.org/")
-			->addChild('picture', "aaf_logo.paa")
-			->addChild('title', "Aust. Armed Forces");
+			->addChild('web', 'https://australianarmedforces.org/')
+			->addChild('picture', 'aaf_logo.paa')
+			->addChild('title', 'Aust. Armed Forces');
 
 		/**
 		 * Fetch all users
@@ -37,8 +37,11 @@ class XMLController extends Controller
 			/**
 			 * If user doesn't have a player ID assigned to them, then don't add them to the list
 			 */
-			if($user->playerID != null && $user->playerID != "") {
-				$book->addChild('member', true , ['id' => '76561198132980843', 'nick' => ucwords($user->username)])->addChild([
+			if($user->steamID !== null && $user->steamID !== '') {
+				$book->addChild('member', true , [
+				    'id' => $user->steamID,
+                    'nick' => ucwords($user->username)
+                ])->addChild([
 					'name' => ucwords($user->username),
 					'email' => 'N/A',
 					'icq' => 'N/A',
@@ -48,6 +51,6 @@ class XMLController extends Controller
 		}
 
 
-		return response($book)->header("Content-type", "text/xml");
+		return response($book)->header('Content-type', 'text/xml');
 	}
 }

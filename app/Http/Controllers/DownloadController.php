@@ -17,13 +17,16 @@ use Session;
 
 class DownloadController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function download() {
         if(session()->has('username')) {
             $userInfo = User::where('username', session()->get('username'))->first();
             return view('download.index', ['userInfo' => $userInfo]);
-        } else {
-            return redirect('/key/');
         }
+
+        return redirect('/key/');
 
     }
 }

@@ -1,51 +1,66 @@
 <?php
 
-use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+/**
+ * General Information
+ */
+Route::get( '/', 'GeneralController@index')
+    ->name('api/index');
 
+Route::get('/ip/', 'GeneralController@index'); // TODO LEGACY
 
-// Scarlet Test API
-Route::match(['get', 'post'], '/', 'APIController@index');
+/**
+ * ARMA Server Ping
+ */
+Route::get( '/arma/', 'GeneralController@armaServer')
+    ->name('api/armaserver');
 
-/* Get IP */
-/* Previously this was done using ipify, but this caused some problems with AdBlockers in Browsers */
-Route::match(['get', 'post'], '/ip/', 'APIController@ip');
+/**
+ * Teamspeak Ping
+ */
+Route::get('/teamspeak/', 'GeneralController@teamspeakServer')
+    ->name('api/teamspeak');
 
-/* ARMA Server Ping */
-Route::match(['get', 'post'], '/armaserver/', 'APIController@armaServer');
+Route::match(['get', 'post'], '/user/info/{user}/', 'UserController@get'); // TODO LEGACY
 
-/* Teamspeak Ping */
-Route::match(['get', 'post'], '/teamspeak/', 'APIController@teamspeakServer');
+Route::group(['prefix' => '/users/'], static function() {
+    /**
+     * Get all Users
+     */
+    Route::get('/', 'UserController@getAll')
+        ->name('api/user/getAll');
 
-// ADD
-Route::match(['get', 'post'], '/user/add/{username}/{clanID}/{type}', 'APIController@add');
+    /**
+     * Create User
+     */
+    Route::post('/', 'UserController@add')
+        ->name('api/user/create');
 
-// ADD
-Route::match(['post'], '/user/remove/{id}', 'APIController@remove');
+    Route::group(['prefix' => '/{user}/'], static function() {
+        /**
+         * Get User
+         */
+        Route::get('/', 'UserController@get')
+            ->name('api/user/get');
 
-// INFO
-Route::match(['get', 'post'], '/user/info/{var}/', 'APIController@info');
+        /**
+         * Update User
+         */
+        Route::post('/', 'UserController@update')
+            ->name('api/user/update');
 
-// SET INSTALL
-Route::post('/user/install/{key}/', 'APIController@install');
-
-Route::get('/build-badge/', 'APIController@badge');
-
+        /**
+         * Remove User
+         */
+        Route::delete('/', 'UserController@remove')
+            ->name('api/user/remove');
+    });
+});
 
 /**
  * Website Login
  */
 
-Route::match(['get', 'post'], '/website/login', 'WebsiteController@login');
+Route::post('/website/login', 'WebsiteController@login');
 
-Route::match(['post'], '/website/changerole', 'WebsiteController@changerole');
+Route::post('/website/changerole', 'WebsiteController@changerole');
