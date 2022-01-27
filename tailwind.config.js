@@ -1,0 +1,22 @@
+let plugin = require('tailwindcss/plugin')
+
+module.exports = {
+    content: ["./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+    ],
+    theme: {
+        extend: {
+            backgroundImage: {
+                'aaf-background': "url('/images/aaf/background.png')",
+                'aaf-background-2x': "url('/images/aaf/background_2x.png')",
+            }
+        },
+    },
+    plugins: [
+        plugin(function ({ addVariant }) {
+            // Add a `third` variant, ie. `third:pb-0`
+            addVariant('retina', '@media (-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi)')
+        })
+    ],
+}

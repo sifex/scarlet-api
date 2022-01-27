@@ -17,7 +17,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'username' => 'Omega ' . $this->faker->name,
+            'username' => $this->faker->name,
             'clanID' => 2,
             'type' => 'member'
         ];

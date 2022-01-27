@@ -23,7 +23,7 @@ Route::get('/teamspeak/', 'GeneralController@teamspeakServer')
 
 Route::match(['get', 'post'], '/user/info/{user}/', 'UserController@get'); // TODO LEGACY
 
-Route::group(['prefix' => '/users/'], static function() {
+Route::middleware(['electron-only'])->prefix('/users/')->group(function() {
     /**
      * Get all Users
      */

@@ -18,7 +18,9 @@ class UserController extends Controller
      */
     public function getAll(): JsonResponse
     {
-        return response()->json(User::all()->toArray());
+        return response()->json(User::all()->map(function ($user) {
+            return $user->only(['username', 'remark', 'type']);
+        })->toArray());
     }
 
     /**
