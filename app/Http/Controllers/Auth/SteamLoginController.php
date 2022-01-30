@@ -17,15 +17,15 @@ class SteamLoginController extends AbstractSteamLoginController
     public function authenticated(Request $request, SteamUser $steamUser)
     {
         // find user by their steam account id, example assumes `steam_account_id` on `users` table
-        $user = User::where('steamID', $steamUser->accountId)->first();
+        $user = User::where('steamID', $steamUser->steamId)->first();
 
         // if the user doesn't exist, create them
         if (!$user) {
             $steamUser->getUserInfo(); // retrieve and set user info pulled from steam
 
             $user = User::create([
-                'username' => $steamUser->name, // personaname
-                'steamID' => $steamUser->accountId,
+                'username' => $steamUser->name,
+                'steamID' => $steamUser->steamId,
             ]);
         }
 
@@ -37,7 +37,6 @@ class SteamLoginController extends AbstractSteamLoginController
     {
         Auth::logout();
 
-        return redirect()
-            ->route('home');
+        return redirect()->back();
     }
 }

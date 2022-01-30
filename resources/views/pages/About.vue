@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-white">
         <Head title="About" />
         <h1>About</h1>
 

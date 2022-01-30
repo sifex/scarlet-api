@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import {updater, ws} from '../_updater'
+    // import {updater, ws} from '../_updater'
 
     export default {
         name: "SelfUpdater",
@@ -33,7 +33,7 @@
         },
         methods: {
             restartApp() {
-                ws.send("Updater" + "|" + "quit");
+                // ws.send("Updater" + "|" + "quit");
                 ipcRenderer.send('restart_app');
             }
         }
