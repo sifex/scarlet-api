@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Auth;
 //use GitHub;
+use Carbon\Carbon;
 use GameQ\GameQ;
 use GrahamCampbell\GitHub\Facades\GitHub;
 use Illuminate\Contracts\Foundation\Application;
@@ -12,6 +14,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Shetabit\TokenBuilder\Facade\TokenBuilder;
+use TheSeer\Tokenizer\Token;
 
 class AppController extends Controller
 {
@@ -34,23 +38,51 @@ class AppController extends Controller
 
     public function electron(): Response
     {
-        return Inertia::render('Electron', [
+        return Inertia::render('ElectronDownloader', [
             'user' => Auth::user(),
             'arma_server' => Inertia::lazy(fn () => $this->queryArmaServer())
         ]);
     }
 
-    public function electron_steam_login()
+    public function electron_intro_screen(): Response|\Illuminate\Http\RedirectResponse
     {
         if(Auth::check()) { return redirect()->route('electron'); }
 
-        return Inertia::render('ElectronSteamLogin');
+        return Inertia::render('ElectronIntroScreen');
     }
 
-
-    public function electron_steam_login_verify()
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function browser_electron_steam_verify_page(Request $request): Response
     {
-        return Inertia::render('ElectronSteamLoginVerify');
+        if (Auth::check()) {
+            $date = Carbon::now()->addMinutes(5);
+            $token = Auth::user()
+                ->temporaryTokenBuilder()
+                ->setUsageLimit(1)
+                ->setExpireDate($date)
+                ->build();
+        }
+
+        return Inertia::render('BrowserElectronVerify', [
+            'user' => Auth::user(), # Used only for the "Welcome Username Banner"
+            'token' => $token->token ?? ''
+        ]);
+    }
+
+    public function electron_call_home(Request $request)
+    {
+        $token = TokenBuilder::setUniqueId($request->get('token'))->findValidToken();
+
+        if(!$token) {
+            return redirect()->route('electron.intro');
+        }
+
+        Auth::login($token->tokenable);
+
+        return redirect()->route('electron');
     }
 
     /**

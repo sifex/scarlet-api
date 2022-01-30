@@ -14,7 +14,7 @@
                         <b class="font-weight-bold text-lg text-green-800">👋 Hey!</b><br />
                         <span class="text-green-700">Scarlet has been updated to use your Steam ID to authenticate with. Click the "Login with Steam" button below to get started!</span>
                     </div>
-                    <login-with-steam ></login-with-steam>
+                    <LoginWithSteam />
                 </div>
                 <div v-else class="space-y-4">
                     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-800">
@@ -24,7 +24,7 @@
                         Download the latest version of the client below.
                     </p>
                     <p class="text-center text-base text-slate-500">
-                        <CheckCircleIcon class="h-6 w-6 inline-block text-emerald-600"></CheckCircleIcon>
+                        <CheckCircleIcon class="h-6 w-6 inline-block text-emerald-600" />
                         Your SteamID has been linked to AAF's XML
                     </p>
 
@@ -36,67 +36,50 @@
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
                             {{ scarlet_download ? "Download Scarlet Updater" : "Fetching Updater" }}
-                            <svg v-if="scarlet_download" xmlns="http://www.w3.org/2000/svg" class="-mr-1 ml-3 mt-0.5 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                            </svg>
+                            <DownloadIcon v-if="scarlet_download" class="h-5 w-5 ml-2 mt-0.5 -mb-0.5" />
                         </a>
 
                     </div>
 
                     <Link class="block text-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 transition-colors" :href="$route('electron')">
                         Go to Downloader
-                        <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-4 w-4 align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
+                        <ChevronRightIcon class="inline-block h-4 w-4" />
                     </Link>
-                    <logout></logout>
+                    <a :href="$route('logout')" class="inline-block float-right text-center px-4 py-1 border border-transparent text-sm font-medium rounded-md text-red-600 bg-red-100 border-2 border-red-400 hover:bg-red-500 hover:text-white transition-colors">
+                        Logout
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue';
-import LoadingBar from '@/views/components/loading-bar.vue';
-import LoginWithSteam from '@/views/components/LoginWithSteam.vue'
-import Logout from '@/views/components/Logout.vue'
-import { Link } from '@inertiajs/inertia-vue3'
-import aaf_logo from '../../images/logo.png'
+<script lang="ts" setup>
+import {inject, onMounted} from 'vue';
+import {CheckCircleIcon, ChevronRightIcon, DownloadIcon} from '@heroicons/vue/solid'
 import {Inertia} from "@inertiajs/inertia";
-import { CheckCircleIcon } from '@heroicons/vue/solid'
+import {Link} from '@inertiajs/inertia-vue3'
 
-export default defineComponent({
-    name: 'App',
-    components: {
-        LoadingBar,
-        LoginWithSteam,
-        Logout,
-        Link,
-        CheckCircleIcon
-    },
-    props: {
-        user: Object,
-        scarlet_download: {
-            type: String,
-            default: ''
-        }
-    },
-    data() {
-        return {
-            aaf_logo
-        }
-    },
-    mounted() {
-        setTimeout(() => {
-            Inertia.reload({only: ['scarlet_download']})
-        }, 50)
+import {User} from "@/scripts/downloader/downloader";
 
+import aaf_logo from '../../images/logo.png'
+import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 
+const props = defineProps({
+    user: Object as () => User,
+    scarlet_download: {
+        type: String,
+        default: ''
     }
+})
 
+onMounted(() => {
+    setTimeout(() => {
+        Inertia.reload({only: ['scarlet_download']})
+    }, 50)
+})
 
-});
+let $route = inject('$route')
+
 </script>
 
-<style></style>

@@ -7,6 +7,12 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sifex/token-builder.git"
+        }
+    ],
     "require": {
         "php": "^8.0.0",
         "austinb/gameq": "~3.0",
@@ -22,7 +28,8 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "servo/fluidxml": "^1.20.3",
-        "tightenco/ziggy": "^1.4"
+        "tightenco/ziggy": "^1.4",
+        "shetabit/token-builder": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

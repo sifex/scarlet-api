@@ -227,7 +227,11 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /**
+         * Scarlet Specific Facades
+         */
         'GitHub' => \GrahamCampbell\GitHub\Facades\GitHub::class,
+        'TokenBuilder' => Shetabit\TokenBuilder\Facade\TokenBuilder::class,
     ],
 
 ];

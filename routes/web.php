@@ -20,10 +20,13 @@ Route::get('auth/steam', [SteamLoginController::class, 'authenticate'])
     ->name('auth.steam'); // callback route when returning from steam
 
 
-Route::get('/electron/steam', [AppController::class, 'electron_steam_login'])
-    ->name('electron.steam');
+Route::get('/electron/intro', [AppController::class, 'electron_intro_screen'])
+    ->name('electron.intro');
 
-Route::get('/electron/steam/verify', [AppController::class, 'electron_steam_login_verify'])
+Route::get('/browser/steam/verify', [AppController::class, 'browser_electron_steam_verify_page'])
+    ->name('browser.steam.verify');
+
+Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'])
     ->name('electron.steam.verify');
 
 Route::middleware('auth')->group(function() {

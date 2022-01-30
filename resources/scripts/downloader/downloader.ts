@@ -10,12 +10,12 @@ export interface User {
 }
 
 type ScarletClient = {
-    status: ClientStatus,
+    status: Status,
     attemptNo: number,
     currentFile: string
 }
 
-export enum ClientStatus {
+export enum Status {
     Disconnected,
     Connected,
     Ready,
@@ -33,7 +33,7 @@ export default class ScarletDownloader {
     constructor(user: User, websocket_endpoint = 'ws://127.0.0.1:2074') {
         this.user = user
         this.client = {
-            status: ClientStatus.Disconnected,
+            status: Status.Disconnected,
             attemptNo: 0,
             currentFile: ''
         }
@@ -45,13 +45,13 @@ export default class ScarletDownloader {
     }
 
     onWebsocketOpen(evt: Event) {
-        this.client.status = ClientStatus.Connected
+        this.client.status = Status.Connected
         this.send('test')
         console.log("connected")
     }
 
     onWebsocketClose(evt: Event) {
-        this.client.status = ClientStatus.Disconnected
+        this.client.status = Status.Disconnected
         // console.log(this)
     }
 
@@ -61,7 +61,7 @@ export default class ScarletDownloader {
     }
 
     onWebsocketError(evt: Event) {
-        this.client.status = ClientStatus.Error
+        this.client.status = Status.Error
     }
 
     send(command: string, attribute: string = '') {
@@ -73,17 +73,17 @@ export default class ScarletDownloader {
      * @param location
      */
 
-    updateInstallLocation(location: string) {
-        return this.send('locationChange', location)
+    showLocationDialog() {
+        return this.send('locationChange')
     }
 
     startDownload() {
         this.send('startDownload', this.user.installDir ?? '')
-        this.client.status = ClientStatus.Downloading
+        this.client.status = Status.Downloading
     }
 
     stopDownload() {
         this.send('stopDownload', this.user.installDir ?? '')
-        this.client.status = ClientStatus.Ready
+        this.client.status = Status.Ready
     }
 }

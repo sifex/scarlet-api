@@ -95,6 +95,17 @@
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
+  'shetabit/token-builder' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Shetabit\\TokenBuilder\\Provider\\TokenBuilderServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'TokenBuilder' => 'Shetabit\\TokenBuilder\\Facade\\TokenBuilder',
+    ),
+  ),
   'tightenco/ziggy' => 
   array (
     'providers' => 
