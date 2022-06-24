@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use DB;
 use Hash;
 use App\User;
-
-use App\Http\Requests;
 
 class WebsiteController extends Controller
 {
@@ -50,6 +47,4 @@ class WebsiteController extends Controller
         }
         return response()->json(['response' => false]);
     }
-
-
 }

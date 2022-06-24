@@ -14,10 +14,9 @@
         }
     ],
     "require": {
-        "php": "^8.0.0",
+        "php": "^8.0.2",
         "austinb/gameq": "~3.0",
-        "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^1.0",
+        "fruitcake/laravel-cors": "^2.0",
         "graham-campbell/github": "^10.5",
         "guzzlehttp/guzzle": "^7.4",
         "http-interop/http-factory-guzzle": "^1.0",
@@ -25,23 +24,25 @@
         "innocenzi/laravel-vite": "^0.1.16",
         "kanalumaddela/laravel-steam-login": "^2.5",
         "knplabs/github-api": "^3.0",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^9.0",
         "laravel/tinker": "^2.0",
         "servo/fluidxml": "^1.20.3",
-        "tightenco/ziggy": "^1.4",
-        "shetabit/token-builder": "dev-master"
+        "shetabit/token-builder": "dev-master",
+        "spatie/laravel-csp": "^2.7",
+        "tightenco/ziggy": "^1.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
         "deployer/deployer": "^v7.0.0-rc.4",
         "deployer/recipes": "^6.0",
         "doctrine/dbal": "^2.10",
-        "facade/ignition": "^2.3.6",
         "fzaninotto/faker": "^1.9.1",
-        "laravel/sail": "^1.13",
+        "laravel/pint": "^0.1.7",
+        "laravel/sail": "^1.14",
         "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.0"
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.0",
+        "spatie/laravel-ignition": "^1.0"
     },
     "config": {
         "optimize-autoloader": true,

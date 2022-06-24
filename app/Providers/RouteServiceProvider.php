@@ -34,7 +34,7 @@ class RouteServiceProvider extends ServiceProvider
         /**
          * Allow user to be bound to "Key" or "Username"
          */
-        Route::bind('user', function($value) {
+        Route::bind('user', function ($value) {
             $user = User::where('key', $value)
                     ->orWhere('username', $value)
                     ->first();

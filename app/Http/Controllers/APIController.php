@@ -4,25 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Log, DB;
+use Log;
 use App\User;
 use Image;
-use AustinB\GameQ;
-use GuzzleHttp\Client;
-use Ehesp\SteamLogin\SteamLogin;
 use Exception;
 
 class APIController extends Controller
 {
-
     // 1.0.1 | Maintenance Mode
     public $version = "1.2.1";
 
-    public function index() {
+    public function index()
+    {
         return response()->json(['name' => 'Scarlet API', 'Version' => $this->version]);
     }
 
-    public function ip() {
+    public function ip()
+    {
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
         } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -34,9 +32,10 @@ class APIController extends Controller
         return response()->json(['ip' => $ip]);
     }
 
-    public function armaServer() {
+    public function armaServer()
+    {
 
-		// return response()->json("Awesome");
+        // return response()->json("Awesome");
         $servers = [
             [
                 'type'    => 'armedassault3',
@@ -55,7 +54,8 @@ class APIController extends Controller
         return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
     }
 
-    public function teamspeakServer() {
+    public function teamspeakServer()
+    {
         $servers = [
             [
                 'type'    => 'teamspeak3',
@@ -75,14 +75,15 @@ class APIController extends Controller
         return response(json_encode(($results), JSON_PARTIAL_OUTPUT_ON_ERROR))->header('Content-Type', 'application/json');
     }
 
-    public function add($username, $clanID, $type) {
+    public function add($username, $clanID, $type)
+    {
 
         /**
          * Add User to Eloquent Model
          */
         $user = new User();
         $user->username = $username;
-		$user->installDir = "";
+        $user->installDir = "";
         $user->key = md5(strtolower($username) . "E6hJ9X2AptWH6bqU32");
         $user->clanID = $clanID;
         $user->type = $type;
@@ -92,7 +93,7 @@ class APIController extends Controller
          */
         try {
             $user->save();
-        } catch(Exception $exception) {
+        } catch (Exception $exception) {
             /**
              * Catch duplicate entry exception
              */
@@ -104,11 +105,11 @@ class APIController extends Controller
         return response()->json($user);
     }
 
-    public function remove($id) {
-
+    public function remove($id)
+    {
         $user = User::find($id);
 
-        if($user) {
+        if ($user) {
             $user->delete();
             Log::info('Removed user ' . $user->username);
             return response()->json(["status" => "deleted"]);
@@ -122,19 +123,14 @@ class APIController extends Controller
         // Log
         Log::info('Fetching info(' . $var . ')');
 
-        if($var == "*")
-        {
+        if ($var == "*") {
             return response()->json(User::all()->toArray());
-        }
-        elseif(User::where('key', $var)->first())
-        {
+        } elseif (User::where('key', $var)->first()) {
             return response()->json(User::where('key', $var)->first()->toArray());
-        }
-        elseif(User::where('username', $var)->first())
-        {
+        } elseif (User::where('username', $var)->first()) {
             return response()->json(User::where('username', $var)->first()->toArray());
         }
-		return response()->json("Awesome");
+        return response()->json("Awesome");
     }
 
     public function install(Request $request, $key)
@@ -142,25 +138,25 @@ class APIController extends Controller
         // Log
         Log::info('Installing Directory for ' . $key . ': ' . $request->installDir);
 
-		$user = User::where('key', $key)->first();
+        $user = User::where('key', $key)->first();
 
-        if($user)
-        {
+        if ($user) {
             $user->installDir = $request->installDir;
 
-			try {
-				$user->save();
-			} catch(Exception $exception) {
-				/**
-				 * This should return a json value, but this means pushing another scarlet updater update. TODO
-				 * @return {[type] [description]
-				 */
-            	return response('');
-			}
+            try {
+                $user->save();
+            } catch (Exception $exception) {
+                /**
+                 * This should return a json value, but this means pushing another scarlet updater update. TODO
+                 * @return {[type] [description]
+                 */
+                return response('');
+            }
         }
     }
 
-    public function badge() {
+    public function badge()
+    {
         $img = Image::make(file_get_contents('https://img.shields.io/badge/Scarlet Version-' . $this->version . '-red.png?style=flat'));
 
         // create response and add encoded image data
@@ -172,5 +168,4 @@ class APIController extends Controller
         // output
         return $response;
     }
-
 }

@@ -15,12 +15,16 @@
                         Thank you {{ user.username }}
                     </h2>
                     <div class="block flex justify-center items-center">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg v-if="!youCanCloseThisWindowNow"  class="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        <p class="text-center text-sm text-gray-600">
+                        <p v-if="!youCanCloseThisWindowNow" class="text-center text-sm text-gray-600">
                             Redirecting you back to Scarlet now...
+                        </p>
+                        <p v-else class="text-center text-sm text-emerald-700">
+                            <CheckCircleIcon class="h-5 w-5 inline-block"/>
+                            You can now close this window.
                         </p>
                     </div>
                 </div>
@@ -30,30 +34,41 @@
 </template>
 
 <script lang="ts" setup>
-import {inject, onMounted} from 'vue';
+import {inject, onMounted, ref} from 'vue';
 import {User} from "@/scripts/downloader/downloader";
+import {CheckCircleIcon} from "@heroicons/vue/outline";
 
 const props = defineProps({
     user: Object as () => User,
     token: String,
 })
 
-onMounted(() => {
-    const route = inject('$route')
+/**
+ * Fuck I hate this hacky workaround so much
+ * "Scripts may not close windows that were not opened by script."
+ *
+ * https://stackoverflow.com/questions/19761241/window-close-and-self-close-do-not-close-the-window-in-chrome
+ */
+let youCanCloseThisWindowNow = ref(false)
 
+const $route = inject('$route')
+
+onMounted(() => {
     if(!props.user) {
         setTimeout(() => {
-            window.location.href = route('login');
+            window.location.href = $route('login');
         }, 2000)
     } else {
         setTimeout(() => {
             window.location.href = 'scarlet://' + props.token
             setTimeout(() => {
-                window.close()
-            }, 200)
+                // window.close()
+                youCanCloseThisWindowNow.value = true
+            }, 2000)
         }, 1000)
     }
 })
+
 </script>
 
 <style></style>

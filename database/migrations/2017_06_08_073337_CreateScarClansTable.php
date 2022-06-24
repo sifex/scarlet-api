@@ -14,7 +14,7 @@ class CreateScarClansTable extends Migration
     public function up()
     {
         Schema::create('clans', function (Blueprint $table) {
-			$table->increments('id');
+            $table->increments('id');
             $table->string('name')->nullable();
             $table->string('shortName')->nullable();
         });

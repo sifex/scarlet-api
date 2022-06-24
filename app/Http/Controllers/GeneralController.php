@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use GameQ\GameQ;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 
 class GeneralController extends Controller
@@ -98,7 +95,7 @@ class GeneralController extends Controller
      * @return array
      * @throws Exception
      */
-    private function getGameQDetails(string $server, string $game, array $options = []) : array
+    private function getGameQDetails(string $server, string $game, array $options = []): array
     {
         $servers = [
             'type'    => $game,

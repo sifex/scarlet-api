@@ -1,14 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\SteamLoginController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\AppController;
-use App\Http\Controllers\SteamController;
-use App\Http\Controllers\XMLController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
 
 Route::get('/', [AppController::class, 'home'])
     ->name('home');
@@ -29,17 +24,12 @@ Route::get('/browser/steam/verify', [AppController::class, 'browser_electron_ste
 Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'])
     ->name('electron.steam.verify');
 
-Route::middleware('auth')->group(function() {
+Route::post('@me', [UserController::class, 'update']);
 
-    Route::get('/about', [AppController::class, 'about'])
-        ->name('about');
+Route::middleware('auth')->group(function () {
     Route::get('/electron', [AppController::class, 'electron'])
         ->name('electron');
-
 });
 
-
 Route::match(['get', 'post'], 'logout', [SteamLoginController::class, 'logout'])
-
     ->name('logout');
-

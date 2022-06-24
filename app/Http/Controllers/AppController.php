@@ -2,20 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Auth;
 //use GitHub;
 use Carbon\Carbon;
 use GameQ\GameQ;
 use GrahamCampbell\GitHub\Facades\GitHub;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Shetabit\TokenBuilder\Facade\TokenBuilder;
-use TheSeer\Tokenizer\Token;
 
 class AppController extends Controller
 {
@@ -23,16 +18,10 @@ class AppController extends Controller
     {
         return Inertia::render('Home', [
             'user' => Auth::user(),
-            'scarlet_download' => Inertia::lazy(fn () =>
+            'scarlet_download' => Inertia::lazy(
+                fn () =>
                 Auth::check() ? $this->getLatestScarletDownloadLink() : ''
             )
-        ]);
-    }
-
-    public function about(): Response
-    {
-        return Inertia::render('About', [
-            'user' => Auth::user()
         ]);
     }
 
@@ -46,7 +35,9 @@ class AppController extends Controller
 
     public function electron_intro_screen(): Response|\Illuminate\Http\RedirectResponse
     {
-        if(Auth::check()) { return redirect()->route('electron'); }
+        if (Auth::check()) {
+            return redirect()->route('electron');
+        }
 
         return Inertia::render('ElectronIntroScreen');
     }
@@ -76,7 +67,7 @@ class AppController extends Controller
     {
         $token = TokenBuilder::setUniqueId($request->get('token'))->findValidToken();
 
-        if(!$token) {
+        if (!$token) {
             return redirect()->route('electron.intro');
         }
 
@@ -90,10 +81,12 @@ class AppController extends Controller
      */
     private function getLatestScarletDownloadLink(): string
     {
-        $github_release_information = GitHub::api('repo')->releases()->latest('sifex', 'scarlet');
+        $github_release_information = GitHub::connection('main')->api('repo')->releases()->latest('sifex', 'scarlet');
         $assets = collect($github_release_information)->get('assets');
         throw_if(sizeof($assets) === 0, \Exception::class, 'No current available Scarlet download link');
-        $download_asset = collect($assets)->filter(function($asset) { return str_ends_with($asset['name'], '.exe'); })->first();
+        $download_asset = collect($assets)->filter(function ($asset) {
+            return str_ends_with($asset['name'], '.exe');
+        })->first();
         return collect($download_asset)->get('browser_download_url');
     }
 

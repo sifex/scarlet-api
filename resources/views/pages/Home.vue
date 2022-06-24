@@ -1,7 +1,7 @@
 <template>
-    <div class="absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center p-4 md:p-12 font-weight-bolder">
-        <div class="min-h-full flex items-center justify-center py-12 px-2 sm:px-6 lg:px-8">
-            <div class="max-w-lg w-full space-y-4 bg-white rounded-xl px-4 py-4 md:px-8 shadow-2xl shadow-black">
+    <div class="absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center p-0 md:p-12 font-weight-bolder">
+        <div class="min-h-full flex items-center justify-center py-12 px-0 sm:px-6 lg:px-8">
+            <div class="max-w-lg w-full space-y-4 bg-white rounded-xl px-4 py-4 md:p-8 md:pt-0 shadow-2xl shadow-black">
                 <img class="mx-auto h-24 w-auto -mt-16" :src="aaf_logo" alt="Workflow" />
                 <div v-if="!user" class="space-y-4">
                     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-800">

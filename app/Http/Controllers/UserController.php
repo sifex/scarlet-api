@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -97,11 +98,13 @@ class UserController extends Controller
         return response()->json(['status' => 'deleted']);
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        $this->validate($request, $this->rules($user), $this->messages());
+        $user = Auth::user();
 
-        Log::info('Updating User ' . $user->username);
+//        $this->validate($request, $this->rules($user), $this->messages());
+
+//        Log::info('Updating User ' . $user->username);
 
         $user->fill(
             $request->only([
@@ -113,7 +116,6 @@ class UserController extends Controller
             ])
         )->save();
 
-
-        return response()->json($user->fresh());
+        return redirect()->route('electron');
     }
 }

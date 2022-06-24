@@ -1,4 +1,5 @@
-import { WebSocketServer } from 'ws';
+// import { WebSocketServer } from 'ws';
+let WebSocketServer = require('ws').WebSocketServer
 
 const wss = new WebSocketServer({ port: 2074 });
 
@@ -27,7 +28,7 @@ wss.on('connection', function connection(ws) {
                 ws.send('Browser|browserConfirmation')
             }, 500)
         } else if(data.startsWith('Updater|locationChange')) {
-            ws.send('Browser|UpdateInstallLocation|C:\\Users\\Alex\\Downloads')
+            ws.send('Browser|UpdateInstallLocation|C:\\Users\\Alex123\\Downloads')
         } else if(data.startsWith('Updater|startDownload')) {
             let progress = 0
 

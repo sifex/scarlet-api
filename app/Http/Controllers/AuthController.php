@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Reponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -33,10 +32,9 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
         $username = $request->input('username');
 
-        if (User::where('username', $username)->first() != NULL) {
+        if (User::where('username', $username)->first() != null) {
             $request->session()->put('username', $username);
             $request->session()->save();
             return redirect('/');
@@ -47,14 +45,12 @@ class AuthController extends Controller
 
     public function loginToElectron(Request $request)
     {
-
         $username = $request->input('username');
 
-        if (User::where('username', $username)->first() != NULL) {
+        if (User::where('username', $username)->first() != null) {
             $request->session()->put('username', $username);
             $request->session()->save();
             return response()->make('', 302)->header('Location', 'http://australianarmedforces.org/mods/electron/' . '?username=' . $username);
-
         } else {
             return redirect('/key/electron/');
         }
