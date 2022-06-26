@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Auth;
 //use GitHub;
 use Carbon\Carbon;
@@ -46,6 +47,7 @@ class AppController extends Controller
     {
         return Inertia::render('Admin', [
             'user' => Auth::user(),
+            'all_users' => User::all()
         ]);
     }
 
