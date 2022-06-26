@@ -14,7 +14,6 @@ Route::get('login/steam', [SteamLoginController::class, 'login'])
 Route::get('auth/steam', [SteamLoginController::class, 'authenticate'])
     ->name('auth.steam'); // callback route when returning from steam
 
-
 Route::get('/electron/intro', [AppController::class, 'electron_intro_screen'])
     ->name('electron.intro');
 
@@ -29,6 +28,9 @@ Route::post('@me', [UserController::class, 'update']);
 Route::middleware('auth')->group(function () {
     Route::get('/electron', [AppController::class, 'electron'])
         ->name('electron');
+
+    Route::get('/admin', [AppController::class, 'admin'])
+        ->name('admin');
 });
 
 Route::match(['get', 'post'], 'logout', [SteamLoginController::class, 'logout'])

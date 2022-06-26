@@ -4,3 +4,22 @@
 @tailwind components;
 @tailwind utilities;
 
+
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+html {
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
+    border-radius: 4px;
+}
+
+/**, a, button {*/
+/*    cursor: default;*/
+/*    user-select: none;*/
+/*}*/

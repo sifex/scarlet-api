@@ -1,24 +1,13 @@
 <template>
     <div
         class="font-[Exo_2] absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center font-weight-bolder select-none">
-        <div id="drag" class="fixed w-full h-48 -mt-10 -mb-32 r-10 opacity-5 z-10 pointer-events-none"
-             style="-webkit-user-select: none; -webkit-app-region: drag;"></div>
-        <div v-if="isElectron" id="window-buttons" class="fixed top-0 right-0 z-10" style="-webkit-app-region: no-drag">
-            <div @click="minimise" id="minimise"
-                 class="m-0 bg-white/5 inline-block w-20 h-7 text-center text-white cursor-default hover:bg-white/20 hover:text-white align-middle transition-colors">
-                _
-            </div>
-            <div @click="close" id="close"
-                 class="m-0 bg-black/60 inline-block w-20 h-7 text-center text-white cursor-default hover:bg-red-500 hover:text-white align-middle transition-colors">
-                ✕
-            </div>
-        </div>
+        <ElectronDownloader></ElectronDownloader>
 
         <div class="flex flex-col h-full">
             <div class="flex pt-8 pb-6">
                 <div class="flex-none pl-10">
                     <div id="logo">
-                        <img :src="aaf_logo_2x" alt="" height="91" width="266">
+                        <img draggable="false" :src="aaf_logo_2x" alt="" height="91" width="266">
                     </div>
                 </div>
                 <div class="grow"></div>
@@ -27,7 +16,7 @@
                             :color="Object.keys(arma_server).length !== 0"></status>
                     <status title="Scarlet Updater"
                             :color="!([ClientStatus.Error, ClientStatus.Disconnected].includes(downloader.client.status))"></status>
-                    
+
                 </div>
             </div>
             <div id="banner" class="grow relative">
@@ -113,6 +102,7 @@ import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
 import ScarletDownloader, {Status as ClientStatus, User} from '@/scripts/downloader/downloader'
 import Status from '@/views/components/status.vue'
+import ElectronDownloader from '@/views/components/electron-toolbar.vue'
 
 const props = defineProps({
     user: {
@@ -146,22 +136,9 @@ let updater = reactive({
 
 /** Get ARMA details */
 onMounted(() => {
-    Inertia.reload({only: ['arma_server']})
     stateDisconnected()
+    Inertia.reload({only: ['arma_server']})
 })
-
-/**
- * Electron Controls
- */
-let isElectron = ref(typeof require !== "undefined")
-
-function close() {
-    require('electron').ipcRenderer.send('close')
-}
-
-function minimise() {
-    require('electron').ipcRenderer.send('minimise')
-}
 
 /**
  * Agent Controls

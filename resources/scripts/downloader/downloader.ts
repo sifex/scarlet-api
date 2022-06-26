@@ -27,11 +27,9 @@ export enum Status {
 }
 
 /**
- *
  * Scarlet Downloader Class – in charge of
  * - Holding the current state of the Agent
  * - Providing an abstraction layer to communicate with the Agent
- *
  *
  */
 
@@ -50,6 +48,7 @@ export default class ScarletDownloader extends EventEmitter {
         super()
 
         this.user = user
+
         this.client = {
             status: Status.Disconnected,
             currentFile: '',
@@ -57,7 +56,7 @@ export default class ScarletDownloader extends EventEmitter {
         }
     }
 
-    init() {
+    init() : void {
         this.initialiseWebsockets(this.websocket_endpoint)
     }
 
@@ -151,7 +150,7 @@ export default class ScarletDownloader extends EventEmitter {
      */
 
     showLocationDialog() {
-        this.send('locationChange', ' 123')
+        this.send('locationChange', '')
     }
 
     startDownload() {

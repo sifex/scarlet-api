@@ -42,6 +42,13 @@ class AppController extends Controller
         return Inertia::render('ElectronIntroScreen');
     }
 
+    public function admin(): Response
+    {
+        return Inertia::render('Admin', [
+            'user' => Auth::user(),
+        ]);
+    }
+
     /**
      * @param Request $request
      * @return Response
