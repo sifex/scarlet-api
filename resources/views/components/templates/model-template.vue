@@ -11,6 +11,5 @@
 </template>
 
 <script lang="ts" setup>
-import aaf_logo from '@/images/logo.png'
-</script>
+import aaf_logo from '@/images/logo.png'</script>
 

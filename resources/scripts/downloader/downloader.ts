@@ -7,7 +7,7 @@ export interface User {
     installDir?: string
     key?: string
     remark?: string
-    steamID: string
+    playerID: string
     'type'?: string
     username: string
 }

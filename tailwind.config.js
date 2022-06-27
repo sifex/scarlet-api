@@ -20,6 +20,10 @@ module.exports = {
         },
     },
     plugins: [
+        require("@tailwindcss/forms")({
+            strategy: 'base', // only generate global styles
+            // strategy: 'class', // only generate classes
+        }),
         plugin(function ({ addVariant }) {
             // Add a `third` variant, ie. `third:pb-0`
             addVariant('retina', '@media (-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi)')

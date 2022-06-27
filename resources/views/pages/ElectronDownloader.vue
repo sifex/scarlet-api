@@ -96,7 +96,7 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, reactive, ref} from 'vue';
+import {onMounted, reactive} from 'vue';
 import LoadingBar from '@/views/components/loading-bar.vue';
 import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
@@ -105,7 +105,7 @@ import Status from '@/views/components/status.vue'
 import ElectronDownloader from '@/views/components/electron-toolbar.vue'
 
 const props = defineProps({
-    user: {
+    current_user: {
         type: Object as () => User,
         default: {username: '', steamID: ''}
     },
@@ -115,12 +115,12 @@ const props = defineProps({
     }
 })
 
-let downloader = reactive(new ScarletDownloader(props.user))
+let downloader = reactive(new ScarletDownloader(props.current_user))
 downloader.init()
 
 let updater = reactive({
     statusColor: "sky",
-    status: "Hello " + props.user.username,
+    status: "Hello " + props.current_user.username,
     file: '',
     buttons: {
         start: {
@@ -151,7 +151,7 @@ function changeInstallLocation() {
 
 function toggleDownload() {
     // window.startDownload = downloader.startDownload
-    if (props.user?.installDir && updater.buttons.start.enabled) {
+    if (props.current_user?.installDir && updater.buttons.start.enabled) {
         if (downloader.client.status === ClientStatus.Ready) {
             downloader.startDownload()
         } else if (downloader.client.status === ClientStatus.Downloading) {
@@ -171,14 +171,14 @@ function stateDisconnected() {
 }
 
 function stateReady() {
-    updater.status = "Hello " + props.user.username
+    updater.status = "Hello " + props.current_user.username
     updater.buttons.start.label = "Start Download";
     if (!props.user?.installDir) {
         updater.buttons.start.enabled = false
         updater.file = 'Please set your installation directory.'
     } else {
         updater.buttons.start.enabled = true
-        updater.file = "Current Install Location is: " + props.user.installDir + "\\@Mods_AAF"
+        updater.file = "Current Install Location is: " + props.current_user.installDir + "\\@Mods_AAF"
     }
     updater.buttons.changeLocation.enabled = true
     updater.statusColor = 'sky'
@@ -217,7 +217,7 @@ downloader.on('updateInstallerLocation', evt => {
     }, {
         // preserveState: false
         onSuccess: () => {
-            Inertia.reload({only: ['user']})
+            Inertia.reload({only: ['current_user']})
             downloader.fire('ready')
         }
     })

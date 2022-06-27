@@ -1,6 +1,6 @@
 <template>
     <model-template>
-        <div v-if="!user" class="px-8 pb-8 space-y-4">
+        <div v-if="!current_user" class="px-8 pb-8 space-y-4">
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-800">
                 Sign in to Scarlet
             </h2>
@@ -15,7 +15,7 @@
         </div>
         <div v-else class="px-8 pb-8 space-y-4">
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-800">
-                Welcome <span class="text-indigo-500">{{ user.username }}</span>.
+                Welcome <span class="text-indigo-500">{{ current_user.username }}</span>.
             </h2>
             <p class="text-center text-sm text-gray-400 bold !-mt-0 block">
                 Scarlet has been updated to provide a better user-experience.
@@ -39,6 +39,12 @@
                 </a>
             </div>
 
+            <Link
+                class="grow block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-rose-500 text-white hover:bg-rose-700 hover:text-white transition-colors"
+                :href="$route('admin.usermanagement')">
+                Go to Admin Page
+                <ChevronRightIcon class="inline-block h-4 w-4"/>
+            </Link>
 
             <div class="sm:flex space-y-4 sm:space-y-0 sm:space-x-4">
                 <Link
@@ -70,7 +76,7 @@ import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ModelTemplate from "@/views/components/templates/model-template.vue";
 
 const props = defineProps({
-    user: Object as () => User,
+    current_user: Object as () => User,
     scarlet_download: {
         type: String,
         default: ''

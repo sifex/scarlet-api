@@ -23,16 +23,13 @@
 <script lang="ts" setup>
 import {User} from "@/scripts/downloader/downloader";
 
-const props = defineProps({
-    user: {
-        type: Object as () => User,
-        default: {username: '', steamID: ''}
-    }
-})
+const props = defineProps<{
+    current_user: User
+}>()
 
 function open_steam_browser_login() {
-    // noinspection ES6ConvertRequireIntoImport
-    require('electron').ipcRenderer.send('steam_login')
+    alert('to implement')
+    // TODO
 }
 </script>
 

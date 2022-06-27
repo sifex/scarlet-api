@@ -14,10 +14,6 @@ img {
     pointer-events: none;
 }
 
-html {
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont;
-    border-radius: 4px;
-}
 
 /**, a, button {*/
 /*    cursor: default;*/

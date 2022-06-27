@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { appWindow } from '@tauri-apps/api/window'
+import {appWindow} from '@tauri-apps/api/window'
 import {onMounted, ref} from "vue";
 
 let ready = ref(false)

@@ -31,6 +31,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin', [AppController::class, 'admin'])
         ->name('admin');
+
+    Route::get('/admin/user-management/', [AppController::class, 'admin_user_management'])
+        ->name('admin.usermanagement');
+
+    Route::get('/admin/user-management/{user}', [AppController::class, 'manage_user'])
+        ->name('admin.usermanagement.user');
 });
 
 Route::match(['get', 'post'], 'logout', [SteamLoginController::class, 'logout'])

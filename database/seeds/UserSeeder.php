@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            'username' => 'Omega',
             'clanID' => 2,
             'type' => 'member'
         ]);
