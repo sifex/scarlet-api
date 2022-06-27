@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import {User} from "@/scripts/downloader/downloader";
+import {User} from "@/scripts/downloader/user";
 
 const props = defineProps<{
     current_user: User

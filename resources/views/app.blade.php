@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://kit.fontawesome.com/69f0ac79ec.js" async crossorigin="anonymous"></script>
     <title>Laravel</title>
     @routes(null, csp_nonce())
     @vite

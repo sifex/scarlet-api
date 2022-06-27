@@ -43,27 +43,6 @@ class AppController extends Controller
         return Inertia::render('ElectronIntroScreen');
     }
 
-    public function admin()
-    {
-        return redirect()->route('admin.usermanagement');
-    }
-
-    public function admin_user_management(): Response
-    {
-        return Inertia::render('Admin/UserManagement', [
-            'current_user' => Auth::user(),
-            'all_users' => User::all()
-        ]);
-    }
-
-    public function manage_user(User $user): Response
-    {
-        return Inertia::render('Admin/ManageUser', [
-            'current_user' => Auth::user(),
-            'user' => $user
-        ]);
-    }
-
     /**
      * @param Request $request
      * @return Response

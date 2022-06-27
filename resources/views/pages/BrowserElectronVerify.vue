@@ -35,8 +35,8 @@
 
 <script lang="ts" setup>
 import {inject, onMounted, ref} from 'vue';
-import {User} from "@/scripts/downloader/downloader";
 import {CheckCircleIcon} from "@heroicons/vue/outline";
+import {User} from "@/scripts/downloader/user";
 
 const props = defineProps({
     user: Object as () => User,

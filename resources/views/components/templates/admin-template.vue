@@ -3,7 +3,7 @@
         class="absolute h-full w-full bg-slate-950 bg-cover bg-center font-weight-bolder">
 
         <nav class="bg-gradient-to-r from-[#c42d4d] to-[#df4c49] pb-64">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-1 border-slate-300/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 border-b border-1 border-slate-300/20">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -72,14 +72,16 @@
             </div>
         </nav>
         <div class="max-w-7xl mx-auto -mt-56">
-            <div id="title" class="mb-6 px-4 sm:px-6 lg:px-8">
-                <slot name="title"></slot>
-            </div>
+            <div class="mx-4">
+                <div id="title" class="mb-6 px-4 sm:px-6 lg:px-10">
+                    <slot name="title"></slot>
+                </div>
 
-            <slot></slot>
+                <slot></slot>
+            </div>
         </div>
 
-        <div class="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8 mt-6 mb-20">
+        <div class="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-10 mt-6 mb-20">
             <span id="copyright" class="text-sm text-slate-700">Copyright &copy; 2022 Australian Armed Forces</span>
         </div>
 
@@ -91,12 +93,11 @@ import {inject, ref} from 'vue';
 import {ChevronLeftIcon} from '@heroicons/vue/solid'
 import {Link} from '@inertiajs/inertia-vue3'
 
-import {User} from "@/scripts/downloader/downloader";
+import {User} from "@/scripts/downloader/user";
 
 const props = defineProps<{
     current_user: User
 }>()
-
 
 let $route = inject('$route')
 

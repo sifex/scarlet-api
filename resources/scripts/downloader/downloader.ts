@@ -1,16 +1,6 @@
 import {EventEmitter} from "@billjs/event-emitter";
 import {backOff} from "exponential-backoff";
-
-export interface User {
-    clanID?: string
-    comment?: string
-    installDir?: string
-    key?: string
-    remark?: string
-    playerID: string
-    'type'?: string
-    username: string
-}
+import {User} from "@/scripts/downloader/user";
 
 type ScarletClient = {
     status: Status,

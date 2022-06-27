@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\SteamLoginController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\UserController;
@@ -23,19 +24,17 @@ Route::get('/browser/steam/verify', [AppController::class, 'browser_electron_ste
 Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'])
     ->name('electron.steam.verify');
 
-Route::post('@me', [UserController::class, 'update']);
-
 Route::middleware('auth')->group(function () {
     Route::get('/electron', [AppController::class, 'electron'])
         ->name('electron');
 
-    Route::get('/admin', [AppController::class, 'admin'])
+    Route::get('/admin', [AdminController::class, 'admin'])
         ->name('admin');
 
-    Route::get('/admin/user-management/', [AppController::class, 'admin_user_management'])
+    Route::get('/admin/user-management/', [AdminController::class, 'admin_user_management'])
         ->name('admin.usermanagement');
 
-    Route::get('/admin/user-management/{user}', [AppController::class, 'manage_user'])
+    Route::get('/admin/user-management/{user}', [AdminController::class, 'manage_user'])
         ->name('admin.usermanagement.user');
 });
 

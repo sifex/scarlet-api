@@ -100,9 +100,10 @@ import {onMounted, reactive} from 'vue';
 import LoadingBar from '@/views/components/loading-bar.vue';
 import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
-import ScarletDownloader, {Status as ClientStatus, User} from '@/scripts/downloader/downloader'
+import ScarletDownloader, {Status as ClientStatus} from '@/scripts/downloader/downloader'
 import Status from '@/views/components/status.vue'
 import ElectronDownloader from '@/views/components/electron-toolbar.vue'
+import {User} from "@/scripts/downloader/user";
 
 const props = defineProps({
     current_user: {

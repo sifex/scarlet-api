@@ -4,11 +4,14 @@ namespace App\Enum;
 
 enum UserRole:string
 {
-    case LEADER = 'LEADER';
-    case STAFF = 'STAFF';
-    case MEMBER = 'MEMBER';
-    case RECRUIT = 'RECRUIT';
-    case APPLICANT = 'APPLICANT';
-    case SPECIAL = 'SPECIAL';
-    case ZSU = 'ZSU';
+    case LEADER = 'leader';
+    case STAFF = 'staff';
+    case MEMBER = 'member';
+    case RECRUIT = 'recruit';
+    case APPLICANT = 'applicant';
+    case SPECIAL = 'special';
+    case ZSU = 'zsu';
+    case VETERAN = 'veteran';
 }
+
+

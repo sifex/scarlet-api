@@ -69,19 +69,14 @@ import {ChevronRightIcon, DownloadIcon} from '@heroicons/vue/solid'
 import {Inertia} from "@inertiajs/inertia";
 import {Link} from '@inertiajs/inertia-vue3'
 
-import {User} from "@/scripts/downloader/downloader";
-
-
 import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ModelTemplate from "@/views/components/templates/model-template.vue";
+import {User} from "@/scripts/downloader/user";
 
-const props = defineProps({
-    current_user: Object as () => User,
-    scarlet_download: {
-        type: String,
-        default: ''
-    }
-})
+const props = defineProps<{
+    current_user: User,
+    scarlet_download: string
+}>()
 
 onMounted(() => {
     setTimeout(() => {

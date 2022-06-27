@@ -7,7 +7,7 @@
                     User Management
                 </Link>
                 <span class="text-slate-200/40">
-                    <ChevronRightIcon class="inline-block h-10 w-10 text-white/30"></ChevronRightIcon>
+                    <ChevronRightIcon class="inline-block w-9 text-white/30 -mb-1.5 -mt-1.5"></ChevronRightIcon>
                 </span>
                 {{ user.username }}
             </h1>
@@ -21,11 +21,11 @@
 import {computed, inject, onMounted, reactive, ref} from 'vue';
 import {SelectorIcon, CheckIcon, XIcon, ChevronRightIcon} from '@heroicons/vue/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
-import {User} from "@/scripts/downloader/downloader";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
 import MemberTypeBadge from '@/views/components/member-type-badge.vue'
 import Fuse from "fuse.js";
 import {Link} from "@inertiajs/inertia-vue3";
+import {User} from "@/scripts/downloader/user";
 
 const props = defineProps<{
     current_user: User,
