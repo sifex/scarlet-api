@@ -73,9 +73,12 @@ import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ModelTemplate from "@/views/components/templates/model-template.vue";
 import {User} from "@/scripts/downloader/user";
 
-const props = defineProps<{
+const {
+    current_user,
+    scarlet_download = ''
+} = defineProps<{
     current_user: User,
-    scarlet_download: string
+    scarlet_download?: string
 }>()
 
 onMounted(() => {

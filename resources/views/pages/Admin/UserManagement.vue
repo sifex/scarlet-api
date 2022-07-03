@@ -10,8 +10,8 @@
                     <h2 class="text-2xl text-slate-700 pb-8 font-exo">Existing Users</h2>
                 </div>
                 <div class=" -mt-5 basis-1/4">
-                    <label for="first-name" class="block text-sm font-medium text-gray-700">Search</label>
-                    <input v-model="search_term" type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    <label for="search_term" class="block text-sm font-medium text-gray-700">Search</label>
+                    <input v-model="search_term" type="text" name="search_term" id="search_term" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                 </div>
             </div>
 
@@ -38,7 +38,10 @@
                 </div>
             </div>
 
-            <div class="group flex items-center gap-4 block h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl" v-for="user in all_filtered_users">
+            <div
+                v-for="user in all_filtered_users"
+                class="group flex items-center gap-4 block h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl">
+
                 <div class="basis-2/12 truncate pl-4">
                     {{ user.item.username }}
                 </div>
@@ -77,7 +80,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, inject, onMounted, reactive, ref} from 'vue';
+import {computed, ComputedRef, inject, onMounted, reactive, ref} from 'vue';
 import {SelectorIcon, CheckIcon, XIcon, ChevronUpIcon} from '@heroicons/vue/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
@@ -87,49 +90,54 @@ import {Link} from "@inertiajs/inertia-vue3";
 import {User} from "@/scripts/downloader/user";
 import {Inertia} from "@inertiajs/inertia";
 
-const {current_user, all_users = []} = defineProps<{
+const props = defineProps<{
     current_user: User,
-    all_users: [User],
+    all_users?: User[],
 }>()
 
-
+/**
+ * Turn User[] into {item: User}[]
+ */
+let all_mapped_users = computed(() =>
+    (props.all_users ?? []).map((user) => ({
+        'item': user
+    }))
+)
 
 /**
  * Search
  * This is showing all search result'ed users
  */
-
 let search_term = ref('')
 
-let fuse = new Fuse(all_users, {
+let fuse = computed(() => new Fuse((props.all_users ?? []), {
     threshold: .4,
     includeScore: true,
     keys: ['username']
-})
+}))
 
-const all_filtered_users = computed(() => {
+let all_filtered_users = computed(() => {
     return search_term.value !== ''
-        ? fuse.search(search_term.value)
-        : all_users.map((user) => ({'item': user}))
+        ? fuse.value.search(search_term.value)
+        : all_mapped_users.value
 })
-
 
 
 onMounted(() => {
     Inertia.reload({only: ['all_users']})
 
-    /**
-     * Table Sorting
-     */
-    let sort_key: keyof User = 'type'
-    let sort_asc = 'asc'
-
-    let all_sorted_users = computed(() => {
-        return all_users.sort((a: User, b: User) => {
-            //@ts-ignore
-            return a[sort_key] < b[sort_key] ? -1 : 1
-        })
-    })
+    // /**
+    //  * Table Sorting
+    //  */
+    // let sort_key: keyof User = 'type'
+    // let sort_asc = 'asc'
+    //
+    // all_sorted_users = computed(() => {
+    //     return all_users.sort((a: User, b: User) => {
+    //         //@ts-ignore
+    //         return a[sort_key] < b[sort_key] ? -1 : 1
+    //     })
+    // })
 
 })
 

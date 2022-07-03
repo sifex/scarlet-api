@@ -24,6 +24,8 @@ Route::get('/browser/steam/verify', [AppController::class, 'browser_electron_ste
 Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'])
     ->name('electron.steam.verify');
 
+Route::post('@me', [UserController::class, 'update']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/electron', [AppController::class, 'electron'])
         ->name('electron');
