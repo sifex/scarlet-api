@@ -6,10 +6,10 @@
 
         <div class="bg-white rounded-lg min-h-full py-10 px-4 sm:px-6 lg:px-10">
             <div class="flex">
-                <div class=" basis-3/4">
+                <div class="basis-full lg:basis-3/4">
                     <h2 class="text-2xl text-slate-700 pb-8 font-exo">Existing Users</h2>
                 </div>
-                <div class=" -mt-5 basis-1/4">
+                <div class="-mt-5 basis-full lg:basis-1/4">
                     <label for="search_term" class="block text-sm font-medium text-gray-700">Search</label>
                     <input v-model="search_term" type="text" name="search_term" id="search_term" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                 </div>
@@ -20,6 +20,14 @@
                     Username
                 </div>
 
+                <div class="basis-1/12 font-medium text-slate-500 text-left">
+                    Player ID
+                </div>
+
+                <div class="basis-1/12 font-medium text-slate-500 text-left">
+                    Role / Type
+                </div>
+
                 <div class="basis-1/12 font-medium text-slate-500 text-center">
                     Installed
                 </div>
@@ -28,11 +36,7 @@
                     Installation Directory
                 </div>
 
-                <div class="basis-1/12 font-medium text-slate-500 text-left">
-                    Role / Type
-                </div>
-
-                <div class="basis-3/12 font-medium text-slate-500 text-right pr-4">
+                <div class="basis-4/12 font-medium text-slate-500 text-right pr-4">
 
 
                 </div>
@@ -45,6 +49,12 @@
                 <div class="basis-2/12 truncate pl-4">
                     {{ user.item.username }}
                 </div>
+                <div class="basis-1/12 truncate text-sm">
+                    {{ user.item.playerID }}
+                </div>
+                <div class="basis-1/12 truncate">
+                    <MemberTypeBadge class="w-full text-center" :type="MemberType[user.item.type]"></MemberTypeBadge>
+                </div>
                 <div class="basis-1/12 text-center truncate">
                     <template v-if="user.item.installDir">
                         <CheckIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-emerald-500"></CheckIcon>
@@ -53,13 +63,10 @@
                         <XIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XIcon>
                     </template>
                 </div>
-                <div class="basis-5/12 truncate">
+                <div class="basis-5/12 truncate text-sm">
                     {{ user.item.installDir }}
                 </div>
-                <div class="basis-1/12 truncate">
-                    <MemberTypeBadge class="w-full text-center" :type="MemberType[user.item.type]"></MemberTypeBadge>
-                </div>
-                <div class="basis-3/12 text-slate-600 text-right pr-4">
+                <div class="basis-4/12 text-slate-600 text-right pr-4">
                     <div class="flex">
                         <div class="grow"></div>
                         <button
@@ -111,7 +118,7 @@ let all_mapped_users = computed(() =>
 let search_term = ref('')
 
 let fuse = computed(() => new Fuse((props.all_users ?? []), {
-    threshold: .4,
+    threshold: .3,
     includeScore: true,
     keys: ['username']
 }))
@@ -138,7 +145,6 @@ onMounted(() => {
     //         return a[sort_key] < b[sort_key] ? -1 : 1
     //     })
     // })
-
 })
 
 let $route = inject('$route')

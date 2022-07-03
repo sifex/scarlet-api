@@ -8,7 +8,10 @@ createInertiaApp({
     resolve: name => import(`../views/pages/${name}.vue`),
     // @ts-ignore
     setup({ el, App, props, plugin }) {
-        const app = createApp({ render: () => h(App, props) })
+        const app = createApp({
+            render: () => h(App, props) }
+        )
+
         // @ts-ignore
         app.provide('$route', window.route)
         app.use(plugin)

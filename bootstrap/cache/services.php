@@ -38,10 +38,11 @@
     34 => 'Spatie\\Csp\\CspServiceProvider',
     35 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     36 => 'Tightenco\\Ziggy\\ZiggyServiceProvider',
-    37 => 'App\\Providers\\AppServiceProvider',
-    38 => 'App\\Providers\\AuthServiceProvider',
-    39 => 'App\\Providers\\EventServiceProvider',
-    40 => 'App\\Providers\\RouteServiceProvider',
+    37 => 'Webpatser\\Uuid\\UuidServiceProvider',
+    38 => 'App\\Providers\\AppServiceProvider',
+    39 => 'App\\Providers\\AuthServiceProvider',
+    40 => 'App\\Providers\\EventServiceProvider',
+    41 => 'App\\Providers\\RouteServiceProvider',
   ),
   'eager' => 
   array (
@@ -67,10 +68,11 @@
     19 => 'Spatie\\Csp\\CspServiceProvider',
     20 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     21 => 'Tightenco\\Ziggy\\ZiggyServiceProvider',
-    22 => 'App\\Providers\\AppServiceProvider',
-    23 => 'App\\Providers\\AuthServiceProvider',
-    24 => 'App\\Providers\\EventServiceProvider',
-    25 => 'App\\Providers\\RouteServiceProvider',
+    22 => 'Webpatser\\Uuid\\UuidServiceProvider',
+    23 => 'App\\Providers\\AppServiceProvider',
+    24 => 'App\\Providers\\AuthServiceProvider',
+    25 => 'App\\Providers\\EventServiceProvider',
+    26 => 'App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (

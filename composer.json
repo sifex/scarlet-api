@@ -29,7 +29,8 @@
         "servo/fluidxml": "^1.20.3",
         "shetabit/token-builder": "dev-master",
         "spatie/laravel-csp": "^2.7",
-        "tightenco/ziggy": "^1.4"
+        "tightenco/ziggy": "^1.4",
+        "webpatser/laravel-uuid": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

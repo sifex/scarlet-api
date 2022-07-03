@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Shetabit\TokenBuilder\Traits\HasTemporaryTokens;
+use Uuid;
+
 
 class User extends Authenticatable
 {
@@ -58,4 +60,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'type' => UserRole::class
     ];
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    /**
+     *  Setup model event hooks
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string) Uuid::generate(4);
+        });
+    }
 }
