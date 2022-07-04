@@ -30,9 +30,7 @@
         "shetabit/token-builder": "dev-master",
         "spatie/laravel-csp": "^2.7",
         "tightenco/ziggy": "^1.4",
-        "webpatser/laravel-uuid": "^4.0"
-    },
-    "require-dev": {
+        "webpatser/laravel-uuid": "^4.0",
         "barryvdh/laravel-ide-helper": "^2.6",
         "deployer/deployer": "^v7.0.0-rc.4",
         "deployer/recipes": "^6.0",
@@ -45,6 +43,8 @@
         "pestphp/pest-plugin-laravel": "^1.2",
         "phpunit/phpunit": "^9.0",
         "spatie/laravel-ignition": "^1.0"
+    },
+    "require-dev": {
     },
     "config": {
         "optimize-autoloader": true,
