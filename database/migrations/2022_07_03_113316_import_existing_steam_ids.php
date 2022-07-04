@@ -20,7 +20,7 @@ return new class extends Migration {
             /** @var User $user */
             foreach ($users as $user) {
                 foreach (self::EXISTING_SQUAD_USERS as $playerID => $squad_user) {
-                    if ($user->username === $squad_user['name'] || $user->username === $squad_user['nick']) {
+                    if (strtolower($user->username) === strtolower($squad_user['name']) || strtolower($user->username) === strtolower($squad_user['nick'])) {
                         $user->update([
                             'playerID' => $playerID,
                             'remark' => $squad_user['remark'],
@@ -46,7 +46,7 @@ return new class extends Migration {
             /** @var User $user */
             foreach ($users as $user) {
                 foreach (self::EXISTING_SQUAD_USERS as $playerID => $squad_user) {
-                    if ($user->username === $squad_user['name'] || $user->username === $squad_user['nick']) {
+                    if (strtolower($user->username) === strtolower($squad_user['name']) || strtolower($user->username) === strtolower($squad_user['nick'])) {
                         $user->update([
                             'playerID' => null,
                             'remark' => null,
