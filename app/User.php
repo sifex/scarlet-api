@@ -33,15 +33,15 @@ class User extends Authenticatable
     /**
      * Visible
      */
-    protected $visible = [
-        'uuid',
-        'username',
-        'installDir',
-        'type',
-        'playerID',
-        'comment',
-        'remark'
-    ];
+//    protected $visible = [
+//        'uuid',
+//        'username',
+//        'installDir',
+//        'type',
+//        'playerID',
+//        'comment',
+//        'remark'
+//    ];
 
     /**
      * The attributes that should be hidden for arrays.

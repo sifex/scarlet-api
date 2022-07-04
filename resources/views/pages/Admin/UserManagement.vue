@@ -32,7 +32,7 @@
                     Installed
                 </div>
 
-                <div class="basis-5/12 font-medium text-slate-500 text-left">
+                <div class="basis-5/12 font-medium text-slate-500 text-left hidden md:block">
                     Installation Directory
                 </div>
 
@@ -42,18 +42,18 @@
                 </div>
             </div>
 
-            <div
+            <Link :href="$route('admin.user.show', { user: user.item.uuid })"
                 v-for="user in all_filtered_users"
-                class="group flex items-center gap-4 block h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl">
+                class="group flex flex-col md:flex-row md:items-center md:gap-4 md:h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl">
 
-                <div class="basis-2/12 truncate pl-4">
+                <div class="basis-2/12 truncate md:pl-4">
                     {{ user.item.username }}
                 </div>
                 <div class="basis-1/12 truncate text-sm">
                     {{ user.item.playerID }}
                 </div>
                 <div class="basis-1/12 truncate">
-                    <MemberTypeBadge class="w-full text-center" :type="MemberType[user.item.type]"></MemberTypeBadge>
+                    <MemberTypeBadge class="md:w-full text-center" :type="MemberType[user.item.type]"></MemberTypeBadge>
                 </div>
                 <div class="basis-1/12 text-center truncate">
                     <template v-if="user.item.installDir">
@@ -63,25 +63,15 @@
                         <XIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XIcon>
                     </template>
                 </div>
-                <div class="basis-5/12 truncate text-sm">
+                <div class="basis-5/12 truncate text-sm hidden md:block">
                     {{ user.item.installDir }}
                 </div>
                 <div class="basis-4/12 text-slate-600 text-right pr-4">
                     <div class="flex">
-                        <div class="grow"></div>
-                        <button
-                            v-if="user.item.type.toUpperCase() === MemberType.applicant.toUpperCase()"
-                            class="group bg-slate-300 p-1 -my-1 ml-2 rounded px-2 uppercase font-semibold text-xs hover:text-white hover:bg-slate-600 transition-colors">
-                            <ChevronUpIcon class="inline-block h-4 w-4 mr-1 -ml-1 text-slate-500 group-hover:text-white transition-colors"></ChevronUpIcon>
-                            Promote to Member
-                        </button>
-                        <Link :href="$route('admin.user.edit', { user: user.item.uuid })"
-                            class="bg-slate-100 -my-1 ml-2 rounded py-2 px-3 uppercase font-semibold text-xs hover:text-white hover:bg-slate-600 transition-colors">
-                            Edit
-                        </Link>
+
                     </div>
                 </div>
-            </div>
+            </Link>
         </div>
     </admin-template>
 </template>

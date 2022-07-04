@@ -1,6 +1,6 @@
 <template>
     <span
-        class="inline-block uppercase text-xs font-bold rounded py-0.5 px-1.5 text-white"
+        class="inline-block uppercase text-xs font-bold rounded py-0.5 px-2 text-white"
         :class="TypeColors[type]">
         {{ type }}
     </span>

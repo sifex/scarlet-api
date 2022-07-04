@@ -91,7 +91,7 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-        return Inertia::render('Admin/ManageUser', [
+        return Inertia::render('Admin/ViewUser', [
             'current_user' => Auth::user(),
             'user' => $user
         ]);
@@ -108,7 +108,7 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        return Inertia::render('Admin/ManageUser', [
+        return Inertia::render('Admin/EditUser', [
             'current_user' => Auth::user(),
             'user' => $user
         ]);

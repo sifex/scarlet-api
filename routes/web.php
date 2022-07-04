@@ -4,6 +4,7 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\SteamLoginController;
 use App\Http\Controllers\Auth\UserController2;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserNoteController;
 use App\User;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,19 @@ Route::middleware('auth')->group(function () {
             'edit' => 'admin.user.edit',
             'update' => 'admin.user.update',
             'destroy' => 'admin.user.destroy',
+        ]);
+
+        /**
+         * User Note Resource
+         */
+        Route::resource('user.note', UserNoteController::class)->names([
+            'index' => 'admin.user.note.index',
+            'create' => 'admin.user.note.create',
+            'store' => 'admin.user.note.store',
+            'show' => 'admin.user.note.show',
+            'edit' => 'admin.user.note.edit',
+            'update' => 'admin.user.note.update',
+            'destroy' => 'admin.user.note.destroy',
         ]);
     });
 });
