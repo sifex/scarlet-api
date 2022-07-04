@@ -8,7 +8,7 @@
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <Link :href="$route('home')" href="#" class="">
-                                <img class="h-8 w-8" src="https://australianarmedforces.org/admin/images/logo_2x.png" alt="Workflow">
+                                <img class="h-8 w-8" src="https://australianarmedforces.org/admin/images/logo_2x.png" alt="Scarlet Logo">
                             </Link>
                         </div>
 

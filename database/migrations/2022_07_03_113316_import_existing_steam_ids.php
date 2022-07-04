@@ -21,7 +21,11 @@ return new class extends Migration {
             foreach ($users as $user) {
                 foreach (self::EXISTING_SQUAD_USERS as $playerID => $squad_user) {
                     if ($user->username === $squad_user['name'] || $user->username === $squad_user['nick']) {
-                        $user->update(['playerID' => $playerID]);
+                        $user->update([
+                            'playerID' => $playerID,
+                            'remark' => $squad_user['remark'],
+                            'shortName' => $squad_user['nick'],
+                        ]);
                     }
                 }
             }
@@ -43,7 +47,11 @@ return new class extends Migration {
             foreach ($users as $user) {
                 foreach (self::EXISTING_SQUAD_USERS as $playerID => $squad_user) {
                     if ($user->username === $squad_user['name'] || $user->username === $squad_user['nick']) {
-                        $user->update(['playerID' => null]);
+                        $user->update([
+                            'playerID' => null,
+                            'remark' => null,
+                            'shortName' => null,
+                        ]);
                     }
                 }
             }

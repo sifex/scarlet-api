@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\SteamLoginController;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\Auth\SteamLoginController;
+use App\Http\Controllers\Auth\UserController2;
 use App\Http\Controllers\UserController;
+use App\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'home'])
@@ -24,20 +25,29 @@ Route::get('/browser/steam/verify', [AppController::class, 'browser_electron_ste
 Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'])
     ->name('electron.steam.verify');
 
-Route::post('@me', [UserController::class, 'update']);
+//Route::post('@me', [UserController2::class, 'update']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/electron', [AppController::class, 'electron'])
         ->name('electron');
 
-    Route::get('/admin', [AdminController::class, 'admin'])
-        ->name('admin');
+    Route::prefix('admin')->group(function() {
+        Route::get('/', [UserController::class, 'redirect_to_user_management'])
+            ->name('admin');
 
-    Route::get('/admin/user-management/', [AdminController::class, 'admin_user_management'])
-        ->name('admin.usermanagement');
-
-    Route::get('/admin/user-management/{user}', [AdminController::class, 'manage_user'])
-        ->name('admin.usermanagement.user');
+        /**
+         * User Resource
+         */
+        Route::resource('user', UserController::class)->names([
+            'index' => 'admin.user.index',
+            'create' => 'admin.user.create',
+            'store' => 'admin.user.store',
+            'show' => 'admin.user.show',
+            'edit' => 'admin.user.edit',
+            'update' => 'admin.user.update',
+            'destroy' => 'admin.user.destroy',
+        ]);
+    });
 });
 
 Route::match(['get', 'post'], 'logout', [SteamLoginController::class, 'logout'])

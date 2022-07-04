@@ -5,11 +5,11 @@
         </template>
 
         <div class="bg-white rounded-lg min-h-full py-10 px-4 sm:px-6 lg:px-10">
-            <div class="flex">
-                <div class="basis-full lg:basis-3/4">
+            <div class="md:flex">
+                <div class="md:basis-2/4 lg:basis-3/4">
                     <h2 class="text-2xl text-slate-700 pb-8 font-exo">Existing Users</h2>
                 </div>
-                <div class="-mt-5 basis-full lg:basis-1/4">
+                <div class="-mt-5 md:basis-2/4 lg:basis-1/4">
                     <label for="search_term" class="block text-sm font-medium text-gray-700">Search</label>
                     <input v-model="search_term" type="text" name="search_term" id="search_term" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                 </div>
@@ -75,7 +75,7 @@
                             <ChevronUpIcon class="inline-block h-4 w-4 mr-1 -ml-1 text-slate-500 group-hover:text-white transition-colors"></ChevronUpIcon>
                             Promote to Member
                         </button>
-                        <Link :href="$route('admin.usermanagement.user', { user: user.item.username })"
+                        <Link :href="$route('admin.user.edit', { user: user.item.uuid })"
                             class="bg-slate-100 -my-1 ml-2 rounded py-2 px-3 uppercase font-semibold text-xs hover:text-white hover:bg-slate-600 transition-colors">
                             Edit
                         </Link>

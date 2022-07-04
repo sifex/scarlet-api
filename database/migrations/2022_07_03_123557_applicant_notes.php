@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,8 +13,14 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['key', 'clanID']);
+        Schema::create('user_notes', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+
+            $table->softDeletes();
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -24,9 +31,6 @@ return new class () extends Migration {
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('key')->nullable();
-            $table->integer('clanID')->nullable();
-        });
+        Schema::dropIfExists('user_notes');
     }
 };

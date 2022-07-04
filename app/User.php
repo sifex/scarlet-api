@@ -34,6 +34,7 @@ class User extends Authenticatable
      * Visible
      */
     protected $visible = [
+        'uuid',
         'username',
         'installDir',
         'type',
@@ -80,5 +81,15 @@ class User extends Authenticatable
         self::creating(function ($model) {
             $model->uuid = (string) Uuid::generate(4);
         });
+    }
+
+    public function isAdministrator(): bool
+    {
+        return collect([
+            UserRole::STAFF,
+            UserRole::LEADER,
+            UserRole::SPECIAL,
+            UserRole::VETERAN
+        ])->contains($this->type);
     }
 }

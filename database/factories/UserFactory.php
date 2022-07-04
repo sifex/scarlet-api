@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\UserRole;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,8 +19,16 @@ class UserFactory extends Factory
     {
         return [
             'username' => $this->faker->name,
-            'clanID' => 2,
-            'type' => 'member'
+            'type' => UserRole::MEMBER
         ];
+    }
+
+    public function admin(): UserFactory
+    {
+        return $this->state(function(array $attributes) {
+            return [
+                'type' => UserRole::LEADER
+            ];
+        });
     }
 }

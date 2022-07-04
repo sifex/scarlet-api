@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->uuid('uuid');
+            $table->uuid();
             $table->index(['uuid']);
         });
 
@@ -25,7 +25,7 @@ return new class extends Migration
         User::chunk(20, function ($users) {
             /** @var User $user */
             foreach ($users as $user) {
-                if ($user->uuid === null) {
+                if ($user->uuid === null || $user->uuid === '') {
                     $user->uuid = (string) Uuid::generate(4);
                     $user->save();
                 }
