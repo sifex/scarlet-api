@@ -28,10 +28,12 @@ host('production')
     ->setDeployPath('/var/www/scarlet.australianarmedforces.org');
 
 // Tasks
-
 task('build', function () {
     cd('{{release_path}}');
+    run('npm install');
     run('npm run build');
 });
+
+after('deploy:vendors', 'build');
 
 after('deploy:failed', 'deploy:unlock');
