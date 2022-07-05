@@ -92,4 +92,13 @@ class User extends Authenticatable
             UserRole::VETERAN
         ])->contains($this->type);
     }
+
+    protected $with = [
+        'notes'
+    ];
+
+    public function notes()
+    {
+        return $this->hasMany(UserNote::class)->orderByDesc('created_at');
+    }
 }

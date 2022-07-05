@@ -16,7 +16,7 @@ return new class extends Migration {
         /**
          * This is horribly inefficient but works...
          */
-        User::where('playerID', null)->chunk(20, function ($users) {
+        User::without('notes')->where('playerID', null)->chunk(20, function ($users) {
             /** @var User $user */
             foreach ($users as $user) {
                 foreach (self::EXISTING_SQUAD_USERS as $playerID => $squad_user) {
@@ -42,7 +42,7 @@ return new class extends Migration {
         /**
          * This is horribly inefficient but works...
          */
-        User::chunk(20, function ($users) {
+        User::without('notes')->chunk(20, function ($users) {
             /** @var User $user */
             foreach ($users as $user) {
                 foreach (self::EXISTING_SQUAD_USERS as $playerID => $squad_user) {

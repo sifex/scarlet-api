@@ -49,18 +49,8 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'admin.user.destroy',
         ]);
 
-        /**
-         * User Note Resource
-         */
-        Route::resource('user.note', UserNoteController::class)->names([
-            'index' => 'admin.user.note.index',
-            'create' => 'admin.user.note.create',
-            'store' => 'admin.user.note.store',
-            'show' => 'admin.user.note.show',
-            'edit' => 'admin.user.note.edit',
-            'update' => 'admin.user.note.update',
-            'destroy' => 'admin.user.note.destroy',
-        ]);
+        Route::post('user/{user}/add_note', [UserNoteController::class, 'create'])
+            ->name('admin.user.add_note');
     });
 });
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,13 @@ class UserNoteFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'contents' => fake()->paragraph,
+            'user_id' => function() {
+                return User::factory()->create()->id;
+            },
+            'author_id' => function() {
+                return User::factory()->create()->id;
+            }
         ];
     }
 }

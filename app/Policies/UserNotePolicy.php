@@ -10,16 +10,13 @@ class UserNotePolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Perform pre-authorization checks.
-     *
-     * @param User $current_user
-     * @return void|bool
-     */
-    public function before(User $current_user)
+    public function create(): bool
     {
-        if (auth()->user()->isAdministrator()) {
-            return true;
-        }
+        return auth()->user()->isAdministrator();
+    }
+
+    public function delete(UserNote $userNote): bool
+    {
+        return auth()->user()->id === $userNote->author->id;
     }
 }

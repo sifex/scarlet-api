@@ -22,7 +22,7 @@ return new class extends Migration
         /**
          * This is horribly inefficient but works...
          */
-        User::chunk(20, function ($users) {
+        User::without('notes')->chunk(20, function ($users) {
             /** @var User $user */
             foreach ($users as $user) {
                 if ($user->uuid === null || $user->uuid === '') {

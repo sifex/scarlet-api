@@ -1,6 +1,8 @@
 import {MemberType} from "@/scripts/aaf/membertypes";
 
 export interface UserInterface {
+    id?: string
+    uuid?: string
     username: string
     'type'?: MemberType
     playerID: string
@@ -10,6 +12,8 @@ export interface UserInterface {
 }
 
 export class User implements UserInterface {
+    public id?: string;
+    public uuid?: string;
     public username: string;
     public 'type': MemberType;
     public playerID: string;
