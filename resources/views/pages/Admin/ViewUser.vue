@@ -54,46 +54,66 @@
                 </div>
             </div>
             <div id="archived_banner"
+                 v-if="user.archived_at"
                  class="overflow-hidden w-full bg-orange-500 text-white py-2 text-center uppercase tracking-wide font-bold text-sm relative">
                 <ExclamationIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-orange-200 mr-4"></ExclamationIcon>
                 <span class="z-10 relative">This user is archived</span>
             </div>
             <section id="control-bay" class="py-10 px-3 sm:px-4 md:px-6 lg:px-10 border-b border-1">
-                <form @submit.prevent="update_user" class="flex flex-col gap-6">
+                <form @submit.prevent="update_user" class="flex flex-col gap-6 md:gap-10">
                     <h2 class="text-2xl text-slate-700 font-medium font-exo">
                         Edit User
                     </h2>
-                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-20">
-                        <div class="basis-full md:basis-1/2">
+                    <div class="flex flex-col md:flex-row md:items-center">
+                        <div class="basis-full md:basis-5/12">
+                            <h3 class="text-xl text-slate-700 font-medium font-exo">
+                                Username
+                            </h3>
+                            <label for="user_username" class="block text-sm text-slate-500">The user's username.</label>
+                        </div>
+                        <div class="basis-full md:basis-2/12"></div>
+                        <div class="basis-full md:basis-5/12">
+                            <input name="user_username" type="text" v-model="alter_user_form.username" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.username }}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center">
+                        <div class="basis-full md:basis-5/12">
                             <h3 class="text-xl text-slate-700 font-medium font-exo">
                                 Modify Role
                             </h3>
                             <label for="user_role" class="block text-sm text-slate-500">User roles control who has access to the Administration panel, as well as displays on the website.</label>
                         </div>
-                        <div class="basis-full md:basis-1/2">
+                        <div class="basis-full md:basis-2/12"></div>
+                        <div class="basis-full md:basis-5/12">
                             <member-type-dropdown name="user_role" v-model="alter_user_form.type"></member-type-dropdown>
+                            <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.type }}</span>
                         </div>
                     </div>
-                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-20">
-                        <div class="basis-full md:basis-1/2">
+                    <div class="flex flex-col md:flex-row md:items-center">
+                        <div class="basis-full md:basis-5/12">
                             <h3 class="text-xl text-slate-700 font-medium font-exo">
                                 XML Remark
                             </h3>
                             <label for="user_remark" class="block text-sm text-slate-500">The XML remark is what displays underneath the User's XML</label>
                         </div>
-                        <div class="basis-full md:basis-1/2">
-                            <input name="user_remark" type="text" v-model="alter_user_form.remark" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <div class="basis-full md:basis-2/12"></div>
+                        <div class="basis-full md:basis-5/12">
+                            <input placeholder="The Squad XML Remark" name="user_remark" type="text" v-model="alter_user_form.remark" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.remark }}</span>
                         </div>
                     </div>
-                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-20">
-                        <div class="basis-full md:basis-1/2">
+                    <div class="flex flex-col md:flex-row md:items-center">
+                        <div class="basis-full md:basis-5/12">
                             <h3 class="text-xl text-slate-700 font-medium font-exo">
                                 Website Comment
                             </h3>
-                            <p class="block text-sm text-slate-500">Displays as a comment on the website.</p>
+                            <p class="block text-sm text-slate-500">Displays as a comment on the website. <span class="text-slate-300">(Staff and Leaders only)</span></p>
                         </div>
-                        <div class="basis-full md:basis-1/2">
-                            <input name="user_remark" type="text" v-model="alter_user_form.comment" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <div class="basis-full md:basis-2/12"></div>
+                        <div class="basis-full md:basis-5/12">
+                            <input  placeholder="Website Comment" name="user_remark" type="text" v-model="alter_user_form.comment" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.comment }}</span>
                         </div>
                     </div>
                     <div id="save-row" class="flex">
@@ -132,8 +152,8 @@
                         <div class="grow"></div>
                         <div class="shrink">
                             <button type="submit"
-                                    :disabled="note_form.processing"
-                                    class="inline-block px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors">
+                                    :disabled="note_form.processing || !note_form.isDirty"
+                                    class="inline-block px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-30">
                                 Commit new User Note
                             </button>
                         </div>
