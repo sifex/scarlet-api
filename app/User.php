@@ -10,7 +10,6 @@ use Illuminate\Notifications\Notifiable;
 use Shetabit\TokenBuilder\Traits\HasTemporaryTokens;
 use Uuid;
 
-
 class User extends Authenticatable
 {
     use Notifiable;
@@ -29,7 +28,8 @@ class User extends Authenticatable
         'type',
         'playerID',
         'comment',
-        'remark'
+        'remark',
+        'archived'
     ];
 
     /**
@@ -43,7 +43,8 @@ class User extends Authenticatable
         'playerID',
         'comment',
         'remark',
-        'notes'
+        'notes',
+        'archived'
     ];
 
     /**

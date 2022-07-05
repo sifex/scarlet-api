@@ -7,7 +7,6 @@ use App\User;
 use Auth;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
@@ -108,12 +107,6 @@ class UserController extends Controller
      */
     public function edit(User $user): Response
     {
-//        $this->authorize('update', $user);
-//
-//        return Inertia::render('Admin/EditUser', [
-//            'current_user' => Auth::user(),
-//            'user' => $user->load('notes')
-//        ]);
     }
 
     /**
@@ -132,6 +125,8 @@ class UserController extends Controller
             $request->validate([
                 'username' => ['max:50'],
                 'type' => [new Enum(UserRole::class)],
+                'remark' => ['string', 'max:150'],
+                'comment' => ['string'],
             ])
         );
 

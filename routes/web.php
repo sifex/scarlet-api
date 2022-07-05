@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/electron', [AppController::class, 'electron'])
         ->name('electron');
 
-    Route::prefix('admin')->group(function() {
+    Route::prefix('admin')->group(function () {
         Route::get('/', [UserController::class, 'redirect_to_user_management'])
             ->name('admin');
 

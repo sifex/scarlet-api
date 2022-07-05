@@ -13,4 +13,3 @@ enum UserRole:string
     case ZSU = 'zsu';
     case VETERAN = 'veteran';
 }
-

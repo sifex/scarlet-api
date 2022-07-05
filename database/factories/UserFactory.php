@@ -25,7 +25,7 @@ class UserFactory extends Factory
 
     public function admin(): UserFactory
     {
-        return $this->state(function(array $attributes) {
+        return $this->state(function (array $attributes) {
             return [
                 'type' => UserRole::LEADER
             ];

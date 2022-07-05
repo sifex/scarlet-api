@@ -59,22 +59,41 @@
                 <span class="z-10 relative">This user is archived</span>
             </div>
             <section id="control-bay" class="py-10 px-3 sm:px-4 md:px-6 lg:px-10 border-b border-1">
-                <form @submit.prevent="alter_user_form.patch($route('admin.user.update', {user: alter_user_form.uuid }))">
-                    <h2 class="text-2xl text-slate-700 font-medium font-exo pb-10">
+                <form @submit.prevent="update_user" class="flex flex-col gap-6">
+                    <h2 class="text-2xl text-slate-700 font-medium font-exo">
                         Edit User
                     </h2>
-                    <div class="md:flex">
-                        <div class="grow">
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-20">
+                        <div class="basis-full md:basis-1/2">
                             <h3 class="text-xl text-slate-700 font-medium font-exo">
                                 Modify Role
                             </h3>
-                            <p class="block text-sm text-slate-500">User notes are used to show a timeline of updates about an
-                                applicant or member.</p>
+                            <label for="user_role" class="block text-sm text-slate-500">User roles control who has access to the Administration panel, as well as displays on the website.</label>
                         </div>
-                        <div class="grow">
-                            <form @submit.prevent="" id="writing_area" class="py-4 flex flex-col gap-4">
-                                <member-type-dropdown v-model="alter_user_form.type"></member-type-dropdown>
-                            </form>
+                        <div class="basis-full md:basis-1/2">
+                            <member-type-dropdown name="user_role" v-model="alter_user_form.type"></member-type-dropdown>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-20">
+                        <div class="basis-full md:basis-1/2">
+                            <h3 class="text-xl text-slate-700 font-medium font-exo">
+                                XML Remark
+                            </h3>
+                            <label for="user_remark" class="block text-sm text-slate-500">The XML remark is what displays underneath the User's XML</label>
+                        </div>
+                        <div class="basis-full md:basis-1/2">
+                            <input name="user_remark" type="text" v-model="alter_user_form.remark" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-20">
+                        <div class="basis-full md:basis-1/2">
+                            <h3 class="text-xl text-slate-700 font-medium font-exo">
+                                Website Comment
+                            </h3>
+                            <p class="block text-sm text-slate-500">Displays as a comment on the website.</p>
+                        </div>
+                        <div class="basis-full md:basis-1/2">
+                            <input name="user_remark" type="text" v-model="alter_user_form.comment" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
                     </div>
                     <div id="save-row" class="flex">
@@ -96,7 +115,7 @@
                 <p class="block text-sm text-slate-500">User notes are used to show a timeline of updates about an
                     applicant or member.</p>
 
-                <form @submit.prevent="create_new_user_note" id="writing_area" class="py-4 flex flex-col gap-4">
+                <form @submit.prevent="add_note" id="writing_area" class="py-4 flex flex-col gap-4">
                     <div>
                         <label for="contents" class="sr-only">User Note Contents:</label>
                         <span v-if="note_form.errors.contents" class="italic text-red-600 text-sm">
@@ -105,8 +124,8 @@
                         <textarea v-model="note_form.contents"
                                   name="contents"
                                   class="h-24 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md placeholder-slate-400"
-                                  @keydown.meta.enter="create_new_user_note"
-                                  @keyup.ctrl.enter="create_new_user_note"
+                                  @keydown.meta.enter="add_note"
+                                  @keyup.ctrl.enter="add_note"
                                   :placeholder="'Information about the user ' + user.username"></textarea>
                     </div>
                     <div class="flex">
@@ -133,7 +152,7 @@
                         <div class="shrink">
                             <button
                                 v-if="note.author.id === current_user.id"
-                                @click="delete_user_note(note.id)"
+                                @click="delete_note(note.id)"
                                 class="block text-center w-full px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-700 hover:text-white transition-colors">
                                 <!--                                <ArchiveIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></ArchiveIcon>-->
                                 Delete Note
@@ -177,6 +196,23 @@ const alter_user_form = useForm({
     ...props.user
 })
 
+function update_user(user: User) {
+    alter_user_form.patch(
+        $route('admin.user.update', {
+            user: alter_user_form.uuid
+        }), {
+            preserveScroll: true,
+            onSuccess: () => {
+                notify({
+                    group: "generic",
+                    title: "Success",
+                    text: "User updated"
+                })
+            }
+        }
+    )
+}
+
 /**
  * User Notes Section
  */
@@ -184,31 +220,26 @@ const note_form = useForm({
     contents: ''
 })
 
-function create_new_user_note() {
-    try {
-        note_form.post(
-            $route('admin.user.note.store', {
-                'user': props.user.uuid
-            }), {
-                preserveScroll: true,
-                onSuccess: () => {
-                    note_form.reset('contents')
-                    notify({
-                        group: "generic",
-                        title: "Success",
-                        text: "User comment was successfully added"
-                    })
-                }
+function add_note() {
+
+    note_form.post(
+        $route('admin.user.note.store', {
+            'user': props.user.uuid
+        }), {
+            preserveScroll: true,
+            onSuccess: () => {
+                note_form.reset('contents')
+                notify({
+                    group: "generic",
+                    title: "Success",
+                    text: "User comment was successfully added"
+                })
             }
-        )
-
-        note_form.contents = ''
-    } catch (e) {
-
-    }
+        }
+    )
 }
 
-function delete_user_note(note_id: number) {
+function delete_note(note_id: number) {
     note_form.delete(
         $route('admin.user.note.destroy', {
             'user': props.user.uuid,

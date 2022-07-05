@@ -3,7 +3,6 @@
 use App\User;
 use App\UserNote;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Inertia\Testing\Assert;
 use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
@@ -46,7 +45,6 @@ test("it can't create a new user note as a regular user", function () {
             'contents' => 'asd'
         ])
         ->assertStatus(403);
-
 });
 
 test('it can delete a user note', function () {

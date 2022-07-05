@@ -3,7 +3,7 @@
 use App\User;
 use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration {
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -56,7 +56,7 @@ return new class extends Migration {
         });
     }
 
-    const EXISTING_SQUAD_USERS = [
+    public const EXISTING_SQUAD_USERS = [
         "76561198000746503" => [
             "nick" => "Monty",
             "name" => "Monty",

@@ -17,7 +17,7 @@ return new class () extends Migration {
          */
         $db_path = __DIR__.'/../db_2022_06_26.sql';
 
-        if(file_exists($db_path) && env('APP_ENV') === 'local') {
+        if (file_exists($db_path) && env('APP_ENV') === 'local') {
             print_r("Imported old DB\r\n");
             DB::unprepared(file_get_contents($db_path));
         }
