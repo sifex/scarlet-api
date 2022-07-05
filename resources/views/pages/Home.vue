@@ -40,6 +40,7 @@
             </div>
 
             <Link
+                v-if="current_user_instance.isAdminEnough()"
                 class="grow block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-rose-500 text-white hover:bg-rose-700 hover:text-white transition-colors"
                 :href="$route('admin.user.index')">
                 Go to Admin Page
@@ -64,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import {inject, onMounted} from 'vue';
+import {computed, inject, onMounted} from 'vue';
 import {ChevronRightIcon, DownloadIcon} from '@heroicons/vue/solid'
 import {Inertia} from "@inertiajs/inertia";
 import {Link} from '@inertiajs/inertia-vue3'
@@ -81,10 +82,15 @@ const {
     scarlet_download?: string
 }>()
 
+let current_user_instance = computed(() => {
+    return Object.assign(new User(
+        current_user.username,
+        current_user.playerID,
+    ), current_user)
+})
+
 onMounted(() => {
-    setTimeout(() => {
-        Inertia.reload({only: ['scarlet_download']})
-    }, 50)
+    Inertia.reload({only: ['scarlet_download']})
 })
 
 let $route = inject('$route')

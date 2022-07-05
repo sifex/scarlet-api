@@ -10,7 +10,9 @@ uses(RefreshDatabase::class);
 
 
 test('it can visit the homepage', function () {
-    get('/')->assertStatus(200);
+    get('/')
+        ->assertSessionHasNoErrors()
+        ->assertStatus(200);
 });
 
 test("it can't see view users as non-admin", function () {
@@ -28,6 +30,7 @@ test('it can see self as non-admin', function () {
         ->get(route('admin.user.show', [
             'user' => $regular_user->uuid
         ]))
+        ->assertSessionHasNoErrors()
         ->assertStatus(200);
 });
 
@@ -54,17 +57,27 @@ test("it can view users as admin", function () {
         ->assertStatus(200);
 });
 
+test("it can't set a custom role", function () {
+    actingAs(User::factory()->admin()->create())
+        ->post(route('admin.user.store'), [
+            'username' => 'Omega',
+            'type' => 'member123'
+        ])
+        ->assertSessionHasErrors(['type']);
+});
+
 test('it can create a user as an admin', function () {
     $admin = User::factory()->admin()->create();
 
     actingAs($admin)
         ->post(route('admin.user.store'), [
-            'username' => 'Omega123',
+            'username' => 'Shadow',
             'type' => 'member'
         ])
+        ->assertSessionHasNoErrors()
         ->assertStatus(302);
 
-    expect(User::where('username', 'Omega123')->first()->exists())
+    expect(User::where('username', 'Shadow')->first()->exists())
         ->toBeTrue();
 });
 
@@ -82,6 +95,7 @@ test('it can update a user as an admin', function () {
         ]), [
             'username' => 'Testing 1827'
         ])
+        ->assertSessionHasNoErrors()
         ->assertStatus(302);
 
     expect($other_user->refresh()->username)
@@ -102,6 +116,7 @@ test('it can update a user role as an admin', function () {
         ]), [
             'type' => 'leader'
         ])
+        ->assertSessionHasNoErrors()
         ->assertStatus(302);
 
     expect($other_user->refresh()->type)
@@ -113,8 +128,26 @@ test('it can update a user role as an admin', function () {
         ]), [
             'type' => UserRole::VETERAN->value
         ])
+        ->assertSessionHasNoErrors()
         ->assertStatus(302);
 
     expect($other_user->refresh()->type)
         ->toEqual(UserRole::VETERAN);
+});
+
+
+
+test('it ensures an admin cannot change their own role', function () {
+    $admin = User::factory()->admin()->create([
+        'type' => UserRole::STAFF->value
+    ]);
+
+    actingAs($admin)
+        ->patch(route('admin.user.update', [
+            'user' => $admin->uuid
+        ]), [
+            'type' => UserRole::LEADER->value
+        ])
+        ->assertSessionHasErrors()
+        ->assertStatus(302);
 });

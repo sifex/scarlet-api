@@ -4,7 +4,7 @@ export interface UserInterface {
     id?: string
     uuid?: string
     username: string
-    'type'?: MemberType
+    'type'?: keyof MemberType
     playerID: string
     comment?: string
     installDir?: string
@@ -15,7 +15,7 @@ export class User implements UserInterface {
     public id?: string;
     public uuid?: string;
     public username: string;
-    public 'type': MemberType;
+    public 'type': keyof MemberType;
     public playerID: string;
     public comment?: string;
     public installDir?: string;
@@ -27,9 +27,9 @@ export class User implements UserInterface {
     }
 
     public isAdminEnough() {
-        return this.type in [
+        return [
             MemberType.leader,
             MemberType.staff,
-        ]
+        ].includes(MemberType[this.type])
     }
 }

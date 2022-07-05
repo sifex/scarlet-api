@@ -1,7 +1,7 @@
 <template>
     <div
         class="font-[Exo_2] absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center font-weight-bolder select-none">
-        <ElectronDownloader></ElectronDownloader>
+        <ElectronToolbar v-if="true"></ElectronToolbar>
 
         <div class="flex flex-col h-full">
             <div class="flex pt-8 pb-6">
@@ -102,7 +102,7 @@ import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
 import ScarletDownloader, {Status as ClientStatus} from '@/scripts/downloader/downloader'
 import Status from '@/views/components/status.vue'
-import ElectronDownloader from '@/views/components/electron-toolbar.vue'
+import ElectronToolbar from '@/views/components/electron-toolbar.vue'
 import {User} from "@/scripts/downloader/user";
 
 const props = defineProps({

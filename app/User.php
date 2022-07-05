@@ -43,7 +43,6 @@ class User extends Authenticatable
         'playerID',
         'comment',
         'remark',
-        'notes',
         'archived'
     ];
 

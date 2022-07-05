@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 use Inertia\Inertia;
 use Inertia\Response;
+use Log;
 use Throwable;
 
 class UserController extends Controller
@@ -24,7 +25,7 @@ class UserController extends Controller
     public function __construct()
     {
 //        $this->authorizeResource(User::class, 'model');
-//        User::addGlobalScope('with_notes', fn(Builder $builder) => $builder->with('notes'));
+//        User::addGlobalScope('with_notes', fn(Builder $builder) => $builder->);
     }
 
     public function redirect_to_user_management(): RedirectResponse
@@ -44,17 +45,17 @@ class UserController extends Controller
 
         return Inertia::render('Admin/UserManagement', [
             'current_user' => Auth::user(),
-            'all_users' => Inertia::lazy(fn () => User::with('notes')->get())
+            'all_users' => Inertia::lazy(fn () => User::get())
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return RedirectResponse
      * @throws AuthorizationException
      */
-    public function create(): Response
+    public function create(): RedirectResponse
     {
         $this->authorize('create', User::class);
 
@@ -75,7 +76,10 @@ class UserController extends Controller
         User::create(
             $request->validate([
                 'username' => ['required', 'max:50'],
-                'type' => [new Enum(UserRole::class)],
+                'type' => [
+                    'required',
+                    new Enum(UserRole::class)
+                ],
             ])
         );
 
@@ -94,8 +98,8 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         return Inertia::render('Admin/ViewUser', [
-            'current_user' => Auth::user()->load('notes'),
-            'user' => $user->loadMissing('notes')
+            'current_user' => Auth::user(),
+            'user' => $user->load('notes')->makeVisible(['notes'])
         ]);
     }
 
@@ -107,6 +111,7 @@ class UserController extends Controller
      */
     public function edit(User $user): Response
     {
+
     }
 
     /**
@@ -124,11 +129,26 @@ class UserController extends Controller
         $user->update(
             $request->validate([
                 'username' => ['sometimes', 'required', 'string', 'max:50'],
-                'type' => [new Enum(UserRole::class)],
+                'type' => [
+                    'sometimes',
+                    'required',
+                    new Enum(UserRole::class),
+                    function($attribute, $value, $fail) use ($user) {
+                        if(
+                            $user->uuid === auth()->user()->uuid
+                            &&
+                            $value !== $user->type->value
+                        ) {
+                            $fail('You cannot change your own role');
+                        }
+                    }
+                ],
                 'remark' => ['string', 'max:150', 'nullable'],
                 'comment' => ['string', 'nullable'],
             ])
         );
+
+        Log::info(auth()->user()->username . ' just modified user ' . $user->username . ' with the following: (' . json_encode($request->toArray()) . ')');
 
         return redirect()->back();
     }
@@ -149,6 +169,8 @@ class UserController extends Controller
             Exception::class,
             "Couldn't delete user"
         );
+
+        Log::info(auth()->user()->username . ' just deleted user ' . $user->username  . '.');
 
         return redirect()->route('user.index');
     }

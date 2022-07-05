@@ -90,7 +90,7 @@ export default class ScarletDownloader extends EventEmitter {
 
     onWebsocketMsg(evt: MessageEvent) {
         let {who, command, attribute} = this.parse(evt.data)
-        // console.log('New Message')
+
         console.log({who, command, attribute})
         switch(command) {
             case 'browserConfirmation':

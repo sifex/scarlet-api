@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\APIController;
 
-
-
+Route::prefix('user')->group(function () {
+    /** Update User Information */
+    Route::post('/{user}/', [APIController::class, 'update_user'])
+        ->name('api.user.update');
+});
 
 
 /**

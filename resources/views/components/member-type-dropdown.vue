@@ -2,7 +2,7 @@
     <Listbox :model-value="modelValue" @update:modelValue="update_model_value($event)">
         <div class="relative mt-1 z-10">
             <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                class="text-left mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <span class="block truncate">{{ membership_types[modelValue] }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true"/>
@@ -26,7 +26,7 @@
                     >
                         <li
                             :class="[
-                  active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                  active ? 'bg-indigo-100 text-indigo-900' : 'text-gray-900',
                   'relative cursor-default select-none py-2 pl-10 pr-4',
                 ]"
                         >
@@ -39,7 +39,7 @@
                 >
                             <span
                                 v-if="selected"
-                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600"
                             >
                   <CheckIcon class="h-5 w-5" aria-hidden="true"/>
                 </span>
@@ -65,8 +65,6 @@ import {MemberType} from "@/scripts/aaf/membertypes";
 
 const membership_types = MemberType
 
-console.log(membership_types)
-
 const props = defineProps<{
     modelValue: MemberType
 }>()
@@ -75,7 +73,6 @@ const emit = defineEmits<{
 }>()
 
 function update_model_value(type: MemberType) {
-    console.log(type)
     emit('update:modelValue', type)
 }
 

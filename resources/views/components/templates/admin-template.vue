@@ -86,7 +86,7 @@
         </div>
 
         <NotificationGroup group="generic">
-            <div class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none">
+            <div class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none z-50">
                 <div class="w-full max-w-sm">
                     <Notification
                         v-slot="{ notifications, close }"
@@ -139,6 +139,7 @@ import {inject, ref} from 'vue';
 import {Link} from '@inertiajs/inertia-vue3'
 
 import {User} from "@/scripts/downloader/user";
+import { InertiaProgress } from '@inertiajs/progress'
 
 const props = defineProps<{
     current_user: User
@@ -148,6 +149,9 @@ let $route = inject('$route')
 
 /** ---------- **/
 
+
+
 let topRightMenuOpen = ref(false)
+
 </script>
 
