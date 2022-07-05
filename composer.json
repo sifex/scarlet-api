@@ -45,6 +45,7 @@
         "spatie/laravel-ignition": "^1.0"
     },
     "require-dev": {
+        "laravel/dusk": "^6.24"
     },
     "config": {
         "optimize-autoloader": true,

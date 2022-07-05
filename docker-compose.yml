@@ -24,6 +24,7 @@ services:
             - sail
         depends_on:
             - mariadb
+            - selenium
     mariadb:
         image: 'mariadb:10'
         ports:
@@ -43,6 +44,12 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
             timeout: 5s
+    selenium:
+        image: 'seleniarm/standalone-chromium'
+        volumes:
+            - '/dev/shm:/dev/shm'
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge

@@ -44,7 +44,6 @@ class UserController extends Controller
         $this->authorize('viewAny', User::class);
 
         return Inertia::render('Admin/UserManagement', [
-            'current_user' => Auth::user(),
             'all_users' => Inertia::lazy(fn () => User::get())
         ]);
     }
@@ -98,7 +97,6 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         return Inertia::render('Admin/ViewUser', [
-            'current_user' => Auth::user(),
             'user' => $user->load('notes')->makeVisible(['notes'])
         ]);
     }

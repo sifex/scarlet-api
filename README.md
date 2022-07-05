@@ -16,7 +16,17 @@ composer install
 # Run
 sail up -d
 sail npm i
-sail npm run dev
+sail npm run dev -- --host
+```
+
+## Testing
+
+```bash
+# Feature Tests
+sail test
+
+# Browser Tests
+sail dusk --pest
 ```
 
 Then open http://localhost

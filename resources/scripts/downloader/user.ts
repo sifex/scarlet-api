@@ -27,9 +27,11 @@ export class User implements UserInterface {
     }
 
     public isAdminEnough() {
+
         return [
             MemberType.leader,
             MemberType.staff,
+            // @ts-ignore
         ].includes(MemberType[this.type])
     }
 }

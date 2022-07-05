@@ -18,7 +18,6 @@ class AppController extends Controller
     public function home(): Response
     {
         return Inertia::render('Home', [
-            'current_user' => Auth::user(),
             'scarlet_download' => Inertia::lazy(
                 fn () =>
                 Auth::check() ? $this->getLatestScarletDownloadLink() : ''
@@ -29,7 +28,6 @@ class AppController extends Controller
     public function electron(): Response
     {
         return Inertia::render('ElectronDownloader', [
-            'current_user' => Auth::user(),
             'arma_server' => Inertia::lazy(fn () => $this->queryArmaServer())
         ]);
     }
@@ -59,7 +57,6 @@ class AppController extends Controller
         }
 
         return Inertia::render('BrowserElectronVerify', [
-            'current_user' => Auth::user(), # Used only for the "Welcome Username Banner"
             'token' => $token->token ?? ''
         ]);
     }
