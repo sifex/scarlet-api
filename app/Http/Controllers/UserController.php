@@ -123,7 +123,7 @@ class UserController extends Controller
 
         $user->update(
             $request->validate([
-                'username' => ['required', 'string', 'max:50'],
+                'username' => ['sometimes', 'required', 'string', 'max:50'],
                 'type' => [new Enum(UserRole::class)],
                 'remark' => ['string', 'max:150', 'nullable'],
                 'comment' => ['string', 'nullable'],

@@ -5,6 +5,22 @@ import {createInertiaApp} from '@inertiajs/inertia-vue3'
 
 // @ts-ignore
 import Notifications from 'notiwind'
+import { InertiaProgress } from '@inertiajs/progress'
+
+InertiaProgress.init({
+    // The delay after which the progress bar will
+    // appear during navigation, in milliseconds.
+    delay: 100,
+
+    // The color of the progress bar.
+    color: '#ff5964',
+
+    // Whether to include the default NProgress styles.
+    includeCSS: true,
+
+    // Whether the NProgress spinner will be shown.
+    showSpinner: true,
+})
 
 /**
  * Imports the given page component from the page record.

@@ -105,7 +105,7 @@ test('it can update a user role as an admin', function () {
         ->assertStatus(302);
 
     expect($other_user->refresh()->type)
-        ->toBe(UserRole::LEADER);
+        ->toEqual(UserRole::LEADER);
 
     actingAs($admin)
         ->patch(route('admin.user.update', [
@@ -116,5 +116,5 @@ test('it can update a user role as an admin', function () {
         ->assertStatus(302);
 
     expect($other_user->refresh()->type)
-        ->toBe(UserRole::VETERAN);
+        ->toEqual(UserRole::VETERAN);
 });
