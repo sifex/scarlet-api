@@ -90,7 +90,6 @@
 
 <script lang="ts" setup>
 import {inject, ref} from 'vue';
-import {ChevronLeftIcon} from '@heroicons/vue/solid'
 import {Link} from '@inertiajs/inertia-vue3'
 
 import {User} from "@/scripts/downloader/user";

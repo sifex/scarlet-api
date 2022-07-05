@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use FluidXml\FluidXml;
 use App\User;
+use FluidXml\FluidXml;
 
 class XMLController extends Controller
 {

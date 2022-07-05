@@ -5,7 +5,6 @@ use App\Http\Controllers\Auth\SteamLoginController;
 use App\Http\Controllers\Auth\UserController2;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserNoteController;
-use App\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'home'])

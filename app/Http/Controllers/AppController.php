@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Auth;
-//use GitHub;
 use Carbon\Carbon;
 use GameQ\GameQ;
 use GrahamCampbell\GitHub\Facades\GitHub;
@@ -12,6 +10,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Shetabit\TokenBuilder\Facade\TokenBuilder;
+
+//use GitHub;
 
 class AppController extends Controller
 {

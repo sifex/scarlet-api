@@ -77,8 +77,8 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ComputedRef, inject, onMounted, reactive, ref} from 'vue';
-import {SelectorIcon, CheckIcon, XIcon, ChevronUpIcon} from '@heroicons/vue/solid'
+import {computed, inject, onMounted, ref} from 'vue';
+import {CheckIcon, XIcon} from '@heroicons/vue/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
 import MemberTypeBadge from '@/views/components/member-type-badge.vue'

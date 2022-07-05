@@ -113,15 +113,13 @@
 
 <script lang="ts" setup>
 import SteamLogo from '@/images/steam_logo.svg'
-import {computed, inject, onMounted, reactive, ref} from 'vue';
-import {ExclamationIcon, ArchiveIcon, SelectorIcon, CheckIcon, XIcon, ChevronRightIcon} from '@heroicons/vue/solid'
+import {inject} from 'vue';
+import {ArchiveIcon, CheckIcon, ChevronRightIcon, ExclamationIcon, XIcon} from '@heroicons/vue/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
 import MemberTypeBadge from '@/views/components/member-type-badge.vue'
-import Fuse from "fuse.js";
 import {Link, useForm} from "@inertiajs/inertia-vue3";
 import {User} from "@/scripts/downloader/user";
-import {Inertia} from "@inertiajs/inertia";
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime";
 

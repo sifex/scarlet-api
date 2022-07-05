@@ -1,6 +1,6 @@
 import '@/css/app.css';
 
-import {createApp, h, defineAsyncComponent} from 'vue'
+import {createApp, h} from 'vue'
 import {createInertiaApp} from '@inertiajs/inertia-vue3'
 
 /**

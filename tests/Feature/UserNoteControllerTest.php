@@ -4,7 +4,6 @@ use App\User;
 use App\UserNote;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
