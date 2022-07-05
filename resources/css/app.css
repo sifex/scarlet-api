@@ -19,3 +19,13 @@ img {
 /*    cursor: default;*/
 /*    user-select: none;*/
 /*}*/
+
+.bg-stripes-red {
+    background: repeating-linear-gradient(
+        45deg,
+        #cc603f,
+        #cc603f 10px,
+        #b35437 10px,
+        #b35437 20px
+    );
+}

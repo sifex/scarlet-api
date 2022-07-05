@@ -52,6 +52,10 @@
                     </div>
                 </div>
             </div>
+            <div id="archived_banner" class="overflow-hidden w-full bg-orange-500 text-white py-2 text-center uppercase tracking-wide font-bold text-sm relative">
+                <ExclamationIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-orange-200 mr-4"></ExclamationIcon>
+                <span class="z-10 relative">This user is archived</span>
+            </div>
             <div id="notes" class="py-10 px-3 sm:px-4 md:px-6 lg:px-10">
                 <h2 class="text-2xl text-slate-700 font-medium font-exo">
                     User Notes
@@ -62,7 +66,10 @@
                 <form @submit.prevent="create_new_user_note" id="writing_area" class="py-4 flex flex-col gap-4">
                     <div>
                     <label for="contents" class="sr-only">User Note Contents:</label>
-                    <textarea v-model="user_note_form.contents"
+                    <span v-if="note_form.errors.contents" class="italic text-red-600 text-sm">
+                        {{ note_form.errors.contents }}
+                    </span>
+                    <textarea v-model="note_form.contents"
                               name="contents"
                               class="h-24 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md placeholder-slate-400"
                               @keydown.meta.enter="create_new_user_note"
@@ -73,6 +80,7 @@
                         <div class="grow"></div>
                         <div class="shrink">
                             <button type="submit"
+                                    :disabled="note_form.processing"
                                     class="inline-block px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors">
                                 Commit new User Note
                             </button>
@@ -88,7 +96,13 @@
                             {{ note.contents }} <span class="text-slate-400 text-sm block">written by {{ note.author.username }} {{ dayjs(note.created_at).fromNow() }}</span>
                         </div>
                         <div class="shrink">
-                            <XIcon class="inline-block h-6 text-red-500" v-if="current_user.uuid === note.author.uuid"></XIcon>
+                            <button
+                                v-if="note.author.id === current_user.id"
+                                @click="delete_user_note(note.id)"
+                                class="block text-center w-full px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-700 hover:text-white transition-colors">
+<!--                                <ArchiveIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></ArchiveIcon>-->
+                                Delete Note
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -100,12 +114,12 @@
 <script lang="ts" setup>
 import SteamLogo from '@/images/steam_logo.svg'
 import {computed, inject, onMounted, reactive, ref} from 'vue';
-import {ArchiveIcon, SelectorIcon, CheckIcon, XIcon, ChevronRightIcon} from '@heroicons/vue/solid'
+import {ExclamationIcon, ArchiveIcon, SelectorIcon, CheckIcon, XIcon, ChevronRightIcon} from '@heroicons/vue/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
 import MemberTypeBadge from '@/views/components/member-type-badge.vue'
 import Fuse from "fuse.js";
-import {Link} from "@inertiajs/inertia-vue3";
+import {Link, useForm} from "@inertiajs/inertia-vue3";
 import {User} from "@/scripts/downloader/user";
 import {Inertia} from "@inertiajs/inertia";
 import dayjs from 'dayjs'
@@ -118,23 +132,36 @@ const props = defineProps<{
     user: User,
 }>()
 
-const user_note_form = reactive({
+const note_form = useForm({
     contents: ''
 })
 
 function create_new_user_note() {
-
     try {
-        Inertia.post($route('admin.user.add_note', {
-            'user': props.user.uuid
-        }), user_note_form, {
-            preserveScroll: true
-        })
-        user_note_form.contents = ''
+        note_form.post(
+            $route('admin.user.note.store', {
+                'user': props.user.uuid
+            }), {
+                preserveScroll: true,
+                onSuccess: () => note_form.reset('contents'),
+            }
+        )
+
+        note_form.contents = ''
     } catch (e) {
 
     }
+}
 
+function delete_user_note(note_id: number) {
+    note_form.delete(
+        $route('admin.user.note.destroy', {
+            'user': props.user.uuid,
+            'note': note_id
+        }), {
+            preserveScroll: true,
+        }
+    )
 }
 
 let $route = inject('$route')

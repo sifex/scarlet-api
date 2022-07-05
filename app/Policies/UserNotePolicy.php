@@ -15,8 +15,8 @@ class UserNotePolicy
         return auth()->user()->isAdministrator();
     }
 
-    public function delete(UserNote $userNote): bool
+    public function destroy(User $user, UserNote $note): bool
     {
-        return auth()->user()->id === $userNote->author->id;
+        return auth()->user()->id === $note->author->id;
     }
 }

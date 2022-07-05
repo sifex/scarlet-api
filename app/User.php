@@ -4,6 +4,7 @@ namespace App;
 
 use App\Enum\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Shetabit\TokenBuilder\Traits\HasTemporaryTokens;
@@ -15,6 +16,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasFactory;
     use HasTemporaryTokens;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -33,15 +35,15 @@ class User extends Authenticatable
     /**
      * Visible
      */
-//    protected $visible = [
-//        'uuid',
-//        'username',
-//        'installDir',
-//        'type',
-//        'playerID',
-//        'comment',
-//        'remark'
-//    ];
+    protected $visible = [
+        'uuid',
+        'username',
+        'installDir',
+        'type',
+        'playerID',
+        'comment',
+        'remark'
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -61,6 +63,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'type' => UserRole::class
     ];
+
+    public function notes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserNote::class)->orderByDesc('created_at');
+    }
 
     /**
      * Get the route key for the model.
@@ -91,14 +98,5 @@ class User extends Authenticatable
             UserRole::SPECIAL,
             UserRole::VETERAN
         ])->contains($this->type);
-    }
-
-    protected $with = [
-        'notes'
-    ];
-
-    public function notes()
-    {
-        return $this->hasMany(UserNote::class)->orderByDesc('created_at');
     }
 }

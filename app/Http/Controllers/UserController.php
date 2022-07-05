@@ -7,6 +7,7 @@ use App\User;
 use Auth;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -24,6 +25,7 @@ class UserController extends Controller
     public function __construct()
     {
 //        $this->authorizeResource(User::class, 'model');
+//        User::addGlobalScope('with_notes', fn(Builder $builder) => $builder->with('notes'));
     }
 
     public function redirect_to_user_management(): RedirectResponse
@@ -42,7 +44,7 @@ class UserController extends Controller
 
         return Inertia::render('Admin/UserManagement', [
             'current_user' => Auth::user(),
-            'all_users' => Inertia::lazy(fn () => User::all())
+            'all_users' => Inertia::lazy(fn () => User::with('notes')->all())
         ]);
     }
 
@@ -57,7 +59,7 @@ class UserController extends Controller
 
         return Inertia::render('Admin/UserManagement/Create', [
             'current_user' => Auth::user(),
-            'all_users' => Inertia::lazy(fn () => User::all())
+            'all_users' => Inertia::lazy(fn () => User::with('notes')->all())
         ]);
     }
 
@@ -93,7 +95,7 @@ class UserController extends Controller
 
         return Inertia::render('Admin/ViewUser', [
             'current_user' => Auth::user(),
-            'user' => $user
+            'user' => $user->load('notes')
         ]);
     }
 
@@ -106,12 +108,12 @@ class UserController extends Controller
      */
     public function edit(User $user): \Inertia\Response
     {
-        $this->authorize('update', $user);
-
-        return Inertia::render('Admin/EditUser', [
-            'current_user' => Auth::user(),
-            'user' => $user
-        ]);
+//        $this->authorize('update', $user);
+//
+//        return Inertia::render('Admin/EditUser', [
+//            'current_user' => Auth::user(),
+//            'user' => $user->load('notes')
+//        ]);
     }
 
     /**

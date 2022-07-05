@@ -32,6 +32,7 @@ task('build', function () {
     cd('{{release_path}}');
     run('npm install');
     run('npm run build');
+    run('rm -rf node_modules/');
 });
 
 after('deploy:vendors', 'build');

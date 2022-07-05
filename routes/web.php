@@ -49,8 +49,11 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'admin.user.destroy',
         ]);
 
-        Route::post('user/{user}/add_note', [UserNoteController::class, 'create'])
-            ->name('admin.user.add_note');
+        Route::post('user/{user}/note', [UserNoteController::class, 'create'])
+            ->name('admin.user.note.store');
+
+        Route::delete('user/{user}/note/{note}', [UserNoteController::class, 'destroy'])
+            ->name('admin.user.note.destroy');
     });
 });
 
