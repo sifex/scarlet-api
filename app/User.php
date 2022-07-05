@@ -42,7 +42,8 @@ class User extends Authenticatable
         'type',
         'playerID',
         'comment',
-        'remark'
+        'remark',
+        'notes'
     ];
 
     /**

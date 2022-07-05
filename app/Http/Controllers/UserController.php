@@ -7,10 +7,12 @@ use App\User;
 use Auth;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 use Inertia\Inertia;
+use Inertia\Response;
 use Throwable;
 
 class UserController extends Controller
@@ -34,31 +36,30 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Inertia\Response
+     * @return Response
+     * @throws AuthorizationException
      */
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
         $this->authorize('viewAny', User::class);
 
         return Inertia::render('Admin/UserManagement', [
             'current_user' => Auth::user(),
-            'all_users' => Inertia::lazy(fn () => User::with('notes')->all())
+            'all_users' => Inertia::lazy(fn () => User::with('notes')->get())
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Inertia\Response
+     * @return Response
+     * @throws AuthorizationException
      */
-    public function create(): \Inertia\Response
+    public function create(): Response
     {
         $this->authorize('create', User::class);
 
-        return Inertia::render('Admin/UserManagement/Create', [
-            'current_user' => Auth::user(),
-            'all_users' => Inertia::lazy(fn () => User::with('notes')->all())
-        ]);
+        return redirect()->route('admin.user.index');
     }
 
     /**
@@ -66,6 +67,7 @@ class UserController extends Controller
      *
      * @param Request $request
      * @return RedirectResponse
+     * @throws AuthorizationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -85,15 +87,16 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param User $user
-     * @return \Inertia\Response
+     * @return Response
+     * @throws AuthorizationException
      */
-    public function show(User $user): \Inertia\Response
+    public function show(User $user): Response
     {
         $this->authorize('view', $user);
 
         return Inertia::render('Admin/ViewUser', [
-            'current_user' => Auth::user(),
-            'user' => $user->load('notes')
+            'current_user' => Auth::user()->load('notes'),
+            'user' => $user->loadMissing('notes')
         ]);
     }
 
@@ -101,10 +104,9 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param User $user
-     * @return \Inertia\Response
-     * @throws AuthorizationException
+     * @return Response
      */
-    public function edit(User $user): \Inertia\Response
+    public function edit(User $user): Response
     {
 //        $this->authorize('update', $user);
 //
@@ -133,7 +135,7 @@ class UserController extends Controller
             ])
         );
 
-        return redirect()->route('electron');
+        return redirect()->back();
     }
 
     /**

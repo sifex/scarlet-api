@@ -3,6 +3,9 @@ import '@/css/app.css';
 import {createApp, h} from 'vue'
 import {createInertiaApp} from '@inertiajs/inertia-vue3'
 
+// @ts-ignore
+import Notifications from 'notiwind'
+
 /**
  * Imports the given page component from the page record.
  */
@@ -29,6 +32,7 @@ createInertiaApp({
 
         // @ts-ignore
         app.provide('$route', window.route)
+        app.use(Notifications)
         app.use(plugin)
         app.mount(el)
     },

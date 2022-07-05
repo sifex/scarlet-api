@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\UserRole;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\actingAs;
@@ -85,4 +86,35 @@ test('it can update a user as an admin', function () {
 
     expect($other_user->refresh()->username)
         ->toBe('Testing 1827');
+});
+
+
+test('it can update a user role as an admin', function () {
+    $admin = User::factory()->admin()->create();
+
+    $other_user = User::factory()->create([
+        'type' => 'member'
+    ]);
+
+    actingAs($admin)
+        ->patch(route('admin.user.update', [
+            'user' => $other_user->uuid
+        ]), [
+            'type' => 'leader'
+        ])
+        ->assertStatus(302);
+
+    expect($other_user->refresh()->type)
+        ->toBe(UserRole::LEADER);
+
+    actingAs($admin)
+        ->patch(route('admin.user.update', [
+            'user' => $other_user->uuid
+        ]), [
+            'type' => UserRole::VETERAN->value
+        ])
+        ->assertStatus(302);
+
+    expect($other_user->refresh()->type)
+        ->toBe(UserRole::VETERAN);
 });

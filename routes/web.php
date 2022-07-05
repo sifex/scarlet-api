@@ -48,6 +48,9 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'admin.user.destroy',
         ]);
 
+        /**
+         * User Note
+         */
         Route::post('user/{user}/note', [UserNoteController::class, 'create'])
             ->name('admin.user.note.store');
 
