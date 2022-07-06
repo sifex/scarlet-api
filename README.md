@@ -16,7 +16,6 @@ composer install
 # Run
 sail up -d
 sail npm i
-sail npm run dev -- --host
 ```
 
 ## Testing

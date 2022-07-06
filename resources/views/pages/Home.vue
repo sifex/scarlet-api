@@ -39,13 +39,15 @@
                 </a>
             </div>
 
+            <div class="" v-if="current_user_instance.isAdminEnough()">
             <Link
-                v-if="current_user_instance.isAdminEnough()"
+
                 class="grow block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-rose-500 text-white hover:bg-rose-700 hover:text-white transition-colors"
                 :href="$route('admin.user.index')">
                 Go to Admin Page
                 <ChevronRightIcon class="inline-block h-4 w-4"/>
             </Link>
+            </div>
 
             <div class="sm:flex space-y-4 sm:space-y-0 sm:space-x-4">
                 <Link

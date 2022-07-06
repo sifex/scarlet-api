@@ -1,42 +1,42 @@
 {
-  "devDependencies": {
-    "@tailwindcss/forms": "^0.5.2",
-    "@vitejs/plugin-vue": "^1.9.2",
-    "@vue/compiler-sfc": "^3.2.19",
-    "autoprefixer": "^10.4.2",
-    "browser-sync": "^2.27.7",
-    "browser-sync-webpack-plugin": "^2.3.0",
-    "postcss": "^8.4.5",
-    "prettier": "2.5.1",
-    "prettier-plugin-tailwindcss": "^0.1.4",
-    "resolve-url-loader": "^5.0.0",
-    "sass": "^1.52.3",
-    "tailwindcss": "^3.0.16",
-    "vite": "^2.9.13",
-    "vite-plugin-laravel": "^0.2.0-beta.24",
-    "vite-svg-loader": "^3.4.0",
-    "vue-loader": "^16.8.3"
-  },
-  "dependencies": {
-    "@billjs/event-emitter": "^1.0.3",
-    "@headlessui/vue": "^1.6.5",
-    "@heroicons/vue": "^1.0.5",
-    "@inertiajs/inertia": "^0.11.0",
-    "@inertiajs/inertia-vue3": "^0.6.0",
-    "@inertiajs/progress": "^0.2.7",
-    "@tauri-apps/api": "^1.0.1",
-    "dayjs": "^1.11.3",
-    "exponential-backoff": "^3.1.0",
-    "fuse.js": "^6.6.2",
-    "notiwind": "^1.2.6",
-    "vue": "^3.2.6",
-    "ws": "^8.4.2",
-    "ziggy-js": "^1.4.2"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview",
-    "mock-agent": "node --experimental-modules setup/mock-agent/index.js"
-  }
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "serve": "vite preview",
+        "mock-agent": "node --experimental-modules setup/mock-agent/index.js"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "@vitejs/plugin-vue": "^1.9.2",
+        "@vue/compiler-sfc": "^3.2.19",
+        "autoprefixer": "^10.4.2",
+        "browser-sync": "^2.27.7",
+        "browser-sync-webpack-plugin": "^2.3.0",
+        "postcss": "^8.4.5",
+        "prettier": "2.5.1",
+        "prettier-plugin-tailwindcss": "^0.1.4",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.52.3",
+        "tailwindcss": "^3.0.16",
+        "vite": "^2.9.13",
+        "vite-plugin-laravel": "^0.2.0-beta.24",
+        "vite-svg-loader": "^3.4.0",
+        "vue-loader": "^16.8.3"
+    },
+    "dependencies": {
+        "@billjs/event-emitter": "^1.0.3",
+        "@headlessui/vue": "^1.6.5",
+        "@heroicons/vue": "^1.0.5",
+        "@inertiajs/inertia": "^0.11.0",
+        "@inertiajs/inertia-vue3": "^0.6.0",
+        "@inertiajs/progress": "^0.2.7",
+        "@tauri-apps/api": "^1.0.1",
+        "dayjs": "^1.11.3",
+        "exponential-backoff": "^3.1.0",
+        "fuse.js": "^6.6.2",
+        "notiwind": "^1.2.6",
+        "vue": "^3.2.6",
+        "ws": "^8.4.2",
+        "ziggy-js": "^1.4.2"
+    }
 }
