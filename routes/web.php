@@ -61,3 +61,14 @@ Route::middleware('auth')->group(function () {
 
 Route::match(['get', 'post'], 'logout', [SteamLoginController::class, 'logout'])
     ->name('logout');
+
+/**
+ * Legacy Routes
+ */
+Route::group(['name'=>'legacy_routes'], function() {
+    Route::get('/key/electron/', fn() => redirect()->route('electron.intro'));
+    Route::get('/key/', fn() => redirect()->route('electron.intro'));
+    Route::get("/auth/electron", fn() => redirect()->route('electron.intro'));
+    Route::get("/auth", fn() => redirect()->route('electron.intro'));
+    Route::get('/xml/', fn() => redirect()->route('home'));
+});

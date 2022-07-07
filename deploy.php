@@ -28,6 +28,14 @@ host('production')
     ->set('target', 'master')
     ->setDeployPath('/var/www/scarlet.australianarmedforces.org');
 
+host('london')
+    ->setHostname('78.141.239.57')
+    ->setRemoteUser('root')
+    ->setPort(22)
+    ->set('target', 'neo')
+    ->setDeployPath('/var/www/london.australianarmedforces.org');
+
+
 // Tasks
 task('build', function () {
     cd('{{release_path}}');

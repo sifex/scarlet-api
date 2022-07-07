@@ -79,13 +79,17 @@ class AppController extends Controller
      */
     private function getLatestScarletDownloadLink(): string
     {
-        $github_release_information = GitHub::connection('main')->api('repo')->releases()->latest('sifex', 'scarlet');
-        $assets = collect($github_release_information)->get('assets');
-        throw_if(sizeof($assets) === 0, \Exception::class, 'No current available Scarlet download link');
-        $download_asset = collect($assets)->filter(function ($asset) {
-            return str_ends_with($asset['name'], '.exe');
-        })->first();
-        return collect($download_asset)->get('browser_download_url');
+        if (env('APP_ENV') === 'testing' || env('APP_ENV') === 'local') {
+            return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        } else {
+            $github_release_information = GitHub::connection('main')->api('repo')->releases()->latest('sifex', 'scarlet');
+            $assets = collect($github_release_information)->get('assets');
+            throw_if(sizeof($assets) === 0, \Exception::class, 'No current available Scarlet download link');
+            $download_asset = collect($assets)->filter(function ($asset) {
+                return str_ends_with($asset['name'], '.exe');
+            })->first();
+            return collect($download_asset)->get('browser_download_url');
+        }
     }
 
     /**
