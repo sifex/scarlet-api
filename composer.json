@@ -21,7 +21,6 @@
         "guzzlehttp/guzzle": "^7.4",
         "http-interop/http-factory-guzzle": "^1.0",
         "inertiajs/inertia-laravel": "^0.5.4",
-        "innocenzi/laravel-vite": "^0.2",
         "kanalumaddela/laravel-steam-login": "^2.5",
         "knplabs/github-api": "^3.0",
         "laravel/framework": "^9.0",
