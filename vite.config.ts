@@ -7,12 +7,10 @@ import {resolve} from "path";
 
 export default defineConfig({
     plugins: [
-        laravel({
-            input: [
+        laravel([
                 'resources/scripts/main.ts'
             ],
-            refresh: true,
-        }),
+        ),
         svgLoader(),
         vue({
             template: {

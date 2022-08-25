@@ -1,11 +1,12 @@
 import '@/css/app.css';
 
-import {createApp, h} from 'vue'
-import {createInertiaApp} from '@inertiajs/inertia-vue3'
-
 // @ts-ignore
 import Notifications from 'notiwind'
 import {InertiaProgress} from "@inertiajs/progress";
+
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/inertia-vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 InertiaProgress.init({
     // The delay after which the progress bar will
@@ -22,35 +23,14 @@ InertiaProgress.init({
     showSpinner: true,
 })
 
-
-/**
- * Imports the given page component from the page record.
- */
-function resolvePageComponent(name: string, pages: Record<string, any>) {
-    for (const path in pages) {
-        if (path.endsWith(`${name.replace('.', '/')}.vue`)) {
-            return typeof pages[path] === 'function'
-                ? pages[path]()
-                : pages[path]
-        }
-    }
-
-    throw new Error(`Page not found: ${name}`)
-}
-
-// noinspection JSIgnoredPromiseFromCall
 createInertiaApp({
-    resolve: name => resolvePageComponent(name, import.meta.glob('../views/pages/**/*.vue')),
-    // @ts-ignore
+    resolve: (name) => resolvePageComponent(`../views/Pages/${name}.vue`, import.meta.glob('../views/Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
-        const app = createApp({
-            render: () => h(App, props) }
-        )
-
-        // @ts-ignore
-        app.provide('$route', window.route)
-        app.use(Notifications)
-        app.use(plugin)
-        app.mount(el)
+        createApp({ render: () => h(App, props) })
+            .use(plugin)
+            // .use(InertiaProgress)
+            // .use(Notifications)
+            .provide('$route', window.route)
+            .mount(el)
     },
-})
+});
