@@ -75,7 +75,6 @@ import {Link} from '@inertiajs/inertia-vue3'
 import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ModelTemplate from "@/views/components/templates/model-template.vue";
 import {User} from "@/scripts/downloader/user";
-import {plainToClass} from "class-transformer";
 
 const {
     current_user,
@@ -85,7 +84,12 @@ const {
     scarlet_download?: string
 }>()
 
-let current_user_instance = computed(() => plainToClass(User, current_user))
+let current_user_instance = computed(() => {
+    return Object.assign(new User(
+        current_user.username,
+        current_user.playerID,
+    ), current_user)
+})
 
 onMounted(() => {
     Inertia.reload({only: ['scarlet_download']})
