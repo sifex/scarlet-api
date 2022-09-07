@@ -11,8 +11,6 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Shetabit\TokenBuilder\Facade\TokenBuilder;
 
-//use GitHub;
-
 class AppController extends Controller
 {
     public function home(): Response
@@ -20,15 +18,8 @@ class AppController extends Controller
         return Inertia::render('Home', [
             'scarlet_download' => Inertia::lazy(
                 fn () =>
-                Auth::check() ? $this->getLatestScarletDownloadLink() : ''
+                Auth::check() ? self::getLatestScarletDownloadLink() : ''
             )
-        ]);
-    }
-
-    public function electron(): Response
-    {
-        return Inertia::render('ElectronDownloader', [
-            'arma_server' => Inertia::lazy(fn () => $this->queryArmaServer())
         ]);
     }
 
@@ -77,7 +68,7 @@ class AppController extends Controller
     /**
      * @throws \Throwable
      */
-    private function getLatestScarletDownloadLink(): string
+    private static function getLatestScarletDownloadLink(): string
     {
         if (env('APP_ENV') === 'testing' || env('APP_ENV') === 'local') {
             return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
@@ -95,7 +86,7 @@ class AppController extends Controller
     /**
      * @throws \Exception
      */
-    private function queryArmaServer()
+    public static function queryArmaServer()
     {
         $servers = [
             [

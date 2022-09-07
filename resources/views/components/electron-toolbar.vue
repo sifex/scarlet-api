@@ -15,17 +15,21 @@
 </template>
 
 <script setup>
-import {appWindow} from '@tauri-apps/api/window'
+// import {appWindow} from '@tauri-apps/api/window'
 import {onMounted, ref} from "vue";
 
-let ready = ref(false)
+let appWindow = {
+    minimize: () => {},
+    close: () => {},
+}
+let ready = ref(true)
 
 onMounted(() => {
-    if(appWindow.isVisible().then(() => {
-        ready.value = true
-    })) {
-
-    }
+    // if(appWindow.isVisible().then(() => {
+    //     ready.value = true
+    // })) {
+    //
+    // }
 })
 
 </script>

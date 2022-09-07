@@ -12,5 +12,3 @@ uses(Tests\TestCase::class)->in('Feature');
  * Dusk
  */
 uses(DuskTestCase::class)->in('Browser');
-
-

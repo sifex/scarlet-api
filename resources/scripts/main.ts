@@ -24,12 +24,12 @@ InertiaProgress.init({
 })
 
 createInertiaApp({
-    resolve: (name) => resolvePageComponent(`../views/Pages/${name}.vue`, import.meta.glob('../views/Pages/**/*.vue')),
+    resolve: (name) => resolvePageComponent(`../views/pages/${name}.vue`, import.meta.glob('../views/pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
-            // .use(InertiaProgress)
-            // .use(Notifications)
+            .use(InertiaProgress)
+            .use(Notifications)
             .provide('$route', window.route)
             .mount(el)
     },

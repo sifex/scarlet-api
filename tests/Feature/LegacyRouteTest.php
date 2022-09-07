@@ -14,5 +14,3 @@ test('it handles old routes correctly', function () {
         ->and($this->get('/admin/')->getStatusCode())->not->toEqual(404)
         ->and($this->get('/xml/')->getStatusCode())->not->toEqual(404);
 });
-
-

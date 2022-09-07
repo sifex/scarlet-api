@@ -96,7 +96,7 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, reactive} from 'vue';
+import {inject, onMounted, reactive} from 'vue';
 import LoadingBar from '@/views/components/loading-bar.vue';
 import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
@@ -213,9 +213,14 @@ downloader.on('fileUpdate', (evt) => updater.file = evt.data.trim() ?? updater.f
 
 // Update Installer Location
 downloader.on('updateInstallerLocation', evt => {
-    Inertia.post('/@me/', {
-        installDir: evt.data
-    }, {
+    Inertia.patch(
+        $route('admin.user.update', {
+            user: props.current_user.uuid
+        }),
+        {
+            installDir: evt.data
+        },
+        {
         // preserveState: false
         onSuccess: () => {
             Inertia.reload({only: ['current_user']})
@@ -223,6 +228,8 @@ downloader.on('updateInstallerLocation', evt => {
         }
     })
 })
+
+let $route = inject('$route')
 
 </script>
 

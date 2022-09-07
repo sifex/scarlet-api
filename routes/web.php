@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\SteamLoginController;
 use App\Http\Controllers\Auth\UserController2;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserNoteController;
+use App\Http\Controllers\WebDownloaderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'home'])
@@ -28,10 +29,12 @@ Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'
 //Route::post('@me', [UserController2::class, 'update']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/electron', [AppController::class, 'electron'])
+    Route::get('/electron', [WebDownloaderController::class, 'electron'])
         ->name('electron');
 
-    Route::prefix('admin')->group(function () {
+
+
+    Route::prefix('admin')->middleware('admin')->group(function () {
         Route::get('/', [UserController::class, 'redirect_to_user_management'])
             ->name('admin');
 
@@ -65,10 +68,10 @@ Route::match(['get', 'post'], 'logout', [SteamLoginController::class, 'logout'])
 /**
  * Legacy Routes
  */
-Route::group(['name'=>'legacy_routes'], function() {
-    Route::get('/key/electron/', fn() => redirect()->route('electron.intro'));
-    Route::get('/key/', fn() => redirect()->route('electron.intro'));
-    Route::get("/auth/electron", fn() => redirect()->route('electron.intro'));
-    Route::get("/auth", fn() => redirect()->route('electron.intro'));
-    Route::get('/xml/', fn() => redirect()->route('home'));
+Route::group(['name'=>'legacy_routes'], function () {
+    Route::get('/key/electron/', fn () => redirect()->route('electron.intro'));
+    Route::get('/key/', fn () => redirect()->route('electron.intro'));
+    Route::get("/auth/electron", fn () => redirect()->route('electron.intro'));
+    Route::get("/auth", fn () => redirect()->route('electron.intro'));
+    Route::get('/xml/', fn () => redirect()->route('home'));
 });

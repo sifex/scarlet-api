@@ -1,6 +1,6 @@
 import {EventEmitter} from "@billjs/event-emitter";
 import {backOff} from "exponential-backoff";
-import {User} from "@/scripts/downloader/user";
+import type {User} from "@/scripts/downloader/user";
 
 type ScarletClient = {
     status: Status,
