@@ -60,7 +60,7 @@
                         <CheckIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-emerald-500"></CheckIcon>
                     </template>
                     <template v-else>
-                        <XIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XIcon>
+                        <XMarkIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XMarkIcon>
                     </template>
                 </div>
                 <div class="basis-5/12 truncate text-sm hidden md:block">
@@ -78,7 +78,7 @@
 
 <script lang="ts" setup>
 import {computed, inject, onMounted, ref} from 'vue';
-import {CheckIcon, XIcon} from '@heroicons/vue/solid'
+import {CheckIcon, XMarkIcon} from '@heroicons/vue/24/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
 import MemberTypeBadge from '@/views/components/member-type-badge.vue'

@@ -33,7 +33,7 @@ export default {
     .progress {
         width: 100%;
         height: 48px;
-        background-color: #060b16;
+        background-color: #050912;
         border-radius: 4px;
         padding: 6px;
 

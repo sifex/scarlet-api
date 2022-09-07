@@ -5,7 +5,7 @@
                 class="text-left mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 <span class="block truncate">{{ membership_types[modelValue] }}</span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true"/>
+                    <ArrowsUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true"/>
                 </span>
             </ListboxButton>
 
@@ -60,7 +60,7 @@ import {
     ListboxOptions,
     ListboxOption,
 } from '@headlessui/vue'
-import {CheckIcon, SelectorIcon} from '@heroicons/vue/solid'
+import {CheckIcon, ArrowsUpDownIcon} from '@heroicons/vue/24/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 
 const membership_types = MemberType

@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import {inject, onMounted, ref} from 'vue';
-import {CheckCircleIcon} from "@heroicons/vue/outline";
+import {CheckCircleIcon} from "@heroicons/vue/24/outline";
 import {User} from "@/scripts/downloader/user";
 
 const props = defineProps({
@@ -60,7 +60,7 @@ onMounted(() => {
         }, 2000)
     } else {
         setTimeout(() => {
-            window.location.href = 'scarlet://' + props.token
+            window.location.href = 'scarlet-dev://' + props.token
             setTimeout(() => {
                 // window.close()
                 youCanCloseThisWindowNow.value = true

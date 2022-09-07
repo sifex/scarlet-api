@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use GameQ\GameQ;
 use GrahamCampbell\GitHub\Facades\GitHub;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 use Shetabit\TokenBuilder\Facade\TokenBuilder;
@@ -48,6 +49,7 @@ class AppController extends Controller
         }
 
         return Inertia::render('BrowserElectronVerify', [
+            'user' => Auth::user(),
             'token' => $token->token ?? ''
         ]);
     }

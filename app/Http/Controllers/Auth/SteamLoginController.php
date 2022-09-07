@@ -20,6 +20,8 @@ class SteamLoginController extends AbstractSteamLoginController
         if (!$user) {
             $steamUser->getUserInfo();
 
+            dd($steamUser);
+
             $user = User::create([
                 'username' => $steamUser->name,
                 'playerID' => $steamUser->steamId,

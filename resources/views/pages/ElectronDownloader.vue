@@ -68,26 +68,11 @@
                                 'bg-emerald-600 hover:bg-emerald-500': updater.statusColor === 'emerald',
                                 'bg-red-600 hover:bg-red-500': updater.statusColor === 'red',
                             }]"
-                            class="font-exo px-6 py-1.5 text-sm hover:bg-sky-500 transition-all text-white rounded cursor-pointer">
+                            class="font-exo px-6 py-2 text-sm hover:bg-sky-500 transition-all text-white rounded cursor-pointer">
                         {{ updater.buttons.start.label }}
                     </button>
-                    <button @click="changeInstallLocation"
-                            :class="{ 'opacity-30': !updater.buttons.changeLocation.enabled }"
-                            class="font-exo px-6 py-1.5 text-sm bg-slate-800 hover:bg-slate-700 transition-all text-white rounded cursor-pointer">
-
-                        <span
-                            v-if="updater.buttons.changeLocation.enabled">{{ updater.buttons.changeLocation.label }}</span>
-
-                        <span v-if="!updater.buttons.changeLocation.enabled" class="">
-                            <svg class="animate-spin h-5 w-5 mx-16 text-slate-600" xmlns="http://www.w3.org/2000/svg"
-                                 fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor"
-                                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                        </span>
-                    </button>
+                    <div class="grow"></div>
+                    <Settings></Settings>
                 </div>
             </div>
         </div>
@@ -97,13 +82,15 @@
 
 <script lang="ts" setup>
 import {inject, onMounted, reactive} from 'vue';
-import LoadingBar from '@/views/components/loading-bar.vue';
+import LoadingBar from '@/views/components/electron/loading-bar.vue';
 import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
 import ScarletDownloader, {Status as ClientStatus} from '@/scripts/downloader/downloader'
-import Status from '@/views/components/status.vue'
-import ElectronToolbar from '@/views/components/electron-toolbar.vue'
+import Status from '@/views/components/electron/status.vue'
+import ElectronToolbar from '@/views/components/electron/electron-toolbar.vue'
 import {User} from "@/scripts/downloader/user";
+import {Cog6ToothIcon} from '@heroicons/vue/24/solid'
+import Settings from '@/views/components/electron/settings.vue'
 
 const props = defineProps({
     current_user: {
@@ -233,4 +220,18 @@ let $route = inject('$route')
 
 </script>
 
-<style></style>
+<style>
+body {
+    user-select: none;
+}
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+input, button, textarea, :focus {
+    outline: none;
+}
+</style>

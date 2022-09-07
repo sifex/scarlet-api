@@ -35,7 +35,7 @@
                               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     {{ scarlet_download ? "Download Scarlet Updater" : "Fetching Updater" }}
-                    <DownloadIcon v-if="scarlet_download" class="h-5 w-5 ml-2 mt-0.5 -mb-0.5"/>
+                    <ArrowDownTrayIcon v-if="scarlet_download" class="h-5 w-5 ml-2 mt-0.5 -mb-0.5"/>
                 </a>
             </div>
 
@@ -68,7 +68,8 @@
 
 <script lang="ts" setup>
 import {computed, inject, onMounted} from 'vue';
-import {ChevronRightIcon, DownloadIcon} from '@heroicons/vue/solid'
+import {ChevronRightIcon} from '@heroicons/vue/24/solid'
+import {ArrowDownTrayIcon} from '@heroicons/vue/24/outline'
 import {Inertia} from "@inertiajs/inertia";
 import {Link} from '@inertiajs/inertia-vue3'
 

@@ -1,6 +1,6 @@
 <template>
     <div class="absolute h-full w-full bg-[#080e1f] bg-scarlet-background retina:bg-scarlet-background-2x bg-cover bg-center font-weight-bolder">
-        <div data-tauri-drag-region id="drag" class="fixed w-full h-48 -mt-10 -mb-32 r-10 opacity-5" style="-webkit-user-select: none; -webkit-app-region: drag;"></div>
+        <electron-toolbar></electron-toolbar>
         <div class="min-h-full flex items-center justify-center py-12">
             <div class="w-full space-y-4 bg-white px-4 py-8">
                 <div class="max-w-lg mx-auto">
@@ -29,9 +29,26 @@
 <script lang="ts" setup>
 import {User} from "@/scripts/downloader/user";
 import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
+import ElectronToolbar from '@/views/components/electron/electron-toolbar.vue'
 
 const props = defineProps<{
     current_user: User
 }>()
 </script>
 
+
+<style>
+body {
+    user-select: none;
+}
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+input, button, textarea, :focus {
+    outline: none;
+}
+</style>

@@ -24,7 +24,7 @@
                     <b class="md:block pr-4 text-slate-600 text-sm">Player ID <span
                         class="text-slate-400 whitespace-nowrap">(Steam ID)</span>:</b>
                     <span class="text-sm" v-if="user.playerID">{{ user.playerID }}</span>
-                    <XIcon v-else class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XIcon>
+                    <XMarkIcon v-else class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XMarkIcon>
                 </div>
                 <div class="shrink">
                     <b class="md:block pr-4 text-slate-600 text-sm">Scarlet Installed:</b>
@@ -32,7 +32,7 @@
                         <CheckIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-emerald-500"></CheckIcon>
                     </template>
                     <template v-else>
-                        <XIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XIcon>
+                        <XMarkIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XMarkIcon>
                     </template>
                 </div>
                 <div class="grow"></div>
@@ -47,7 +47,7 @@
                     <div class="grow">
                         <button
                             class="block text-center text-sm w-full px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-slate-600 hover:bg-slate-700 transition-colors">
-                            <ArchiveIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></ArchiveIcon>
+                            <ArchiveBoxIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></ArchiveBoxIcon>
                             Archive User
                         </button>
                     </div>
@@ -56,7 +56,7 @@
             <div id="archived_banner"
                  v-if="user.archived_at"
                  class="overflow-hidden w-full bg-orange-500 text-white py-2 text-center uppercase tracking-wide font-bold text-sm relative">
-                <ExclamationIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-orange-200 mr-4"></ExclamationIcon>
+                <ExclamationTriangleIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-orange-200 mr-4"></ExclamationTriangleIcon>
                 <span class="z-10 relative">This user is archived</span>
             </div>
             <section id="control-bay" class="py-10 px-3 sm:px-4 md:px-6 lg:px-10 border-b border-1">
@@ -174,7 +174,7 @@
                                 v-if="note.author.id === current_user.id"
                                 @click="delete_note(note.id)"
                                 class="block text-center w-full px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-700 hover:text-white transition-colors">
-                                <!--                                <ArchiveIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></ArchiveIcon>-->
+                                <!--                                <ArchiveBoxIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></ArchiveBoxIcon>-->
                                 Delete Note
                             </button>
                         </div>
@@ -188,7 +188,7 @@
 <script lang="ts" setup>
 import SteamLogo from '@/images/steam_logo.svg'
 import {inject} from 'vue';
-import {ArchiveIcon, CheckIcon, ChevronRightIcon, ExclamationIcon, XIcon} from '@heroicons/vue/solid'
+import {ArchiveBoxIcon, CheckIcon, ChevronRightIcon, ExclamationTriangleIcon, XMarkIcon} from '@heroicons/vue/24/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
 import MemberTypeBadge from '@/views/components/member-type-badge.vue'
