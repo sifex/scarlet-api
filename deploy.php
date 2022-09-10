@@ -29,8 +29,9 @@ host('production')
     ->setDeployPath('/var/www/scarlet.australianarmedforces.org');
 
 host('london')
-    ->setHostname('78.141.239.57')
-    ->setRemoteUser('root')
+    ->setForwardAgent(true)
+    ->setHostname('100.71.195.41')
+    ->setRemoteUser('pilot')
     ->setPort(22)
     ->set('target', 'neo')
     ->setDeployPath('/var/www/london.australianarmedforces.org');
