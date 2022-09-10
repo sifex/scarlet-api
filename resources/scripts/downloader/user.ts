@@ -30,7 +30,7 @@ export class User implements UserInterface {
         return ([
             MemberType.leader,
             MemberType.staff,
-            MemberType.veteran,
+            // MemberType.veteran,
             // @ts-ignore
         ].includes(MemberType[this.type]))
     }

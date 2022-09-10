@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\UserNoteController;
+use App\Http\Controllers\Admin\XMLAdminController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\SteamLoginController;
 use App\Http\Controllers\Auth\UserController2;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserNoteController;
 use App\Http\Controllers\WebDownloaderController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,16 +34,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/electron', [WebDownloaderController::class, 'electron'])
         ->name('electron');
 
+    Route::patch('user/{user}', [UserController::class, 'update'])->name('user.update');
 
 
     Route::prefix('admin')->middleware('admin')->group(function () {
-        Route::get('/', [UserController::class, 'redirect_to_user_management'])
+        Route::get('/', [UserManagementController::class, 'redirect_to_user_management'])
             ->name('admin');
 
         /**
          * User Resource
          */
-        Route::resource('user', UserController::class)->names([
+        Route::resource('user', UserManagementController::class)->names([
             'index' => 'admin.user.index',
             'create' => 'admin.user.create',
             'store' => 'admin.user.store',
@@ -59,6 +62,8 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('user/{user}/note/{note}', [UserNoteController::class, 'destroy'])
             ->name('admin.user.note.destroy');
+
+        Route::get('xml', [XMLAdminController::class, 'index'])->name('admin.xml.index');
     });
 });
 

@@ -44,7 +44,8 @@
 
             <Link :href="$route('admin.user.show', { user: user.item.uuid })"
                 v-for="user in all_filtered_users"
-                class="group flex flex-col md:flex-row md:items-center md:gap-4 md:h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl">
+                class="group flex flex-col md:flex-row md:items-center md:gap-4 md:h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl"
+                :class="{'bg-orange-200': user.item.archived_at}">
 
                 <div class="basis-2/12 truncate md:pl-4">
                     {{ user.item.username }}

@@ -39,16 +39,27 @@
                 <div class="shrink flex gap-4">
                     <div class="grow">
                         <button
+                            v-if="false"
                             class="block text-center text-sm w-full px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 transition-colors">
                             <SteamLogo fill="#FFFFFF" class="inline-block h-4 mr-5 -mt-1"></SteamLogo>
                             Relink to Steam
                         </button>
                     </div>
                     <div class="grow">
+                        <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.archived_at }}</span>
                         <button
+                            @click="archive_user"
+                            v-if="!user.archived_at"
                             class="block text-center text-sm w-full px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-slate-600 hover:bg-slate-700 transition-colors">
                             <ArchiveBoxIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></ArchiveBoxIcon>
                             Archive User
+                        </button>
+                        <button
+                            @click="recover_user"
+                            v-else
+                            class="block text-center text-sm w-full px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-emerald-700 hover:bg-slate-700 transition-colors">
+                            <CheckBadgeIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></CheckBadgeIcon>
+                            Recover User
                         </button>
                     </div>
                 </div>
@@ -188,7 +199,7 @@
 <script lang="ts" setup>
 import SteamLogo from '@/images/steam_logo.svg'
 import {inject} from 'vue';
-import {ArchiveBoxIcon, CheckIcon, ChevronRightIcon, ExclamationTriangleIcon, XMarkIcon} from '@heroicons/vue/24/solid'
+import {ArchiveBoxIcon, CheckBadgeIcon, CheckIcon, ChevronRightIcon, ExclamationTriangleIcon, XMarkIcon} from '@heroicons/vue/24/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
 import MemberTypeBadge from '@/views/components/member-type-badge.vue'
@@ -233,6 +244,46 @@ function update_user(user: User) {
     )
 }
 
+function archive_user(user: User) {
+    alter_user_form.transform((data) => ({
+            ...data,
+            archived_at: (new Date()).toISOString()
+        })).patch(
+        $route('admin.user.update', {
+            user: alter_user_form.uuid
+        }), {
+            preserveScroll: true,
+            onSuccess: () => {
+                notify({
+                    group: "generic",
+                    title: "Success",
+                    text: "User Archived"
+                })
+            }
+        }
+    )
+}
+
+function recover_user(user: User) {
+    alter_user_form.transform((data) => ({
+            ...data,
+            archived_at: null
+        })).patch(
+        $route('admin.user.update', {
+            user: alter_user_form.uuid
+        }), {
+            preserveScroll: true,
+            onSuccess: () => {
+                notify({
+                    group: "generic",
+                    title: "Success",
+                    text: "User Archived"
+                })
+            }
+        }
+    )
+}
+
 /**
  * User Notes Section
  */
@@ -241,7 +292,6 @@ const note_form = useForm({
 })
 
 function add_note() {
-
     note_form.post(
         $route('admin.user.note.store', {
             'user': props.user.uuid

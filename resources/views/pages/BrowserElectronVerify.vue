@@ -1,7 +1,7 @@
 <template>
     <div class="absolute h-full w-full bg-[#080e1f] bg-scarlet-background retina:bg-scarlet-background-2x bg-cover bg-center p-4 md:p-12 font-weight-bolder">
         <div class="min-h-full flex items-center justify-center py-12 px-2 sm:px-6 lg:px-8">
-            <div v-if="!user" class="max-w-lg w-full space-y-4 bg-white rounded-xl px-4 py-8 md:px-8 shadow-2xl shadow-black space-y-4">
+            <div v-if="!current_user" class="max-w-lg w-full space-y-4 bg-white rounded-xl px-4 py-8 md:px-8 shadow-2xl shadow-black space-y-4">
                 <h2 class=" text-center text-3xl font-extrabold text-gray-800">
                     Redirecting you to Steam...
                 </h2>
@@ -12,7 +12,7 @@
             <div v-else class="max-w-lg w-full space-y-4 bg-white rounded-xl px-4 py-8 md:px-8 shadow-2xl shadow-black/30">
                 <div class="space-y-4">
                     <h2 class=" text-center text-3xl font-extrabold text-gray-800">
-                        Thank you {{ user.username }}
+                        Thank you {{ current_user.username }}
                     </h2>
                     <div class="block flex justify-center items-center">
                         <svg v-if="!youCanCloseThisWindowNow"  class="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -39,8 +39,12 @@ import {CheckCircleIcon} from "@heroicons/vue/24/outline";
 import {User} from "@/scripts/downloader/user";
 
 const props = defineProps({
-    user: Object as () => User,
+    current_user: Object as () => User,
     token: String,
+    protocol: {
+        default: 'scarlet-dev',
+        type: String
+    }
 })
 
 /**
@@ -54,13 +58,13 @@ let youCanCloseThisWindowNow = ref(false)
 const $route = inject('$route')
 
 onMounted(() => {
-    if(!props.user) {
+    if(!props.current_user) {
         setTimeout(() => {
             window.location.href = $route('login');
         }, 2000)
     } else {
         setTimeout(() => {
-            window.location.href = 'scarlet-dev://' + props.token
+            window.location.href = props.protocol + '://' + props.token
             setTimeout(() => {
                 // window.close()
                 youCanCloseThisWindowNow.value = true

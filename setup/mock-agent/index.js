@@ -28,7 +28,8 @@ wss.on('connection', function connection(ws) {
                 ws.send('Browser|browserConfirmation')
             }, 500)
         } else if(data.startsWith('Updater|locationChange')) {
-            ws.send('Browser|UpdateInstallLocation|C:\\Users\\Alex123\\Downloads')
+
+            ws.send('Browser|UpdateInstallLocation|C:\\Users\\Alex123\\' + (Math.random() + 1).toString(36).substring(7) + '\\Downloads')
         } else if(data.startsWith('Updater|startDownload')) {
             let progress = 0
 

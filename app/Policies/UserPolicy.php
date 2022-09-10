@@ -11,19 +11,6 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * Perform pre-authorization checks.
-     *
-     * @param User $current_user
-     * @return void|bool
-     */
-    public function before(User $current_user)
-    {
-        if (auth()->user()->isAdministrator()) {
-            return true;
-        }
-    }
-
-    /**
      * Determine whether the user can view any models.
      *
      * @param User $current_user
@@ -31,7 +18,7 @@ class UserPolicy
      */
     public function viewAny(User $current_user): Response|bool
     {
-        return false;
+        return auth()->user()->isAdministrator();
     }
 
     /**
@@ -43,7 +30,7 @@ class UserPolicy
      */
     public function view(User $current_user, User $model): Response|bool
     {
-        return $current_user->uuid === $model->uuid;
+        return auth()->user()->isAdministrator();
     }
 
     /**
@@ -54,7 +41,7 @@ class UserPolicy
      */
     public function create(User $current_user): Response|bool
     {
-        return false;
+        return auth()->user()->isAdministrator();
     }
 
     /**
@@ -66,7 +53,7 @@ class UserPolicy
      */
     public function edit(User $current_user, User $model): Response|bool
     {
-        return $current_user->uuid === $model->uuid;
+        return auth()->user()->isAdministrator();
     }
 
     /**
@@ -78,7 +65,7 @@ class UserPolicy
      */
     public function update(User $current_user, User $model): Response|bool
     {
-        return $current_user->uuid === $model->uuid;
+        return auth()->user()->isAdministrator() || $current_user->uuid === $model->uuid;
     }
 
     /**
@@ -90,7 +77,7 @@ class UserPolicy
      */
     public function delete(User $current_user, User $model): Response|bool
     {
-        return $current_user->uuid === $model->uuid;
+        return auth()->user()->isAdministrator();
     }
 
     /**
@@ -102,7 +89,7 @@ class UserPolicy
      */
     public function restore(User $current_user, User $model): Response|bool
     {
-        return $current_user->uuid === $model->uuid;
+        return auth()->user()->isAdministrator();
     }
 
     /**
@@ -114,6 +101,8 @@ class UserPolicy
      */
     public function forceDelete(User $current_user, User $model): Response|bool
     {
-        return $current_user->uuid === $model->uuid;
+        return auth()->user()->isAdministrator();
     }
+
+
 }

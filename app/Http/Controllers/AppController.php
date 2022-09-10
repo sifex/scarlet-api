@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use Auth;
 use Carbon\Carbon;
 use GameQ\GameQ;
@@ -49,8 +50,8 @@ class AppController extends Controller
         }
 
         return Inertia::render('BrowserElectronVerify', [
-            'user' => Auth::user(),
-            'token' => $token->token ?? ''
+            'token' => $token->token ?? '',
+            'protocol' => App::environment('production') ? 'scarlet' : 'scarlet-dev'
         ]);
     }
 

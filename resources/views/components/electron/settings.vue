@@ -2,7 +2,7 @@
     <div class="">
         <button type="button"
                 @click="openModal"
-                class="flex gap-2 items-center font-exo px-4 py-1.5 text-sm bg-slate-800 hover:bg-slate-700 transition-all text-white rounded cursor-pointer">
+                class="flex gap-2 items-center font-exo px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-all text-white rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 ring-offset-black">
             <Cog6ToothIcon class="h-6 w-6 text-slate-500"></Cog6ToothIcon>
             Settings
         </button>
@@ -18,7 +18,7 @@
                 leave-from="opacity-100"
                 leave-to="opacity-0"
             >
-                <div class="fixed inset-0 bg-black bg-opacity-25" />
+                <div class="fixed inset-0 bg-black bg-opacity-25"/>
             </TransitionChild>
 
             <div class="fixed inset-0 overflow-y-auto">
@@ -35,30 +35,73 @@
                         leave-to="opacity-0 scale-95"
                     >
                         <DialogPanel
-                            class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                            class="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all flex flex-col"
                         >
-                            <DialogTitle
-                                as="h3"
-                                class="text-lg font-medium leading-6 text-gray-900"
-                            >
-                                Settings
-                            </DialogTitle>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500">
-                                    Your payment has been successfully submitted. We’ve sent you
-                                    an email with all of the details of your order.
-                                </p>
-                            </div>
+                            <form @submit.prevent="update_user">
+                                <div class="p-8 flex flex-col gap-4">
+                                    <h2 class="text-xl font-medium leading-6 text-gray-900">Settings</h2>
+                                    <DialogTitle
+                                        as="h3"
+                                        class="text-lg font-medium leading-6 text-gray-900"
+                                    >
+                                        Installer
+                                    </DialogTitle>
+                                    <div class="flex flex-col gap-2">
+                                        <label for="company-website" class="block text-sm font-medium text-gray-700">
+                                            Username
+                                            <input type="text"
+                                                   class="block w-full flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                   v-model="alter_user_form.username"/>
+                                        </label>
 
-                            <div class="mt-4 flex w-full">
-                                <button
-                                    type="button"
-                                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    @click="closeModal"
-                                >
-                                    Save
-                                </button>
-                            </div>
+                                        <label for="company-website" class="block text-sm font-medium text-gray-700">
+                                            Installation Directory
+                                            <span class="font-normal text-slate-400">Your installation directory is where your Addons will be installed.</span></label>
+
+                                        <div class="flex md:flex-row flex-col gap-2">
+                                            <input type="text" disabled
+                                                   class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                   v-model="alter_user_form.installDir">
+
+                                            <button
+                                                type="button"
+                                                class="whitespace-nowrap shrink rounded-md border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                                                @click="showLocationDialog"
+                                            >
+                                                Update Installation Directory
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-100 p-6">
+
+                                    <div class="flex gap-2 w-full">
+                                        <a :href="$route('logout')"
+                                           type="button"
+                                           class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                                           @click="closeModal"
+                                        >
+                                            Logout
+                                        </a>
+                                        <div class="grow"></div>
+
+                                        <button
+                                            type="button"
+                                            class="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                            @click="update_user"
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="inline-flex justify-center rounded-md border border-transparent bg-slate-300 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                                            @click="closeModal"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </DialogPanel>
                     </TransitionChild>
                 </div>
@@ -67,8 +110,8 @@
     </TransitionRoot>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import {inject, ref} from 'vue'
 import {
     TransitionRoot,
     TransitionChild,
@@ -77,14 +120,73 @@ import {
     DialogTitle,
 } from '@headlessui/vue'
 
-import { Cog6ToothIcon } from '@heroicons/vue/24/solid'
+import {Cog6ToothIcon, ArrowDownOnSquareIcon, ArrowLeftOnRectangleIcon} from '@heroicons/vue/24/solid'
+import {User} from "@/scripts/downloader/user";
+import {useForm} from "@inertiajs/inertia-vue3";
+import {notify} from "notiwind"
+import ScarletDownloader, {Status as ClientStatus} from "@/scripts/downloader/downloader";
+
 
 const isOpen = ref(false)
 
 function closeModal() {
+    emit('settings_closed')
     isOpen.value = false
+
+    setTimeout(() => {
+        alter_user_form.reset()
+    }, 500)
 }
+
 function openModal() {
     isOpen.value = true
 }
+
+const props = defineProps<{
+    current_user: User,
+    downloader: ScarletDownloader
+}>();
+
+const emit = defineEmits<{
+    (e: 'settings_saved'): void,
+    (e: 'settings_closed'): void,
+}>()
+
+
+const alter_user_form = useForm({
+    ...props.current_user
+})
+
+function showLocationDialog() {
+    if (props.downloader.client.status === ClientStatus.Ready) {
+        props.downloader.showLocationDialog()
+    }
+}
+
+// Update Installer Location
+props.downloader.on('updateInstallerLocation', evt => {
+    alter_user_form.installDir = evt.data
+})
+
+function update_user() {
+    alter_user_form.patch(
+        $route('user.update', {
+            user: alter_user_form.uuid
+        }), {
+            preserveScroll: true,
+            onSuccess: () => {
+                notify({
+                    group: "generic",
+                    title: "Success",
+                    text: "Settings saved successfully"
+                })
+                closeModal()
+            }
+        }
+    )
+}
+
+
+let $route = inject('$route')
+
 </script>

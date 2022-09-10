@@ -16,9 +16,12 @@
 
 
                             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <a href="#" class="transition-colors bg-black/70 text-white px-4 py-2 rounded-md text-sm font-medium" aria-current="page">
+                            <Link :href="$route('admin.user.index')" class="transition-colors bg-black/70 hover:bg-black/60 text-white px-4 py-2 rounded-md text-sm font-medium" aria-current="page">
                                 User Management
-                            </a>
+                            </Link>
+                            <Link :href="$route('admin.xml.index')" class="transition-colors hover:bg-white/20 text-white px-4 py-2 rounded-md text-sm font-medium" aria-current="page">
+                                XML
+                            </Link>
                         </div>
                     </div>
 

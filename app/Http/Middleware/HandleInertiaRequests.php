@@ -42,7 +42,9 @@ class HandleInertiaRequests extends Middleware
                     ? $request->user()->only([
                         'username',
                         'type',
-                        'uuid'
+                        'uuid',
+                        'installDir',
+                        'archived_at'
                     ])
                     : null;
             }

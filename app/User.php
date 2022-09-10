@@ -29,7 +29,7 @@ class User extends Authenticatable
         'playerID',
         'comment',
         'remark',
-        'archived'
+        'archived_at'
     ];
 
     /**
@@ -43,7 +43,7 @@ class User extends Authenticatable
         'playerID',
         'comment',
         'remark',
-        'archived'
+        'archived_at'
     ];
 
     /**
@@ -62,6 +62,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'archived_at' => 'datetime',
         'type' => UserRole::class
     ];
 
@@ -96,8 +97,8 @@ class User extends Authenticatable
         return collect([
             UserRole::STAFF,
             UserRole::LEADER,
-            UserRole::SPECIAL,
-            UserRole::VETERAN
+//            UserRole::SPECIAL,
+//            UserRole::VETERAN
         ])->contains($this->type);
     }
 }
