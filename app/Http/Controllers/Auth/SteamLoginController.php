@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enum\UserRole;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class SteamLoginController extends AbstractSteamLoginController
 
             $user = User::create([
                 'username' => $steamUser->name,
-                'playerID' => $steamUser->steamId,
+                'playerID' => $steamUser->steamId
             ]);
         }
 

@@ -73,7 +73,7 @@ class AppController extends Controller
      */
     private static function getLatestScarletDownloadLink(): string
     {
-        if (env('APP_ENV') === 'testing' || env('APP_ENV') === 'local') {
+        if (app()->environment(['testing', 'local'])) {
             return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
         } else {
             $github_release_information = GitHub::connection('main')->api('repo')->releases()->latest('sifex', 'scarlet');

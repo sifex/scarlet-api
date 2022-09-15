@@ -66,6 +66,10 @@ class User extends Authenticatable
         'type' => UserRole::class
     ];
 
+    protected $attributes = [
+        'type' => UserRole::APPLICANT
+    ];
+
     public function notes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(UserNote::class)->orderByDesc('created_at');

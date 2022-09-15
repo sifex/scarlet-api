@@ -15,7 +15,7 @@
         </div>
         <div v-else class="px-8 pb-8 space-y-4">
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-800">
-                Welcome <span class="text-indigo-500">{{ current_user.username }}</span>.
+                Welcome <span class="text-indigo-500">{{ current_user.username }}</span>
             </h2>
             <p class="text-center text-sm text-gray-400 bold !-mt-0 block">
                 Scarlet has been updated to provide a better user-experience.
@@ -94,6 +94,11 @@ let current_user_instance = computed(() => {
 
 onMounted(() => {
     Inertia.reload({only: ['scarlet_download']})
+
+    if(typeof window.scarlet !== 'undefined') {
+        window.location.replace($route('electron.intro'));
+
+    }
 })
 
 let $route = inject('$route')

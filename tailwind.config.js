@@ -12,8 +12,8 @@ module.exports = {
         },
         extend: {
             backgroundImage: {
-                'aaf-background': "url('/images/aaf/background.png')",
-                'aaf-background-2x': "url('/images/aaf/background_2x.png')",
+                'aaf-background': "url('/images/aaf/background.jpg')",
+                'aaf-background-2x': "url('/images/aaf/background_2x.jpg')",
                 'scarlet-background': "url('/images/home_bg.png')",
                 'scarlet-background-2x': "url('/images/home_bg_2x.png')",
             }

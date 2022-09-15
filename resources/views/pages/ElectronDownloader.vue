@@ -52,13 +52,23 @@
                         {{ uiState.buttons.start.label }}
                     </button>
                     <div class="grow"></div>
+                    <div class="" v-if="current_user_instance.isAdminEnough()">
                     <button
-                        v-if="current_user_instance.isAdminEnough()"
+                        v-if="isElectron"
                         @click="open_admin_page_in_browser"
                         class="block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-rose-500 text-white hover:bg-rose-700 hover:text-white transition-colors">
                         Open Admin in Browser
                         <ArrowTopRightOnSquareIcon class="inline-block h-4 w-4"/>
                     </button>
+                    <a
+                        v-else
+                        :href="$route('admin')"
+                        target="_blank"
+                        class="block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-rose-500 text-white hover:bg-rose-700 hover:text-white transition-colors">
+                        Open Admin Console
+                        <ArrowTopRightOnSquareIcon class="inline-block h-4 w-4"/>
+                    </a>
+                    </div>
                     <Settings :downloader="downloader" :current_user="current_user" @settings_closed="refreshUser"></Settings>
                 </div>
             </div>
@@ -125,7 +135,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, inject, onMounted, reactive} from 'vue';
+import {computed, inject, onMounted, reactive, ref} from 'vue';
 import LoadingBar from '@/views/components/electron/loading-bar.vue';
 import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
@@ -136,6 +146,7 @@ import {User} from "@/scripts/downloader/user";
 import Settings from '@/views/components/electron/settings.vue'
 import {ArrowTopRightOnSquareIcon, LockClosedIcon} from '@heroicons/vue/24/solid'
 import {notify} from "notiwind"
+import {Link} from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
     current_user: {
@@ -236,9 +247,9 @@ function toggleDownload() {
 
 
 // Ready
-downloader.on('ready', uiState.ready)
-downloader.on('complete', uiState.completed)
-downloader.on('disconnected', uiState.disconnected)
+downloader.on('ready', () => uiState.ready())
+downloader.on('complete', () => uiState.completed())
+downloader.on('disconnected', () => uiState.disconnected())
 
 // Downloading
 downloader.on('downloading', () => {
@@ -256,10 +267,12 @@ downloader.on('fileUpdate', (evt) => uiState.file = evt.data.trim() ?? uiState.f
  */
 
 function open_admin_page_in_browser() {
-    if(typeof window.scarlet !== 'undefined') {
+    if(isElectron) {
         window.scarlet.open_admin_page_in_browser()
     }
 }
+
+let isElectron = ref(typeof window.scarlet !== 'undefined')
 
 let $route = inject('$route')
 

@@ -7,8 +7,9 @@
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <Link :href="$route('home')" href="#" class="">
-                                <img class="h-8 w-8" src="https://australianarmedforces.org/admin/images/logo_2x.png" alt="Scarlet Logo">
+                            <Link :href="$route('home')">
+                                <ScarletLogo fill="#ffffff" class="inline-block h-10 w-10 text-white" />
+<!--                                <img class="h-8 w-8" src="https://australianarmedforces.org/admin/images/logo_2x.png" alt="Scarlet Logo">-->
                             </Link>
                         </div>
 
@@ -143,6 +144,7 @@ import {Link} from '@inertiajs/inertia-vue3'
 
 import {User} from "@/scripts/downloader/user";
 import { InertiaProgress } from '@inertiajs/progress'
+import ScarletLogo from '@/images/scarlet_white.svg'
 
 const props = defineProps<{
     current_user: User
