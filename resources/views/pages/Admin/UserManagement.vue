@@ -2,20 +2,50 @@
     <admin-template :current_user="current_user">
         <template #title>
             <h1 class="text-4xl text-white font-exo">User Management</h1>
+            <h4 class=" text-white/50 font-exo">This page allows you to modify and update users within Scarlet.</h4>
         </template>
 
-        <div class="bg-white rounded-lg min-h-full py-10 px-4 sm:px-6 lg:px-10">
-            <div class="md:flex">
-                <div class="md:basis-2/4 lg:basis-3/4">
-                    <h2 class="text-2xl text-slate-700 pb-8 font-exo">Existing Users</h2>
+        <div class="bg-white rounded-lg min-h-full py-4 md:py-10 px-4 sm:px-6 lg:px-10">
+            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 justify-between mb-10">
+                <div class="shrink flex space-x-1 rounded-xl bg-slate-200 p-1">
+                    <button
+                        @click="user_type_filter_button = 'active'"
+                        :class="[
+              'grow transition rounded-lg py-2.5 px-10 text-sm font-medium leading-5 ',
+              'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+              user_type_filter_button === 'active'
+                ? 'text-blue-500 bg-white shadow'
+                : 'text-slate-600 hover:bg-slate-300 hover:text-slate-800',
+            ]"
+                    >
+                        Active
+                    </button>
+                    <button
+                        @click="user_type_filter_button = 'archived'"
+                        :class="[
+              'grow transition rounded-lg py-2.5 px-10 text-sm font-medium leading-5 ',
+              'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+              user_type_filter_button === 'archived'
+                ? 'text-blue-500 bg-white shadow'
+                : 'text-slate-600 hover:bg-slate-300 hover:text-slate-800',
+            ]"
+                    >
+                        Archived
+                    </button>
                 </div>
-                <div class="-mt-5 md:basis-2/4 lg:basis-1/4">
+
+                <div class="grow"></div>
+
+                <div class="md:-mt-5 md:basis-2/4 lg:basis-1/4">
                     <label for="search_term" class="block text-sm font-medium text-gray-700">Search</label>
-                    <input v-model="search_term" type="text" name="search_term" id="search_term" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    <input v-model="search_term" type="text" name="search_term" id="search_term"
+                           autocomplete="given-name"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
                 </div>
             </div>
 
-            <div id="header" class="w-full border-b flex items-center gap-4 py-4 border-collapse table-auto w-full text-sm">
+            <div id="header"
+                 class="w-full border-b flex items-center gap-4 py-4 border-collapse table-auto w-full text-sm">
                 <div class="basis-2/12 font-medium text-slate-500 text-left pl-4">
                     Username
                 </div>
@@ -43,9 +73,9 @@
             </div>
 
             <Link :href="$route('admin.user.show', { user: user.item.uuid })"
-                v-for="user in all_filtered_users"
-                class="group flex flex-col md:flex-row md:items-center md:gap-4 md:h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl"
-                :class="{'bg-orange-200': user.item.archived_at}">
+                  v-for="user in all_filtered_users"
+                  class="group flex flex-col md:flex-row md:items-center md:gap-4 md:h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl"
+                  :class="{'bg-orange-100 text-orange-700 font-bold my-2': user.item.archived_at}">
 
                 <div class="basis-2/12 truncate md:pl-4">
                     {{ user.item.username }}
@@ -88,6 +118,8 @@ import {Link} from "@inertiajs/inertia-vue3";
 import {User} from "@/scripts/downloader/user";
 import {Inertia} from "@inertiajs/inertia";
 
+import {TabGroup, TabList, Tab, TabPanels, TabPanel} from '@headlessui/vue'
+
 const props = defineProps<{
     current_user: User,
     all_users?: User[],
@@ -115,10 +147,31 @@ let fuse = computed(() => new Fuse((props.all_users ?? []), {
 }))
 
 let all_filtered_users = computed(() => {
-    return search_term.value !== ''
+    return (
+        search_term.value !== ''
         ? fuse.value.search(search_term.value)
         : all_mapped_users.value
+    ).filter(
+        user_type_filter_function(user_type_filter_button.value)
+    )
 })
+
+/**
+ * Filter only archived users
+ */
+
+let user_type_filter_button = ref('active')
+
+let user_type_filter_function = function(type: string) {
+    switch (type) {
+        case 'active':
+            return (user: any) => !user.item.archived_at
+        case 'archived':
+            return (user: any) => !!user.item.archived_at
+        default:
+            return (user: any) => true
+    }
+}
 
 
 onMounted(() => {

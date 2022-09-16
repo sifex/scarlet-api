@@ -1,6 +1,7 @@
 <template>
     <div
-        class="font-[Exo_2] absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center font-weight-bolder select-none">
+        class="font-[Exo_2] absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center font-weight-bolder select-none"
+    :class="{'isElectron': isElectron}">
         <ElectronToolbar v-if="true"></ElectronToolbar>
         <div class="flex flex-col h-full">
             <div class="flex pt-8 pb-6">
@@ -36,9 +37,9 @@
                     <p class="inline-block mr-2 text-slate-400 tabular-nums font-exo">
                         {{ uiState.file }}
                     </p>
-                                        <p class="inline-block mr-2 text-red-800 tabular-nums font-exo text-sm">
-                                            {{downloader.client.status}}
-                                        </p>
+                    <p v-if="debug_messages" class="inline-block mr-2 text-red-800 tabular-nums font-exo text-sm">
+                        {{ debug[downloader.client.status] }}
+                    </p>
                 </div>
                 <div class="flex gap-1">
                     <button @click="toggleDownload"
@@ -108,7 +109,7 @@
                             <div class="p-4">
                                 <div class="flex items-start">
                                     <div class="shrink-0">
-                                        <svg class="w-6 h-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <svg class="w-6 h-6 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </div>
@@ -147,6 +148,8 @@ import Settings from '@/views/components/electron/settings.vue'
 import {ArrowTopRightOnSquareIcon, LockClosedIcon} from '@heroicons/vue/24/solid'
 import {notify} from "notiwind"
 import {Link} from "@inertiajs/inertia-vue3";
+import Debug from "@/scripts/downloader/debug";
+import useLocalStorage from "@/scripts/useLocalStorage";
 
 const props = defineProps({
     current_user: {
@@ -227,8 +230,7 @@ onMounted(() => {
 /** Updating user after a settings page update */
 function refreshUser() {
     Inertia.reload({only: ['current_user']})
-    downloader.reset()
-    uiState.ready()
+    downloader.init()
 }
 
 /**
@@ -245,6 +247,7 @@ function toggleDownload() {
     }
 }
 
+let debug = Debug
 
 // Ready
 downloader.on('ready', () => uiState.ready())
@@ -274,6 +277,11 @@ function open_admin_page_in_browser() {
 
 let isElectron = ref(typeof window.scarlet !== 'undefined')
 
+/**
+ * Debug Messages
+ */
+const debug_messages = useLocalStorage('scarlet_debug_messages', false)
+
 let $route = inject('$route')
 
 </script>
@@ -282,14 +290,14 @@ let $route = inject('$route')
 body {
     user-select: none;
 }
-:not(input):not(textarea),
-:not(input):not(textarea)::after,
-:not(input):not(textarea)::before {
+.isElectron :not(input):not(textarea),
+.isElectron :not(input):not(textarea)::after,
+.isElectron :not(input):not(textarea)::before {
     -webkit-user-select: none;
     user-select: none;
     cursor: default;
 }
-input, button, textarea, :focus {
-    outline: none;
-}
+/*.isElectron input, .isElectron button, .isElectron textarea, .isElectron :focus {*/
+/*    outline: none;*/
+/*}*/
 </style>

@@ -1,5 +1,9 @@
 <template>
     <model-template>
+        <Head>
+            <title>Scarlet - {{ !current_user ? 'Login' : ('Welcome ' + current_user.username) }}</title>
+            <meta name="description" content="Your page description">
+        </Head>
         <div v-if="!current_user" class="px-8 pb-8 space-y-4">
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-800">
                 Sign in to Scarlet
@@ -76,6 +80,7 @@ import {Link} from '@inertiajs/inertia-vue3'
 import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ModelTemplate from "@/views/components/templates/model-template.vue";
 import {User} from "@/scripts/downloader/user";
+import { Head } from '@inertiajs/inertia-vue3'
 
 const {
     current_user,

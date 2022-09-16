@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="Description" content="Scarlet is a Arma 3™ Mod Installer for the Australian Armed Forces (AAF) community" />
 
         <title inertia>{{ config('app.name', 'Scarlet Updater') }}</title>
 

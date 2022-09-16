@@ -2,6 +2,7 @@
     <admin-template :current_user="current_user">
         <template #title>
             <h1 class="text-4xl text-white font-exo">XML Administration</h1>
+            <h4 class=" text-white/50 font-exo">Under Construction</h4>
         </template>
 
         <div class="bg-white rounded-lg min-h-full py-10 px-4 sm:px-6 lg:px-10">

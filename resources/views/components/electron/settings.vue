@@ -46,31 +46,54 @@
                                     >
                                         Installer
                                     </DialogTitle>
-                                    <div class="flex flex-col gap-2">
-                                        <label for="company-website" class="block text-sm font-medium text-gray-700">
+                                    <div class="flex flex-col gap-6">
+                                        <label for="company-website" class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
                                             Username
                                             <input type="text"
                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                    v-model="alter_user_form.username"/>
                                         </label>
 
-                                        <label for="company-website" class="block text-sm font-medium text-gray-700">
+                                        <label for="company-website" class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
                                             Installation Directory
-                                            <span class="font-normal text-slate-400">Your installation directory is where your Addons will be installed.</span></label>
+                                            <span class="font-normal text-slate-400">Your installation directory is where your Addons will be installed.</span>
 
-                                        <div class="flex md:flex-row flex-col gap-2">
-                                            <input type="text" disabled
-                                                   class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                   v-model="alter_user_form.installDir">
+                                            <div class="flex md:flex-row flex-col gap-2">
+                                                <input type="text" disabled
+                                                       class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                       v-model="alter_user_form.installDir">
 
-                                            <button
-                                                type="button"
-                                                class="whitespace-nowrap shrink rounded-md border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
-                                                @click="showLocationDialog"
-                                            >
-                                                Update Installation Directory
-                                            </button>
-                                        </div>
+                                                <button
+                                                    type="button"
+                                                    class="whitespace-nowrap shrink rounded-md border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                                                    @click="showLocationDialog"
+                                                >
+                                                    Update Installation Directory
+                                                </button>
+                                            </div>
+                                        </label>
+
+                                        <label for="company-website" class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
+                                            Debug Messages
+                                            <span class="font-normal text-slate-400">Not a really helpful toggle but may give some indication of what can go wrong with Scarlet.</span>
+
+                                            <div class="flex md:flex-row flex-col gap-2">
+
+                                                <Switch
+                                                    v-model="debug_messages"
+                                                    :class="debug_messages ? 'bg-red-600' : 'bg-red-800/40'"
+                                                    class="relative inline-flex h-[30px] w-[54px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                                                >
+                                                    <span class="sr-only">Use debug messages</span>
+                                                    <span
+                                                        aria-hidden="true"
+                                                        :class="debug_messages ? 'translate-x-6' : 'translate-x-0'"
+                                                        class="pointer-events-none inline-block h-[26px] w-[26px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
+                                                    />
+                                                </Switch>
+
+                                            </div>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="bg-slate-100 p-6">
@@ -125,6 +148,8 @@ import {User} from "@/scripts/downloader/user";
 import {useForm} from "@inertiajs/inertia-vue3";
 import {notify} from "notiwind"
 import ScarletDownloader, {Status as ClientStatus} from "@/scripts/downloader/downloader";
+import {Switch} from '@headlessui/vue'
+import useLocalStorage from "@/scripts/useLocalStorage";
 
 
 const isOpen = ref(false)
@@ -186,6 +211,12 @@ function update_user() {
     )
 }
 
+
+/**
+ * Debug Toggle
+ */
+
+const debug_messages = useLocalStorage('scarlet_debug_messages', false)
 
 let $route = inject('$route')
 
