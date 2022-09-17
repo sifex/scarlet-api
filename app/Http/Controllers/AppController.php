@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use GameQ\GameQ;
 use GrahamCampbell\GitHub\Facades\GitHub;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\ViewErrorBag;
 use Inertia\Inertia;
 use Inertia\Response;
 use Shetabit\TokenBuilder\Facade\TokenBuilder;
@@ -23,6 +23,15 @@ class AppController extends Controller
                 Auth::check() ? self::getLatestScarletDownloadLink() : ''
             )
         ]);
+    }
+
+    public function error()
+    {
+        if(sizeof(session()->get('errors', app(ViewErrorBag::class))) === 0) {
+            return redirect()->route('home');
+        }
+
+        return Inertia::render('ErrorLogin');
     }
 
     public function electron_intro_screen(): Response|\Illuminate\Http\RedirectResponse

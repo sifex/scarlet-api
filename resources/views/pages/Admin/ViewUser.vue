@@ -46,18 +46,18 @@
                         </button>
                     </div>
                     <div class="grow">
-                        <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.archived_at }}</span>
+                        <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.deleted_at }}</span>
                         <button
-                            @click="archive_user"
-                            v-if="!user.archived_at"
-                            class="block text-center text-sm w-full px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-slate-600 hover:bg-slate-700 transition-colors">
-                            <ArchiveBoxIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></ArchiveBoxIcon>
-                            Archive User
+                            @click="delete_user(false)"
+                            v-if="!user.deleted_at"
+                            class="block text-center text-sm w-full px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors">
+                            <TrashIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></TrashIcon>
+                            Delete User
                         </button>
                         <button
-                            @click="recover_user"
+                            @click="delete_user(true)"
                             v-else
-                            class="block text-center text-sm w-full px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-emerald-700 hover:bg-slate-700 transition-colors">
+                            class="block text-center text-sm w-full px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-emerald-700 hover:bg-emerald-900 transition-colors">
                             <CheckBadgeIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-white"></CheckBadgeIcon>
                             Recover User
                         </button>
@@ -65,10 +65,11 @@
                 </div>
             </div>
             <div id="archived_banner"
-                 v-if="user.archived_at"
-                 class="overflow-hidden w-full bg-orange-500 text-white py-2 text-center uppercase tracking-wide font-bold text-sm relative">
-                <ExclamationTriangleIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-orange-200 mr-4"></ExclamationTriangleIcon>
-                <span class="z-10 relative">This user is archived</span>
+                 v-if="user.deleted_at"
+                 class="overflow-hidden w-full bg-red-600 text-white py-2 text-center uppercase tracking-wide font-bold text-sm relative">
+                <ExclamationTriangleIcon
+                    class="inline-block h-5 w-5 mr-1 -ml-1 text-red-200 mr-4"></ExclamationTriangleIcon>
+                <span class="z-10 relative">This user has been removed</span>
             </div>
             <section id="control-bay" class="py-10 px-3 sm:px-4 md:px-6 lg:px-10 border-b border-1">
                 <form @submit.prevent="update_user" class="flex flex-col gap-6 md:gap-10">
@@ -84,7 +85,8 @@
                         </div>
                         <div class="basis-full md:basis-2/12"></div>
                         <div class="basis-full md:basis-5/12">
-                            <input name="user_username" type="text" v-model="alter_user_form.username" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input name="user_username" type="text" v-model="alter_user_form.username"
+                                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.username }}</span>
                         </div>
                     </div>
@@ -93,11 +95,13 @@
                             <h3 class="text-xl text-slate-700 font-medium font-exo">
                                 Modify Role
                             </h3>
-                            <label for="user_role" class="block text-sm text-slate-500">User roles control who has access to the Administration panel, as well as displays on the website.</label>
+                            <label for="user_role" class="block text-sm text-slate-500">User roles control who has
+                                access to the Administration panel, as well as displays on the website.</label>
                         </div>
                         <div class="basis-full md:basis-2/12"></div>
                         <div class="basis-full md:basis-5/12">
-                            <member-type-dropdown name="user_role" v-model="alter_user_form.type"></member-type-dropdown>
+                            <member-type-dropdown name="user_role"
+                                                  v-model="alter_user_form.type"></member-type-dropdown>
                             <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.type }}</span>
                         </div>
                     </div>
@@ -106,11 +110,14 @@
                             <h3 class="text-xl text-slate-700 font-medium font-exo">
                                 XML Remark
                             </h3>
-                            <label for="user_remark" class="block text-sm text-slate-500">The XML remark is what displays underneath the User's XML</label>
+                            <label for="user_remark" class="block text-sm text-slate-500">The XML remark is what
+                                displays underneath the User's XML</label>
                         </div>
                         <div class="basis-full md:basis-2/12"></div>
                         <div class="basis-full md:basis-5/12">
-                            <input placeholder="The Squad XML Remark" name="user_remark" type="text" v-model="alter_user_form.remark" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input placeholder="The Squad XML Remark" name="user_remark" type="text"
+                                   v-model="alter_user_form.remark"
+                                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.remark }}</span>
                         </div>
                     </div>
@@ -119,11 +126,14 @@
                             <h3 class="text-xl text-slate-700 font-medium font-exo">
                                 Website Comment
                             </h3>
-                            <p class="block text-sm text-slate-500">Displays as a comment on the website. <span class="text-slate-300">(Staff and Leaders only)</span></p>
+                            <p class="block text-sm text-slate-500">Displays as a comment on the website. <span
+                                class="text-slate-300">(Staff and Leaders only)</span></p>
                         </div>
                         <div class="basis-full md:basis-2/12"></div>
                         <div class="basis-full md:basis-5/12">
-                            <input  placeholder="Website Comment" name="user_remark" type="text" v-model="alter_user_form.comment" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input placeholder="Website Comment" name="user_remark" type="text"
+                                   v-model="alter_user_form.comment"
+                                   class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.comment }}</span>
                         </div>
                     </div>
@@ -150,8 +160,8 @@
                     <div>
                         <label for="contents" class="sr-only">User Note Contents:</label>
                         <span v-if="note_form.errors.contents" class="italic text-red-600 text-sm">
-                        {{ note_form.errors.contents }}
-                    </span>
+                            {{ note_form.errors.contents }}
+                        </span>
                         <textarea v-model="note_form.contents"
                                   name="contents"
                                   class="h-24 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md placeholder-slate-400"
@@ -199,7 +209,14 @@
 <script lang="ts" setup>
 import SteamLogo from '@/images/steam_logo.svg'
 import {inject} from 'vue';
-import {ArchiveBoxIcon, CheckBadgeIcon, CheckIcon, ChevronRightIcon, ExclamationTriangleIcon, XMarkIcon} from '@heroicons/vue/24/solid'
+import {
+    TrashIcon,
+    CheckBadgeIcon,
+    CheckIcon,
+    ChevronRightIcon,
+    ExclamationTriangleIcon,
+    XMarkIcon
+} from '@heroicons/vue/24/solid'
 import {MemberType} from "@/scripts/aaf/membertypes";
 import AdminTemplate from "@/views/components/templates/admin-template.vue";
 import MemberTypeBadge from '@/views/components/member-type-badge.vue'
@@ -227,7 +244,7 @@ const alter_user_form = useForm({
     ...props.user
 })
 
-function update_user(user: User) {
+function update_user() {
     alter_user_form.patch(
         $route('admin.user.update', {
             user: alter_user_form.uuid
@@ -244,12 +261,11 @@ function update_user(user: User) {
     )
 }
 
-function archive_user(user: User) {
-    alter_user_form.transform((data) => ({
-            ...data,
-            archived_at: (new Date()).toISOString()
-        })).patch(
-        $route('admin.user.update', {
+function delete_user(restore: boolean = false) {
+    alter_user_form.transform(data => ({
+        restore
+    })).delete(
+        $route('admin.user.destroy', {
             user: alter_user_form.uuid
         }), {
             preserveScroll: true,
@@ -257,27 +273,14 @@ function archive_user(user: User) {
                 notify({
                     group: "generic",
                     title: "Success",
-                    text: "User Archived"
+                    text: "User Deleted"
                 })
-            }
-        }
-    )
-}
-
-function recover_user(user: User) {
-    alter_user_form.transform((data) => ({
-            ...data,
-            archived_at: null
-        })).patch(
-        $route('admin.user.update', {
-            user: alter_user_form.uuid
-        }), {
-            preserveScroll: true,
-            onSuccess: () => {
+            },
+            onError: (error) => {
                 notify({
-                    group: "generic",
-                    title: "Success",
-                    text: "User Archived"
+                    group: "error",
+                    title: "Error",
+                    text: error[0]
                 })
             }
         }

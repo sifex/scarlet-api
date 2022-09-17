@@ -13,7 +13,7 @@ return new class () extends Migration {
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique(['username']);
+            $table->dropColumn('archived_at');
         });
     }
 
@@ -25,7 +25,7 @@ return new class () extends Migration {
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unique(['username']);
+            $table->timestamp('archived_at')->nullable();
         });
     }
 };

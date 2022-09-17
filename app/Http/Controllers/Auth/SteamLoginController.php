@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enum\UserRole;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +15,14 @@ class SteamLoginController extends AbstractSteamLoginController
      */
     public function authenticated(Request $request, SteamUser $steamUser)
     {
-        $user = User::where('playerID', $steamUser->steamId)->first();
+        $user = User::withTrashed()->where('playerID', $steamUser->steamId)->first();
+
+        if($user && $user->trashed()) {
+            return redirect()->route('error')->withErrors([
+                "This error usually appears when you're trying to login to a Scarlet account but an administrator has deleted your user previously.",
+                "Please contact an administrator to have your account re-instated."
+            ]);
+        }
 
         if (!$user) {
             $steamUser->getUserInfo();

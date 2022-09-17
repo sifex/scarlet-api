@@ -9,7 +9,7 @@ export interface UserInterface {
     comment?: string
     installDir?: string
     remark?: string
-    archived_at?: string
+    deleted_at?: string
 }
 
 export class User implements UserInterface {
@@ -21,7 +21,7 @@ export class User implements UserInterface {
     public comment?: string;
     public installDir?: string;
     public remark?: string;
-    public archived_at?: string;
+    public deleted_at?: string;
 
     constructor(username: string, playerID: string) {
         this.username = username

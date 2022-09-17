@@ -2,10 +2,8 @@
 
 use App\Enum\UserRole;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
@@ -37,7 +35,8 @@ test("it can view users as admin", function () {
 
     actingAs($admin)
         ->get(route('admin.user.index'))
-        ->assertStatus(200);
+        ->assertStatus(200)
+        ->assertSessionHasNoErrors();
 });
 
 test("it can't set a custom role", function () {
@@ -135,32 +134,58 @@ test('it ensures an admin cannot change their own role', function () {
 
 
 
-test('it ensures an admin can archive a user', function () {
+test('it ensures an admin can delete a user', function () {
     $admin = User::factory()->admin()->create();
-    $other_user = User::factory()->member()->create();
+    $user = User::factory()->member()->create();
 
     actingAs($admin)
-        ->patch(route('admin.user.update', [
-            'user' => $other_user->uuid
-        ]), [
-            'archived_at' => Carbon::now()
-        ])
-        ->assertStatus(302);
+        ->delete(route('admin.user.destroy', [
+            'user' => $user->uuid
+        ]))
+        ->assertStatus(302)
+        ->assertSessionHasNoErrors();
 
-    expect($other_user->fresh()->archived_at)->not->toBeNull();
+    expect($user->fresh()->deleted_at)->not->toBeNull()->and(
+        expect($user->fresh()->trashed())->toBeTrue()
+    );
 });
 
 test('it ensures an admin can recover a user', function () {
     $admin = User::factory()->admin()->create();
-    $other_user = User::factory()->member()->create();
+    $user = User::factory()->member()->create();
+
+    // Delete the user
+    $user->delete();
+
+    expect($user->trashed())->toBeTrue();
 
     actingAs($admin)
-        ->patch(route('admin.user.update', [
-            'user' => $other_user->uuid
+        ->delete(route('admin.user.destroy', [
+            'user' => $user->uuid,
         ]), [
-            'archived_at' => null
+            'restore' => true
         ])
+        ->assertStatus(302)
+        ->assertSessionHasNoErrors();
+
+    expect($user->fresh()->deleted_at)->toBeNull()->and(
+        expect($user->fresh()->trashed())->toBeFalse()
+    );
+});
+
+test('it ensures an admin can\'t delete themselves', function () {
+    $admin = User::factory()->admin()->create();
+
+    actingAs($admin)
+        ->delete(route('admin.user.destroy', [
+            'user' => $admin->uuid,
+        ]), [
+            'restore' => true
+        ])
+        ->assertSessionHasErrors()
         ->assertStatus(302);
 
-    expect($other_user->fresh()->archived_at)->toBeNull();
+    expect($admin->fresh()->deleted_at)->toBeNull()->and(
+        expect($admin->fresh()->trashed())->toBeFalse()
+    );
 });

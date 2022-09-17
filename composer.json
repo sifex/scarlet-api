@@ -23,7 +23,7 @@
         "inertiajs/inertia-laravel": "^0.5.4",
         "kanalumaddela/laravel-steam-login": "^2.5",
         "knplabs/github-api": "^3.0",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^v9.29.0",
         "laravel/tinker": "^2.0",
         "servo/fluidxml": "^1.20.3",
         "shetabit/token-builder": "dev-master",

@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AppController::class, 'home'])
     ->name('home');
 
+Route::get('/error', [AppController::class, 'error'])
+    ->name('error');
+
 Route::get('login/steam', [SteamLoginController::class, 'login'])
     ->name('login');
 

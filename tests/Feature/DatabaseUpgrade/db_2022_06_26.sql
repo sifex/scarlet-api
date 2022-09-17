@@ -1,16 +1,3 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4529
-#
-# http://www.sequelpro.com/
-# https://github.com/sequelpro/sequelpro
-#
-# Host: 127.0.0.1 (MySQL 5.5.5-10.3.34-MariaDB-0ubuntu0.20.04.1)
-# Database: scarlet_live
-# Generation Time: 2022-06-26 15:19:44 +0000
-# ************************************************************
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -19,11 +6,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
-# Dump of table clans
-# ------------------------------------------------------------
-
-LOCK TABLES `clans` WRITE;
 /*!40000 ALTER TABLE `clans` DISABLE KEYS */;
 
 INSERT INTO `clans` (`id`, `name`, `shortName`)
@@ -33,23 +15,7 @@ VALUES
     (3,'Blocked','Blocked');
 
 /*!40000 ALTER TABLE `clans` ENABLE KEYS */;
-UNLOCK TABLES;
 
-
-# Dump of table migrations
-# ------------------------------------------------------------
-
-
-
-# Dump of table password_resets
-# ------------------------------------------------------------
-
-
-
-# Dump of table users
-# ------------------------------------------------------------
-
-LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
 INSERT INTO `users` (`id`, `username`, `password`, `type`, `key`, `installDir`, `comment`, `clanID`, `remember_token`, `created_at`, `updated_at`, `remark`, `playerID`)
@@ -235,7 +201,6 @@ VALUES
     (1731,'imperialism',NULL,'applicant','efa60d6d7c3b0e7b580db02aa7ecf139','C:\\Program Files (x86)\\Steam\\steamapps\\common\\Arma 3\\Addons',NULL,2,NULL,'2022-06-13 09:10:06','2022-06-13 09:11:17','',NULL);
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 

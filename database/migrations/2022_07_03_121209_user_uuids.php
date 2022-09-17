@@ -14,7 +14,7 @@ return new class () extends Migration {
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid()->nullable();
             $table->index(['uuid']);
         });
 
@@ -29,6 +29,9 @@ return new class () extends Migration {
                     $user->save();
                 }
             }
+        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->uuid()->nullable(false)->change();
         });
     }
 

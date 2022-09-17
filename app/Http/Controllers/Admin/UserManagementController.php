@@ -10,6 +10,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Log;
@@ -44,7 +45,7 @@ class UserManagementController extends Controller
         $this->authorize('viewAny', User::class);
 
         return Inertia::render('Admin/UserManagement', [
-            'all_users' => Inertia::lazy(fn () => User::get())
+            'all_users' => Inertia::lazy(fn () => User::withTrashed()->get())
         ]);
     }
 
@@ -109,7 +110,6 @@ class UserManagementController extends Controller
      */
     public function edit(User $user): Response
     {
-
     }
 
     /**
@@ -131,8 +131,8 @@ class UserManagementController extends Controller
                     'sometimes',
                     'required',
                     new Enum(UserRole::class),
-                    function($attribute, $value, $fail) use ($user) {
-                        if(
+                    function ($attribute, $value, $fail) use ($user) {
+                        if (
                             $user->uuid === auth()->user()->uuid
                             &&
                             $value !== $user->type->value
@@ -143,7 +143,7 @@ class UserManagementController extends Controller
                 ],
                 'remark' => ['string', 'max:150', 'nullable'],
                 'comment' => ['string', 'nullable'],
-                'archived_at' => ['sometimes', 'nullable', 'date'],
+
             ])
         );
 
@@ -156,23 +156,31 @@ class UserManagementController extends Controller
      * Remove the specified resource from storage.
      *
      * @param User $user
+     * @param Request $request
      * @return RedirectResponse
+     * @throws AuthorizationException
      * @throws Throwable
      */
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $user, Request $request): RedirectResponse
     {
         $this->authorize('delete', $user);
 
-        throw new Exception('Deleting users is not supported');
+        if($user->uuid === auth()->user()->uuid) {
+            return redirect()->back()->withErrors([
+                'You can\'t delete yourself'
+            ]);
+        }
 
-//        throw_unless(
-//            $user->delete(),
-//            Exception::class,
-//            "Couldn't delete user"
-//        );
-//
-//        Log::info(auth()->user()->username . ' just deleted user ' . $user->username  . '.');
-//
-//        return redirect()->route('user.index');
+        throw_unless(
+            $request->get('restore')
+                ? $user->restore()
+                : $user->delete(),
+            Exception::class,
+            "Couldn't delete user"
+        );
+
+        Log::info(auth()->user()->username . ' just deleted user ' . $user->username  . '.');
+
+        return redirect()->back();
     }
 }

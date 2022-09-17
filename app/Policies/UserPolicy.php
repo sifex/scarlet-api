@@ -103,6 +103,4 @@ class UserPolicy
     {
         return auth()->user()->isAdministrator();
     }
-
-
 }

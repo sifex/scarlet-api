@@ -20,9 +20,11 @@ class IsAdministrator
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!$request->user()->isAdministrator()) {
+        if (!$request->user()->isAdministrator()) {
             throw new AuthorizationException('User is not an administrator');
         }
+
+
 
         return $next($request);
     }

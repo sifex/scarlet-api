@@ -28,8 +28,7 @@ class User extends Authenticatable
         'type',
         'playerID',
         'comment',
-        'remark',
-        'archived_at'
+        'remark'
     ];
 
     /**
@@ -43,7 +42,7 @@ class User extends Authenticatable
         'playerID',
         'comment',
         'remark',
-        'archived_at'
+        'deleted_at'
     ];
 
     /**
@@ -62,7 +61,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'archived_at' => 'datetime',
         'type' => UserRole::class
     ];
 

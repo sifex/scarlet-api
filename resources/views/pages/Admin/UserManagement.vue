@@ -9,38 +9,38 @@
             <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 justify-between mb-10">
                 <div class="shrink flex space-x-1 rounded-xl bg-slate-200 p-1">
                     <button
-                        @click="user_type_filter_button = 'active'"
+                        @click="deleted_user_filter_button = 'active'"
                         :class="[
               'grow transition rounded-lg py-2.5 px-10 text-sm font-medium leading-5 ',
               'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-              user_type_filter_button === 'active'
+              deleted_user_filter_button === 'active'
                 ? 'text-blue-500 bg-white shadow'
-                : 'text-slate-600 hover:bg-slate-300 hover:text-slate-800',
+                : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800',
             ]"
                     >
                         Active
                     </button>
                     <button
-                        @click="user_type_filter_button = 'archived'"
+                        @click="deleted_user_filter_button = 'deleted'"
                         :class="[
               'grow transition rounded-lg py-2.5 px-10 text-sm font-medium leading-5 ',
               'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-              user_type_filter_button === 'archived'
+              deleted_user_filter_button === 'deleted'
                 ? 'text-blue-500 bg-white shadow'
-                : 'text-slate-600 hover:bg-slate-300 hover:text-slate-800',
+                : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800',
             ]"
                     >
-                        Archived
+                        Deleted
                     </button>
                 </div>
 
                 <div class="grow"></div>
 
-                <div class="md:-mt-5 md:basis-2/4 lg:basis-1/4">
+                <div class="md:basis-2/4 lg:basis-1/4 flex flex-col gap-1">
                     <label for="search_term" class="block text-sm font-medium text-gray-700">Search</label>
                     <input v-model="search_term" type="text" name="search_term" id="search_term"
                            autocomplete="given-name"
-                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
+                           class="focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
                 </div>
             </div>
 
@@ -74,8 +74,8 @@
 
             <Link :href="$route('admin.user.show', { user: user.item.uuid })"
                   v-for="user in all_filtered_users"
-                  class="group flex flex-col md:flex-row md:items-center md:gap-4 md:h-12 border-b border-slate-100 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl"
-                  :class="{'bg-orange-100 text-orange-700 font-bold my-2': user.item.archived_at}">
+                  class="group flex flex-col md:flex-row md:items-center md:gap-4 md:h-12 text-slate-500 hover:bg-slate-100 transition-colors duration-100 rounded-xl"
+                  :class="{'bg-red-100 !text-red-700 font-bold my-2 border border-2 border-red-500': user.item.deleted_at}">
 
                 <div class="basis-2/12 truncate md:pl-4">
                     {{ user.item.username }}
@@ -103,6 +103,8 @@
                     </div>
                 </div>
             </Link>
+
+            <div class="p-24 text-center text-slate-400" v-if="all_filtered_users.length === 0">No users found by those filters</div>
         </div>
     </admin-template>
 </template>
@@ -152,22 +154,22 @@ let all_filtered_users = computed(() => {
         ? fuse.value.search(search_term.value)
         : all_mapped_users.value
     ).filter(
-        user_type_filter_function(user_type_filter_button.value)
+        deleted_user_filter_function(deleted_user_filter_button.value)
     )
 })
 
 /**
- * Filter only archived users
+ * Filter only deleted users
  */
 
-let user_type_filter_button = ref('active')
+let deleted_user_filter_button = ref('active')
 
-let user_type_filter_function = function(type: string) {
+let deleted_user_filter_function = function(type: string) {
     switch (type) {
         case 'active':
-            return (user: any) => !user.item.archived_at
-        case 'archived':
-            return (user: any) => !!user.item.archived_at
+            return (user: any) => !user.item.deleted_at
+        case 'deleted':
+            return (user: any) => !!user.item.deleted_at
         default:
             return (user: any) => true
     }

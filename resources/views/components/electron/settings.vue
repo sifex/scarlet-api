@@ -49,6 +49,9 @@
                                     <div class="flex flex-col gap-6">
                                         <label for="company-website" class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
                                             Username
+                                            <span v-if="alter_user_form.errors.username" class="italic text-red-600 text-sm">
+                                                {{ alter_user_form.errors.username }}
+                                            </span>
                                             <input type="text"
                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                    v-model="alter_user_form.username"/>
@@ -59,6 +62,9 @@
                                             <span class="font-normal text-slate-400">Your installation directory is where your Addons will be installed.</span>
 
                                             <div class="flex md:flex-row flex-col gap-2">
+                                                <span v-if="alter_user_form.errors.installDir" class="italic text-red-600 text-sm">
+                                                    {{ alter_user_form.errors.installDir }}
+                                                </span>
                                                 <input type="text" disabled
                                                        class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                        v-model="alter_user_form.installDir">
@@ -73,15 +79,19 @@
                                             </div>
                                         </label>
 
-                                        <label for="company-website" class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
-                                            Debug Messages
-                                            <span class="font-normal text-slate-400">Not a really helpful toggle but may give some indication of what can go wrong with Scarlet.</span>
+                                        <label for="company-website" class="flex gap-4 items-center block text-sm font-medium text-gray-700">
+                                            <span class="order-2 flex flex-col">
+                                                Debug Messages
+                                                <span class="font-normal text-slate-400 mb-1">Not a really helpful toggle but may give some indication of what can go wrong with Scarlet.</span>
+                                            </span>
 
                                             <div class="flex md:flex-row flex-col gap-2">
 
                                                 <Switch
                                                     v-model="debug_messages"
-                                                    :class="debug_messages ? 'bg-red-600' : 'bg-red-800/40'"
+                                                    :class="debug_messages
+                                                        ? 'bg-red-600'
+                                                        : 'bg-slate-400/40 '"
                                                     class="relative inline-flex h-[30px] w-[54px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                                                 >
                                                     <span class="sr-only">Use debug messages</span>

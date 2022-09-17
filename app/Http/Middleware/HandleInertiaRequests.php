@@ -43,8 +43,7 @@ class HandleInertiaRequests extends Middleware
                         'username',
                         'type',
                         'uuid',
-                        'installDir',
-                        'archived_at'
+                        'installDir'
                     ])
                     : null;
             }
