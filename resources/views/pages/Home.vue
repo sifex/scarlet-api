@@ -4,10 +4,20 @@
             <title>Scarlet - {{ !current_user ? 'Login' : ('Welcome ' + current_user.username) }}</title>
             <meta name="description" content="Your page description">
         </Head>
-        <div v-if="!current_user" class="p-6 md:p-10 space-y-4">
+        <div v-if="!current_user" class="px-6 md:px-10 py-10 md:py-16 space-y-4">
             <h2 class="text-center text-3xl font-extrabold text-gray-800">
                 Sign in to Scarlet
             </h2>
+
+            <div class="flex justify-center">
+                <p class="text-justify text-sm font-medium bg-slate-200 text-slate-600 py-2 md:py-1 px-3 rounded relative">
+
+                    <span class="-top-1.5 -right-1.5 absolute inline-flex rounded-full h-3 w-3 bg-rose-500">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    </span>
+                    Scarlet has been updated to provide a better user-experience.
+                </p>
+            </div>
             <p class="text-center text-sm text-gray-600">
                 Please login using your Steam Account
             </p>
@@ -22,13 +32,13 @@
                 Welcome <span class="text-indigo-500">{{ current_user.username }}</span>
             </h2>
             <div class="flex justify-center">
-            <p class="text-justify text-sm font-medium bg-slate-200 text-slate-600 py-2 md:py-1 px-3 rounded relative">
+                <p class="text-justify text-sm font-medium bg-slate-200 text-slate-600 py-2 md:py-1 px-3 rounded relative">
 
-                <span class="-top-1.5 -right-1.5 absolute inline-flex rounded-full h-3 w-3 bg-rose-500">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                </span>
-                Scarlet has been updated to provide a better user-experience.
-            </p>
+                    <span class="-top-1.5 -right-1.5 absolute inline-flex rounded-full h-3 w-3 bg-rose-500">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    </span>
+                    Scarlet has been updated to provide a better user-experience.
+                </p>
             </div>
             <p class="text-center text-sm text-gray-600">
                 To get started, download the latest version of the client below.
