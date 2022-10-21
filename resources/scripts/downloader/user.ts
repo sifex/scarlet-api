@@ -29,6 +29,7 @@ export class User implements UserInterface {
     }
 
     public isAdminEnough() {
+        console.warn(this.type)
         return ([
             MemberType.leader,
             MemberType.staff,

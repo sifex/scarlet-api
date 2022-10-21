@@ -19,7 +19,9 @@ class UserFactory extends Factory
     {
         return [
             'username' => $this->faker->name,
-            'type' => UserRole::MEMBER
+            'type' => UserRole::MEMBER,
+            'installDir' => 'C:\Arma 3',
+            'playerID' => $this->faker->numberBetween(70000000000000000, 80000000000000000)
         ];
     }
 

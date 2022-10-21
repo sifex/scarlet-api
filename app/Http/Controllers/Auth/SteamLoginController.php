@@ -17,7 +17,7 @@ class SteamLoginController extends AbstractSteamLoginController
     {
         $user = User::withTrashed()->where('playerID', $steamUser->steamId)->first();
 
-        if($user && $user->trashed()) {
+        if ($user && $user->trashed()) {
             return redirect()->route('error')->withErrors([
                 "This error usually appears when you're trying to login to a Scarlet account but an administrator has deleted your user previously.",
                 "Please contact an administrator to have your account re-instated."

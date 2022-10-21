@@ -10,7 +10,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Log;
@@ -165,7 +164,7 @@ class UserManagementController extends Controller
     {
         $this->authorize('delete', $user);
 
-        if($user->uuid === auth()->user()->uuid) {
+        if ($user->uuid === auth()->user()->uuid) {
             return redirect()->back()->withErrors([
                 'You can\'t delete yourself'
             ]);

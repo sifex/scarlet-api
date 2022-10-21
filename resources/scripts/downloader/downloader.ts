@@ -91,7 +91,7 @@ export default class ScarletDownloader extends EventEmitter {
     onWebsocketMsg(evt: MessageEvent) {
         let {who, command, attribute} = this.parse(evt.data)
 
-        console.log({who, command, attribute})
+        // console.log({who, command, attribute})
         switch(command) {
             case 'browserConfirmation':
                 this.send('browserConfirmation')
@@ -130,7 +130,7 @@ export default class ScarletDownloader extends EventEmitter {
     }
 
     parse(string: string) {
-        console.log(string)
+        // console.log(string)
         let [who, command, attribute, ...other]: string[] = string.split('|')
         return {who, command, attribute, other: other.join(' ')}
     }

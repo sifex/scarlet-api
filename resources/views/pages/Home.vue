@@ -4,11 +4,11 @@
             <title>Scarlet - {{ !current_user ? 'Login' : ('Welcome ' + current_user.username) }}</title>
             <meta name="description" content="Your page description">
         </Head>
-        <div v-if="!current_user" class="px-8 pb-8 space-y-4">
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-800">
+        <div v-if="!current_user" class="p-6 md:p-10 space-y-4">
+            <h2 class="text-center text-3xl font-extrabold text-gray-800">
                 Sign in to Scarlet
             </h2>
-            <p class="mt-2 text-center text-sm text-gray-600">
+            <p class="text-center text-sm text-gray-600">
                 Please login using your Steam Account
             </p>
             <div class="rounded-lg bg-green-100 p-4 text-md border-green-300 border-2">
@@ -17,17 +17,23 @@
             </div>
             <LoginWithSteam/>
         </div>
-        <div v-else class="px-8 pb-8 space-y-4">
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-800">
+        <div v-else class="px-6 py-12 md:px-10 md:py-14 space-y-4">
+            <h2 class="text-center text-3xl font-extrabold text-gray-800">
                 Welcome <span class="text-indigo-500">{{ current_user.username }}</span>
             </h2>
-            <p class="text-center text-sm text-gray-400 bold !-mt-0 block">
+            <div class="flex justify-center">
+            <p class="text-justify text-sm font-medium bg-slate-200 text-slate-600 py-2 md:py-1 px-3 rounded relative">
+
+                <span class="-top-1.5 -right-1.5 absolute inline-flex rounded-full h-3 w-3 bg-rose-500">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                </span>
                 Scarlet has been updated to provide a better user-experience.
             </p>
+            </div>
             <p class="text-center text-sm text-gray-600">
                 To get started, download the latest version of the client below.
             </p>
-            <div class="bg-slate-100 -mx-8 -mb-14 p-8">
+            <div class="bg-slate-100 -mx-6 md:-mx-10 -mb-14 p-6 md:p-10 md:py-4">
                 <a class="block w-full flex justify-center px-4 py-3 font-semibold leading-6 text-sm shadow rounded-md text-white transition-colors ease-in-out duration-150
 " :href="scarlet_download"
                    :class="{ 'bg-emerald-500 hover:bg-emerald-400': scarlet_download, 'bg-slate-600 hover:bg-slate-500': !scarlet_download }">

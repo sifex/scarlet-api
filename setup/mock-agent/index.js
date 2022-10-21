@@ -18,6 +18,7 @@ let files = [
 ]
 
 const asyncWait = ms => new Promise(resolve => setTimeout(resolve, ms))
+let awaitingToStop = false
 
 wss.on('connection', function connection(ws) {
     ws.on('message', async function message(data) {
@@ -30,10 +31,14 @@ wss.on('connection', function connection(ws) {
         } else if(data.startsWith('Updater|locationChange')) {
 
             ws.send('Browser|UpdateInstallLocation|C:\\Users\\Alex123\\' + (Math.random() + 1).toString(36).substring(7) + '\\Downloads')
+        } else if(data.startsWith('Updater|stopDownload')) {
+            awaitingToStop = true
         } else if(data.startsWith('Updater|startDownload')) {
             let progress = 0
 
             for (let i in files) {
+                if(awaitingToStop) { break; }
+
                 ws.send('Browser|UpdateStatus|Downloading')
                 ws.send('Browser|UpdateFile|' + files[i])
                 for (let j = 0; j < 10; j++) {
@@ -43,6 +48,7 @@ wss.on('connection', function connection(ws) {
                 }
                 ws.send('Browser|UpdateFile|' + files[i])
             }
+
             ws.send('Browser|Completed')
         }
     });

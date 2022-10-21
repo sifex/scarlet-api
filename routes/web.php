@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\SteamLoginController;
 use App\Http\Controllers\Auth\UserController2;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebDownloaderController;
+use App\Http\Controllers\XMLController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'home'])
@@ -73,6 +74,9 @@ Route::middleware('auth')->group(function () {
 Route::match(['get', 'post'], 'logout', [SteamLoginController::class, 'logout'])
     ->name('logout');
 
+Route::get('/xml/', [XMLController::class, 'display'])->name('xml');
+
+
 /**
  * Legacy Routes
  */
@@ -81,5 +85,4 @@ Route::group(['name'=>'legacy_routes'], function () {
     Route::get('/key/', fn () => redirect()->route('electron.intro'));
     Route::get("/auth/electron", fn () => redirect()->route('electron.intro'));
     Route::get("/auth", fn () => redirect()->route('electron.intro'));
-    Route::get('/xml/', fn () => redirect()->route('home'));
 });

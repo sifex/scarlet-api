@@ -7,12 +7,15 @@ use FluidXml\FluidXml;
 
 class XMLController extends Controller
 {
-    public function display()
+    public function display(): \Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
+        return response(self::generateXML())->header('Content-type', 'text/xml');
+    }
 
+    public static function generateXML(): string
+    {
         /**
          * Start new XML class
-         * @var FluidXml
          */
         $book = new FluidXml('squad');
 
@@ -36,9 +39,9 @@ class XMLController extends Controller
             /**
              * If user doesn't have a player ID assigned to them, then don't add them to the list
              */
-            if ($user->steamID !== null && $user->steamID !== '') {
+            if ($user->playerID !== null && $user->playerID !== '') {
                 $book->addChild('member', true, [
-                    'id' => $user->steamID,
+                    'id' => $user->playerID,
                     'nick' => ucwords($user->username)
                 ])->addChild([
                     'name' => ucwords($user->username),
@@ -49,7 +52,6 @@ class XMLController extends Controller
             }
         }
 
-
-        return response($book)->header('Content-type', 'text/xml');
+        return $book->html();
     }
 }

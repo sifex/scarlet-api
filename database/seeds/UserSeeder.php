@@ -15,12 +15,18 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            'clanID' => 2,
-            'type' => 'member'
+//            'clanID' => 2,
+            'type' => 'member',
         ]);
 
         User::factory()
+            ->member()
             ->count(50)
+            ->create();
+
+        User::factory()
+            ->admin()
+            ->count(2)
             ->create();
     }
 }

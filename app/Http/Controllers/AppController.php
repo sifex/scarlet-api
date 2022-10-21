@@ -27,7 +27,7 @@ class AppController extends Controller
 
     public function error()
     {
-        if(sizeof(session()->get('errors', app(ViewErrorBag::class))) === 0) {
+        if (sizeof(session()->get('errors', app(ViewErrorBag::class))) === 0) {
             return redirect()->route('home');
         }
 
