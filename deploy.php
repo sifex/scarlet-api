@@ -36,6 +36,14 @@ host('london')
     ->set('target', 'neo')
     ->setDeployPath('/var/www/london.australianarmedforces.org');
 
+host('london-1')
+    ->setForwardAgent(true)
+    ->setHostname('100.76.235.28')
+    ->setRemoteUser('pilot')
+    ->setPort(22)
+    ->set('target', 'neo')
+    ->setDeployPath('/var/www/london.australianarmedforces.org');
+
 
 // Tasks
 task('build', function () {
