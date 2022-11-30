@@ -1,29 +1,30 @@
 <template>
-        <div
-            class="absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center p-0 md:p-12 font-weight-bolder">
+    <div
+        class="absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center p-0 md:p-12 font-weight-bolder">
 
-
-            <transition appear
-                        enter-active-class="duration-700 ease-out"
-                        enter-from-class="transform opacity-0 translate-y-4"
-                        enter-to-class="opacity-100 translate-y-none"
-            >
+        <transition appear
+                    enter-active-class="duration-700 ease-out"
+                    enter-from-class="transform opacity-0 translate-y-4"
+                    enter-to-class="opacity-100 translate-y-none"
+        >
             <div class="min-h-full flex flex-col gap-5 items-center justify-center py-12 px-6 md:px-0 lg:px-8">
                 <div class="max-w-5xl w-full bg-white rounded-xl shadow-2xl shadow-black/60">
                     <div class="flex-none md:flex">
                         <div
                             class="rounded-t-xl md:rounded-tr-none md:rounded-l-xl  overflow-hidden basis-2/5 flex items-center justify-center md:items-end md:justify-start relative px-6 py-4"
-                            >
-
-
+                        >
                             <transition appear
                                         enter-active-class="duration-1000 ease-out"
                                         enter-from-class="transform opacity-0 scale-125"
                                         enter-to-class="opacity-100 scale-100"
                             >
-                                <div class="rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute top-0 left-0 right-0 bottom-0 h-full w-full overflow-hidden">
-                                    <div class="bg-[#070E21] rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute top-0 left-0 right-0 bottom-0 h-full w-full bg-cover bg-center " :style="{ backgroundImage: 'url(\'' + background_home_image + '\')'}"></div>
-                                    <div class="rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute bg-black/30 top-0 left-0 right-0 bottom-0 h-full w-full"></div>
+                                <div
+                                    class="rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute top-0 left-0 right-0 bottom-0 h-full w-full overflow-hidden">
+                                    <div
+                                        class="bg-[#070E21] rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute top-0 left-0 right-0 bottom-0 h-full w-full bg-cover bg-center "
+                                        :style="{ backgroundImage: 'url(\'' + background_home_image + '\')'}"></div>
+                                    <div
+                                        class="rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute bg-black/10 top-0 left-0 right-0 bottom-0 h-full w-full"></div>
                                 </div>
                             </transition>
 
@@ -58,8 +59,8 @@
 
             </div>
 
-            </transition>
-        </div>
+        </transition>
+    </div>
 </template>
 
 <script lang="ts" setup>
