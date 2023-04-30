@@ -23,3 +23,7 @@ clover.xml
 
 bootstrap/cache/
 /bun.lockb
+
+rr
+
+.rr.yaml

@@ -8,6 +8,12 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
+import * as Sentry from "@sentry/vue";
+
+Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN_PUBLIC,
+});
+
 InertiaProgress.init({
     // The delay after which the progress bar will
     // appear during navigation, in milliseconds.

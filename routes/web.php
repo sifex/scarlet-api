@@ -11,6 +11,7 @@ use App\Http\Controllers\WebDownloaderController;
 use App\Http\Controllers\XMLController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', [AppController::class, 'home'])
     ->name('home');
 
@@ -85,4 +86,9 @@ Route::group(['name'=>'legacy_routes'], function () {
     Route::get('/key/', fn () => redirect()->route('electron.intro'));
     Route::get("/auth/electron", fn () => redirect()->route('electron.intro'));
     Route::get("/auth", fn () => redirect()->route('electron.intro'));
+});
+
+
+Route::get('/debug-sentry', function () {
+    throw new Exception('My first Sentry error!');
 });

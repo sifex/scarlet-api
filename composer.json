@@ -22,6 +22,7 @@
         "kanalumaddela/laravel-steam-login": "^2.5",
         "knplabs/github-api": "^3.0",
         "laravel/framework": "^v9.29.0",
+        "laravel/octane": "^1.3",
         "laravel/pint": "^0.1.7",
         "laravel/sail": "^1.14",
         "laravel/tinker": "^2.0",
@@ -29,10 +30,12 @@
         "nunomaduro/collision": "^6.1",
         "pestphp/pest-plugin-laravel": "^1.2",
         "phpunit/phpunit": "^9.0",
+        "sentry/sentry-laravel": "^3.3",
         "servo/fluidxml": "^1.20.3",
         "shetabit/token-builder": "^1.2",
         "spatie/laravel-csp": "^2.7",
         "spatie/laravel-ignition": "^1.0",
+        "spiral/roadrunner": "^2.12",
         "tightenco/ziggy": "^1.4",
         "webpatser/laravel-uuid": "^4.0"
     },
@@ -45,7 +48,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "extra": {
