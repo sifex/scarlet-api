@@ -2,19 +2,20 @@ name: Laravel
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, neo ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, neo ]
 
 jobs:
-  laravel-tests:
-
+  tests:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      - name: Fixes libsodium on local
+        run: sudo apt update; sudo apt-get install -y libsodium-dev
+      - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
       - uses: actions/checkout@v2
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
