@@ -19,7 +19,9 @@
                 </div>
             </div>
             <div id="banner" class="grow relative">
-                <div class="bg-slate-900 border-none overflow-hidden h-full w-full bg-cover bg-center" style="background-image: url('https://enfusionengine.com/_next/static/media/6_night_vehicles_hires.eb6cf375.jpg')"></div>
+                <div class="bg-slate-900 border-none overflow-hidden h-full w-full bg-cover bg-center" :style="{
+                    backgroundImage: 'url('+launcher_image_url+')'
+                }"></div>
             </div>
             <div id="download-section-bottom" class="relative text-white">
                 <LoadingBar :color="uiState.statusColor" :width="downloader.client.currentPercentage"
@@ -159,6 +161,10 @@ const props = defineProps({
     arma_server: {
         type: Object,
         default: {}
+    },
+    launcher_image_url: {
+        type: String,
+        default: 'https://i.imgur.com/0cm9dip.png'
     }
 })
 

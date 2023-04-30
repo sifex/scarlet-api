@@ -22,7 +22,7 @@
                                     class="rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute top-0 left-0 right-0 bottom-0 h-full w-full overflow-hidden">
                                     <div
                                         class="bg-[#070E21] rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute top-0 left-0 right-0 bottom-0 h-full w-full bg-cover bg-center "
-                                        :style="{ backgroundImage: 'url(\'' + background_home_image + '\')'}"></div>
+                                        :style="{ backgroundImage: 'url(\'' + welcome_image_url + '\')'}"></div>
                                     <div
                                         class="rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute bg-black/10 top-0 left-0 right-0 bottom-0 h-full w-full"></div>
                                 </div>
@@ -72,6 +72,10 @@ const props = defineProps({
     logo: {
         default: true,
         type: Boolean
+    },
+    welcome_image_url: {
+        type: String,
+        default: 'https://i.imgur.com/YVMCtcN.png'
     }
 })
 

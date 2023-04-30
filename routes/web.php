@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SettingsAdminController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\UserNoteController;
 use App\Http\Controllers\Admin\XMLAdminController;
@@ -69,6 +70,9 @@ Route::middleware('auth')->group(function () {
             ->name('admin.user.note.destroy');
 
         Route::get('xml', [XMLAdminController::class, 'index'])->name('admin.xml.index');
+
+        Route::get('settings', [SettingsAdminController::class, 'index'])->name('admin.settings.index');
+        Route::patch('settings', [SettingsAdminController::class, 'update'])->name('admin.settings.update');
     });
 });
 

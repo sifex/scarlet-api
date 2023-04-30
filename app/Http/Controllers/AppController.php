@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Settings;
 use Auth;
 use Carbon\Carbon;
 use GameQ\GameQ;
@@ -15,6 +16,12 @@ use Shetabit\TokenBuilder\Facade\TokenBuilder;
 
 class AppController extends Controller
 {
+
+    public function __construct()
+    {
+        Inertia::share('welcome_image_url', Settings::latest()->first()->welcome_image_url);
+    }
+
     public function home(): Response
     {
         return Inertia::render('Home', [
