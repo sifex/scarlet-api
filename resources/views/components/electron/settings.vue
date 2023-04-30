@@ -60,11 +60,11 @@
                                         <label for="company-website" class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
                                             Installation Directory
                                             <span class="font-normal text-slate-400">Your installation directory is where your Addons will be installed.</span>
-
-                                            <div class="flex md:flex-row flex-col gap-2">
-                                                <span v-if="alter_user_form.errors.installDir" class="italic text-red-600 text-sm">
+                                            <span v-if="alter_user_form.errors.installDir" class="italic text-red-600 text-sm">
                                                     {{ alter_user_form.errors.installDir }}
                                                 </span>
+
+                                            <div class="flex md:flex-row flex-col gap-2">
                                                 <input type="text" disabled
                                                        class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                        v-model="alter_user_form.installDir">
