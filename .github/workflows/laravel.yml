@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Fixes libsodium on local
-        run: sudo apt update; sudo apt-get install -y libsodium-dev
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
