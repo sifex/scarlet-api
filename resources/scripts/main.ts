@@ -27,12 +27,17 @@ InertiaProgress.init({
 })
 
 createInertiaApp({
+    // @ts-ignore
     resolve: (name) => resolvePageComponent(`../views/pages/${name}.vue`, import.meta.glob('../views/pages/**/*.vue')),
+    // @ts-ignore
     setup({ el, App, props, plugin }) {
+
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
+            // @ts-ignore
             .use(InertiaProgress)
             .use(Notifications)
+            // @ts-ignore
             .provide('$route', window.route)
 
         Sentry.init({
