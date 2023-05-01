@@ -31,3 +31,28 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/pest
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    name: Deploy Scarlet to London
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: Install npm dependencies
+        run: npm install
+      - name: Package for Production
+        run: npm run build
+      - name: Connect to VPN
+        uses: tailscale/github-action@v1
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+      - name: Deploy
+        uses: deployphp/action@v1
+        with:
+          private-key: ${{ secrets.SSH_KEY }}
+          dep: deploy london-1
