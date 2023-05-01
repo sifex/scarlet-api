@@ -22,7 +22,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -31,21 +31,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
-         * Allow user to be bound to "Key" or "Username"
-         */
-        Route::bind('user', function($value) {
-            $user = User::where('key', $value)
-                    ->orWhere('username', $value)
-                    ->first();
-            if ($user instanceof User) {
-                return $user;
-            }
-
-            return User::where('username', request()->get('username'))->first();
-        });
-
         parent::boot();
+
+        Route::bind('user', function ($value) {
+            return User::withTrashed()->where('uuid', $value)->firstOrFail();
+        });
     }
 
     /**

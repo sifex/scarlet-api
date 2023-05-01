@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\UserRole;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,9 +18,28 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'username' => 'Omega ' . $this->faker->name,
-            'clanID' => 2,
-            'type' => 'member'
+            'username' => $this->faker->name,
+            'type' => UserRole::MEMBER,
+            'installDir' => 'C:\Arma 3',
+            'playerID' => $this->faker->numberBetween(70000000000000000, 80000000000000000)
         ];
+    }
+
+    public function admin(): UserFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => UserRole::LEADER
+            ];
+        });
+    }
+
+    public function member(): UserFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => UserRole::MEMBER
+            ];
+        });
     }
 }
