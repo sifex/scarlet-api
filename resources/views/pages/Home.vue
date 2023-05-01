@@ -1,5 +1,5 @@
 <template>
-    <model-template>
+    <model-template :welcome_image_url="welcome_image_url">
         <Head>
             <title>Scarlet - {{ !current_user ? 'Login' : ('Welcome ' + current_user.username) }}</title>
             <meta name="description" content="Your page description">
@@ -104,6 +104,7 @@ const {
 } = defineProps<{
     current_user: User,
     scarlet_download?: string
+    welcome_image_url: String
 }>()
 
 let current_user_instance = computed(() => {

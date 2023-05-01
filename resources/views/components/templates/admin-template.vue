@@ -20,6 +20,9 @@
                             <Link :href="$route('admin.xml.index')" :class="{ 'bg-black/70 hover:bg-black/60 ': $route().current('admin.xml.*') }" class="transition-colors hover:bg-white/20 text-white px-4 py-2 rounded-md text-sm font-medium" aria-current="page">
                                 XML
                             </Link>
+                            <Link :href="$route('admin.settings.index')" :class="{ 'bg-black/70 hover:bg-black/60 ': $route().current('admin.settings.*') }" class="transition-colors hover:bg-white/20 text-white px-4 py-2 rounded-md text-sm font-medium" aria-current="page">
+                                Settings
+                            </Link>
                         </div>
                     </div>
 
