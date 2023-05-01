@@ -1,5 +1,4 @@
 /node_modules
-/public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -20,10 +19,3 @@ _ide_helper.php
 report/
 
 clover.xml
-
-bootstrap/cache/
-/bun.lockb
-
-rr
-
-.rr.yaml

@@ -2,11 +2,8 @@
 
 namespace App\Providers;
 
-use App\Policies\UserNotePolicy;
-use App\Policies\UserPolicy;
-use App\User;
-use App\UserNote;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,8 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-         User::class => UserPolicy::class,
-         UserNote::class => UserNotePolicy::class,
+        // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**

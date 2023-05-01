@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: setup/docker/web.docker
+    volumes:
+      - .:/var/www
+      - ./setup/docker/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80" # Laravel Application
+    links:
+      - app
+    depends_on:
+      - app
+  app:
+    build:
+      context: ./
+      dockerfile: setup/docker/app.docker
+    environment:
+      DB_HOST: database
+      DB_PORT: 3306
+    volumes:
+      - .:/var/www
+    depends_on:
+      - database
+    expose:
+      - "9000"
+    links:
+      - database
+  database:
+    image: mariadb:latest
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=dockerApp"
+    ports:
+      - "33061:3306"

@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 7.0
+
+before_script:
+  - cp .env.travis .env
+  - composer config --global github-oauth.github.com $GITHUBPAK
+  - composer self-update
+  - composer install -n
+  - php artisan key:generate
+  - php artisan config:clear
+  - php artisan migrate:refresh --seed
+
+script:
+  - vendor/bin/phpunit
+
+cache:
+  directories:
+    - node_modules
+    - vendor

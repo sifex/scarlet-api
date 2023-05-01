@@ -2,17 +2,19 @@ name: Laravel
 
 on:
   push:
-    branches: [ master, neo ]
+    branches: [ master ]
   pull_request:
+    branches: [ master ]
 
 jobs:
-  tests:
+  laravel-tests:
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
-          php-version: '8.1'
+          php-version: '8.0'
       - uses: actions/checkout@v2
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -30,34 +32,4 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-        run: vendor/bin/pest
-  deploy:
-    runs-on: ubuntu-latest
-    name: Deploy Scarlet to London
-    if: github.ref == 'refs/heads/main'
-    steps:
-      -   uses: actions/checkout@v2
-      -   uses: actions/setup-node@v2
-          with:
-            node-version: '14'
-      -   name: Install npm dependencies
-          run: npm install
-      -   name: Package for Production
-          run: npm run build
-      -   name: Connect to VPN
-          uses: tailscale/github-action@v1
-          with:
-            authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-      -   name: Install SSH key
-          uses: shimataro/ssh-key-action@v2
-          with:
-            key: ${{ secrets.SSH_KEY }}
-            name: id_rsa # optional
-            known_hosts: ${{ secrets.KNOWN_HOSTS }}
-            config: ${{ secrets.CONFIG }} # ssh_config; optional
-            if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
-      -   name: Deploy to Staging
-          if: endsWith(github.ref, '/neo')
-          run: |
-            vendor/bin/dep deploy london-1
-            rsync -arvz --delete-after --quiet . -e 'ssh -p 1827 -o StrictHostKeyChecking=no' . "pilot@[$MACHINE_IP]:/var/www/london.australianarmedforces.org"
+        run: vendor/bin/phpunit

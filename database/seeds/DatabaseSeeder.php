@@ -1,7 +1,5 @@
 <?php
 
-//use Database\Seeders\UserSeeder;
-use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,9 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-//            \Database\Seeders\ExistingScarletDatabaseSeeder::class,
-            UserSeeder::class,
-        ]);
+        // $this->call(UserSeeder::class);
     }
 }
