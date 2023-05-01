@@ -16,10 +16,17 @@ use Shetabit\TokenBuilder\Facade\TokenBuilder;
 
 class AppController extends Controller
 {
-
     public function __construct()
     {
-        Inertia::share('welcome_image_url', Settings::latest()->first()->welcome_image_url);
+        $settings = Settings::latest()->firstOrCreate([
+            'launcher_image_url' => 'https://i.imgur.com/0cm9dip.png',
+            'welcome_image_url' => 'https://i.imgur.com/YVMCtcN.png',
+        ]);
+
+        Inertia::share([
+            'welcome_image_url' => $settings->welcome_image_url,
+            'launcher_image_url' => $settings->launcher_image_url,
+        ]);
     }
 
     public function home(): Response

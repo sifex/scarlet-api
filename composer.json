@@ -40,8 +40,10 @@
         "webpatser/laravel-uuid": "^4.0"
     },
     "require-dev": {
+        "brianium/paratest": "^6.9",
         "deployer/deployer": "^7.0",
-        "laravel/dusk": "^6.24"
+        "laravel/dusk": "^6.24",
+        "pestphp/pest-plugin-parallel": "^1.2"
     },
     "config": {
         "optimize-autoloader": true,

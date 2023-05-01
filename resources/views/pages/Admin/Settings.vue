@@ -28,7 +28,7 @@
                     </label>
                 </div>
             </div>
-            <div class="p-6">
+            <div class="py-6">
                 <div class="flex gap-2 w-full">
                     <div class="grow"></div>
 

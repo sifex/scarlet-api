@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Settings;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;

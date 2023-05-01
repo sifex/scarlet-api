@@ -12,7 +12,6 @@ use App\Http\Controllers\WebDownloaderController;
 use App\Http\Controllers\XMLController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', [AppController::class, 'home'])
     ->name('home');
 

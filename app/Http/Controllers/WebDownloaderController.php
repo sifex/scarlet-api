@@ -8,6 +8,19 @@ use Inertia\Response;
 
 class WebDownloaderController extends Controller
 {
+    public function __construct()
+    {
+        $settings = Settings::latest()->firstOrCreate([
+            'launcher_image_url' => 'https://i.imgur.com/0cm9dip.png',
+            'welcome_image_url' => 'https://i.imgur.com/YVMCtcN.png',
+        ]);
+
+        Inertia::share([
+            'welcome_image_url' => $settings->welcome_image_url,
+            'launcher_image_url' => $settings->launcher_image_url,
+        ]);
+    }
+    
     public function electron(): Response
     {
         return Inertia::render('ElectronDownloader', [

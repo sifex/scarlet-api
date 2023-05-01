@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\XMLController;
 use App\Settings;
 use Auth;
 use Illuminate\Http\Request;
@@ -15,7 +14,7 @@ class SettingsAdminController extends Controller
     {
         $settings = Settings::latest()->first();
 
-        if($settings === null) {
+        if ($settings === null) {
             $settings = Settings::create([
                 'launcher_image_url' => 'https://i.imgur.com/0cm9dip.png',
                 'welcome_image_url' => 'https://i.imgur.com/YVMCtcN.png',
