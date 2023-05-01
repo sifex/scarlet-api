@@ -2,7 +2,7 @@ name: Laravel
 
 on:
   push:
-    branches: [ master, neo ]
+    branches: [ main, neo ]
   pull_request:
 
 jobs:
