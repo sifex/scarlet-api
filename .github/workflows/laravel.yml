@@ -57,7 +57,7 @@ jobs:
             config: ${{ secrets.CONFIG }} # ssh_config; optional
             if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
       -   name: Deploy to Staging
-          if: endsWith(github.ref, '/neo')
+          if: endsWith(github.ref, '/main')
           run: |
             vendor/bin/dep deploy london-1
             rsync -arvz --delete-after --quiet . -e 'ssh -p 1827 -o StrictHostKeyChecking=no' . "pilot@[$MACHINE_IP]:/var/www/london.australianarmedforces.org"
