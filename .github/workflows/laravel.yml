@@ -48,8 +48,6 @@ jobs:
           node-version: '20'
       - name: Install npm dependencies
         run: npm install
-      - name: Package for Production
-        run: npm run build
       - name: Connect to VPN
         uses: tailscale/github-action@v1
         with:
