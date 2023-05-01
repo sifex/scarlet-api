@@ -20,7 +20,7 @@ class WebDownloaderController extends Controller
             'launcher_image_url' => $settings->launcher_image_url,
         ]);
     }
-    
+
     public function electron(): Response
     {
         return Inertia::render('ElectronDownloader', [
