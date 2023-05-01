@@ -35,6 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy Scarlet to London
     if: github.ref == 'refs/heads/main'
+    needs: tests
     steps:
       -   uses: actions/checkout@v2
       -   uses: actions/setup-node@v2
