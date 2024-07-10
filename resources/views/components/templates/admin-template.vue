@@ -86,7 +86,7 @@
         </div>
 
         <div class="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-10 mt-6 mb-20">
-            <span id="copyright" class="text-sm text-slate-700">Copyright &copy; 2022 Australian Armed Forces</span>
+            <span id="copyright" class="text-sm text-slate-700">Copyright &copy; {{ (new Date()).getFullYear() }} Australian Armed Forces</span>
         </div>
 
         <NotificationGroup group="generic">

@@ -70,12 +70,12 @@
             </div>
 
             <div class="sm:flex space-y-4 sm:space-y-0 sm:space-x-4">
-                <Link
+                <button
                     class="grow block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-slate-200 hover:bg-slate-700 hover:text-white transition-colors"
-                    :href="$route('electron')">
-                    Go to Web Downloader
+                    @click="open_scarlet">
+                    Open Scarlet
                     <ChevronRightIcon class="inline-block h-4 w-4"/>
-                </Link>
+                </button>
 
                 <a :href="$route('logout')"
                    class="block text-center px-4 py-2 text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-500 hover:text-white transition-colors">
@@ -98,13 +98,17 @@ import ModelTemplate from "@/views/components/templates/model-template.vue";
 import {User} from "@/scripts/downloader/user";
 import { Head } from '@inertiajs/inertia-vue3'
 
+const $route = inject('$route')
+
 const {
     current_user,
-    scarlet_download = ''
+    scarlet_download = '',
+    protocol,
 } = defineProps<{
     current_user: User,
     scarlet_download?: string
-    welcome_image_url: String
+    welcome_image_url: String,
+    protocol: String
 }>()
 
 let current_user_instance = computed(() => {
@@ -119,11 +123,14 @@ onMounted(() => {
 
     if(typeof window.scarlet !== 'undefined') {
         window.location.replace($route('electron.intro'));
-
     }
 })
 
-let $route = inject('$route')
+
+function open_scarlet() {
+    window.location.href = protocol + '://open'
+}
+
 
 </script>
 

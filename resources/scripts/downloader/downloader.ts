@@ -2,6 +2,22 @@ import {EventEmitter} from "@billjs/event-emitter";
 import {backOff} from "exponential-backoff";
 import type {User} from "@/scripts/downloader/user";
 
+// Define an interface for your custom IPC bindings
+interface ScarletIPC {
+    start_download: (destination_folder: string) => void;
+    stop_download: () => void;
+    ping: () => Promise<string>;
+
+    on_status_update: (callback: (event: any, status: string, num: number, max: number, message: string) => void) => void;
+}
+
+// Extend the global Window interface
+declare global {
+    interface Window {
+        scarlet: ScarletIPC;
+    }
+}
+
 type ScarletClient = {
     status: Status,
     currentFile: string
@@ -9,75 +25,60 @@ type ScarletClient = {
 }
 
 export enum Status {
-    Disconnected,
-    Connected,
+    NotReady,
     Ready,
+    Verifying,
     Downloading,
     Error
 }
 
-/**
- * Scarlet Downloader Class – in charge of
- * - Holding the current state of the Agent
- * - Providing an abstraction layer to communicate with the Agent
- *
- */
-
 export default class ScarletDownloader extends EventEmitter {
     public client: ScarletClient
 
-    public user: User
-
-    // @ts-ignore
-    public websocket: WebSocket | null
-
-    private websocket_endpoint: string = 'ws://127.0.0.1:2074'
-    // private websocket_endpoint: string = 'ws://10.211.55.2:2074'
-
-    constructor(user: User) {
+    constructor() {
         super()
 
-        this.user = user
-
         this.client = {
-            status: Status.Disconnected,
+            status: Status.NotReady,
             currentFile: '',
             currentPercentage: 0
         }
+
+        this.register_event_listeners()
+
+        // Start with a ping to check if the agent is ready
+        this.ping()
     }
 
-    init() : void {
-        this.initialiseWebsockets(this.websocket_endpoint)
-    }
-
-    initialiseWebsockets(websocket_endpoint: string) {
-        this.websocket = new WebSocket(websocket_endpoint)
-        // @ts-ignore
-        this.websocket.addEventListener('open', (evt) => this.onWebsocketOpen(evt))
-        // @ts-ignore
-        this.websocket.addEventListener('message', (evt) => this.onWebsocketMsg(evt))
-        // @ts-ignore
-        this.websocket.addEventListener('error', (evt) => this.onWebsocketError(evt))
-
-        // Retry Logic
-        this.websocket.addEventListener('close', (evt) => {
-            // @ts-ignore
-            this.onWebsocketClose(evt)
-            // @ts-ignore
-            backOff(() => this.initialiseWebsockets(websocket_endpoint), {
-                startingDelay: 2000
-            })
+    register_event_listeners() {
+        window.scarlet.on_status_update((event: any, status: string, num: number, max: number, message: any) => {
+            if (status === 'done') {
+                this.client.status = Status.Ready
+                this.fire('statusUpdate', {data: "Done"})
+                this.fire('ready')
+            } else if (status === 'downloading') {
+                this.fire('statusUpdate', {data: "Downloading..."})
+                this.client.currentFile = message
+                this.client.currentPercentage = Math.floor((num / max)) * 100
+            }
+            this.fire('fileUpdate', {data: message})
+            console.log('Status update:', status, num, max, message)
+            // this.client.status = Status[status as keyof typeof Status]
+            // this.fire('status_update', status)
         })
     }
 
-    onWebsocketOpen(evt: MessageEvent) {
-        this.client.status = Status.Connected
-        this.send('browserConnect', 'free')
-    }
-
-    onWebsocketClose(evt: MessageEvent) {
-        this.client.status = Status.Disconnected
-        this.fire('disconnected')
+    ping() {
+        if (window.scarlet) {
+            console.debug('Pinging Scarlet')
+            window.scarlet.ping().then((res: string) => {
+                console.debug('Ping response:', res)
+                if (res === 'pong') {
+                    this.client.status = Status.Ready
+                    this.fire('ready')
+                }
+            })
+        }
     }
 
     reset() {
@@ -88,72 +89,19 @@ export default class ScarletDownloader extends EventEmitter {
         }
     }
 
-    onWebsocketMsg(evt: MessageEvent) {
-        let {who, command, attribute} = this.parse(evt.data)
-
-        // console.log({who, command, attribute})
-        switch(command) {
-            case 'browserConfirmation':
-                this.send('browserConfirmation')
-                this.fire('ready')
-                this.client.status = Status.Ready
-                break;
-            case 'UpdateInstallLocation':
-                this.fire('updateInstallerLocation', attribute)
-                this.reset()
-                break;
-            case 'UpdateStatus':
-                this.fire('statusUpdate', attribute)
-                break;
-            case 'UpdateFile':
-                this.client.currentFile = attribute
-                this.fire('fileUpdate', attribute)
-                break;
-            case 'UpdateProgress':
-                this.client.currentPercentage = Number.parseFloat(attribute)
-                this.fire('progressUpdate', attribute)
-                break;
-            case 'Completed':
-                this.client.status = Status.Ready
-                this.fire('complete')
-                break;
-        }
-    }
-
-    onWebsocketError(evt: MessageEvent) {
-        this.client.status = Status.Error
-    }
-
-    send(command: string, attribute: string = '') {
-        // @ts-ignore
-        return this.websocket.send('Updater|' + command + (attribute ? '|' + attribute : ''))
-    }
-
-    parse(string: string) {
-        // console.log(string)
-        let [who, command, attribute, ...other]: string[] = string.split('|')
-        return {who, command, attribute, other: other.join(' ')}
-    }
-
-    /**
-     * Scarlet Methods
-     */
-
-    showLocationDialog() {
-        this.send('locationChange', '')
-    }
-
-    startDownload() {
+    startDownload(destination_folder: string) {
+        window.scarlet.start_download(
+            destination_folder
+        )
         this.reset()
         this.client.status = Status.Downloading
-        this.send('startDownload', this.user.installDir ?? '')
         this.fire('downloading')
     }
 
     stopDownload() {
+        window.scarlet.stop_download()
         this.client.status = Status.Ready
-        this.send('stopDownload', this.user.installDir ?? '')
-        this.fire('ready')
         this.reset()
+        this.fire('ready')
     }
 }

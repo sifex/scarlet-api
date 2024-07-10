@@ -12,7 +12,7 @@ export default {
     props: ['title', 'players', 'color'],
     computed: {
         color_class() {
-            return this.color ? 'bg-green-400' : 'bg-orange-400'
+            return this.color ? 'bg-green-400' : 'bg-red-400'
         }
     }
 };

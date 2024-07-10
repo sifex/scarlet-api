@@ -8,6 +8,7 @@ use Auth;
 use Carbon\Carbon;
 use GameQ\GameQ;
 use GrahamCampbell\GitHub\Facades\GitHub;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\ViewErrorBag;
 use Inertia\Inertia;
@@ -32,14 +33,14 @@ class AppController extends Controller
     public function home(): Response
     {
         return Inertia::render('Home', [
+            'protocol' => App::environment('production') ? 'scarlet' : 'scarlet-dev',
             'scarlet_download' => Inertia::lazy(
-                fn () =>
-                Auth::check() ? self::getLatestScarletDownloadLink() : ''
+                fn() => Auth::check() ? self::getLatestScarletDownloadLink() : ''
             )
         ]);
     }
 
-    public function error()
+    public function error(): Response|RedirectResponse
     {
         if (sizeof(session()->get('errors', app(ViewErrorBag::class))) === 0) {
             return redirect()->route('home');
@@ -48,7 +49,7 @@ class AppController extends Controller
         return Inertia::render('ErrorLogin');
     }
 
-    public function electron_intro_screen(): Response|\Illuminate\Http\RedirectResponse
+    public function electron_intro_screen(): Response|RedirectResponse
     {
         if (Auth::check()) {
             return redirect()->route('electron');
@@ -78,7 +79,7 @@ class AppController extends Controller
         ]);
     }
 
-    public function electron_call_home(Request $request)
+    public function electron_call_home(Request $request): RedirectResponse
     {
         $token = TokenBuilder::setUniqueId($request->get('token'))->findValidToken();
 
@@ -116,8 +117,8 @@ class AppController extends Controller
     {
         $servers = [
             [
-                'type'    => 'armedassault3',
-                'host'    => '58.162.184.102:2302',
+                'type' => 'armedassault3',
+                'host' => '58.162.184.102:2302',
             ]
         ];
 

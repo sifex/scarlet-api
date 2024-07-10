@@ -1,11 +1,12 @@
 <template>
-    <div class="">
-        <button type="button"
-                @click="openModal"
-                class="flex gap-2 items-center font-exo px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-all text-white rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 ring-offset-black">
-            <Cog6ToothIcon class="h-6 w-6 text-slate-500"></Cog6ToothIcon>
-            Settings
-        </button>
+    <div @click="openModal">
+        <slot>
+            <button type="button"
+                    class="flex gap-2 items-center font-exo px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-all text-white rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 ring-offset-black">
+                <Cog6ToothIcon class="h-6 w-6 text-slate-500"></Cog6ToothIcon>
+                Settings
+            </button>
+        </slot>
     </div>
     <TransitionRoot appear :show="isOpen" as="template">
         <Dialog as="div" @close="closeModal" class="relative z-10">
@@ -164,19 +165,6 @@ import useLocalStorage from "@/scripts/useLocalStorage";
 
 const isOpen = ref(false)
 
-function closeModal() {
-    emit('settings_closed')
-    isOpen.value = false
-
-    setTimeout(() => {
-        alter_user_form.reset()
-    }, 500)
-}
-
-function openModal() {
-    isOpen.value = true
-}
-
 const props = defineProps<{
     current_user: User,
     downloader: ScarletDownloader
@@ -188,20 +176,35 @@ const emit = defineEmits<{
 }>()
 
 
+
+function closeModal() {
+    emit('settings_closed')
+    isOpen.value = false
+
+    // Because we don't want the UI to flash on close of model
+    setTimeout(alter_user_form.reset, 500)
+}
+
+function openModal() { isOpen.value = true }
+
 const alter_user_form = useForm({
     ...props.current_user
 })
 
-function showLocationDialog() {
-    if (props.downloader.client.status === ClientStatus.Ready) {
-        props.downloader.showLocationDialog()
-    }
-}
+let isElectron = ref(typeof window.scarlet !== 'undefined')
 
-// Update Installer Location
-props.downloader.on('updateInstallerLocation', evt => {
-    alter_user_form.installDir = evt.data
-})
+function showLocationDialog() {
+    window.scarlet.open_choose_install_dir(
+        props.current_user.installDir
+    )
+
+    window.scarlet.on_select_install_dir((event, directory) => {
+        alter_user_form.installDir = directory
+    })
+    // if (props.downloader.client.status === ClientStatus.Ready) {
+    //     // props.downloader.showLocationDialog(props.current_user.installDir ?? '')
+    // }
+}
 
 function update_user() {
     alter_user_form.patch(
