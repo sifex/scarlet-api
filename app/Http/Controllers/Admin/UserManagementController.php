@@ -123,6 +123,13 @@ class UserManagementController extends Controller
     {
         $this->authorize('update', $user);
 
+        // User cannot change deleted users
+        if ($user->trashed()) {
+            return redirect()->back()->withErrors([
+                'You cannot modify a deleted user'
+            ]);
+        }
+
         $user->update(
             $request->validate([
                 'username' => ['sometimes', 'required', 'string', 'max:50'],

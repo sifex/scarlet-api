@@ -12,19 +12,20 @@
                 </div>
                 <div class="grow"></div>
                 <div class="flex-none pr-6 pt-8">
-                    <status :color="arma_server.gq_online" :players="arma_server.gq_numplayers"
+                    <status :color="arma_server?.gq_online" :players="arma_server?.gq_numplayers"
                             title="AAF Arma Server"></status>
-                    <status :color="!([ClientStatus.Error, ClientStatus.NotReady].includes(downloader.client.status))"
+                    <status :color="!([StatusValue.Error, StatusValue.NotReady].includes(downloader.state.status))"
                             title="Scarlet Updater"></status>
                 </div>
             </div>
+
             <div id="banner" class="grow relative">
                 <div :style="{
                     backgroundImage: 'url('+launcher_image_url+')'
                 }" class="bg-slate-900 border-none overflow-hidden h-full w-full bg-cover bg-center"></div>
             </div>
             <div id="download-section-bottom" class="relative text-white">
-                <LoadingBar :color="uiState.statusColor" :width="downloader.client.currentPercentage"
+                <LoadingBar :color="uiState.statusColor" :width="downloader.state.completionPercentage"
                             class="-mt-5 mx-8"></LoadingBar>
             </div>
             <div id="buttons" class="h-32 px-8">
@@ -33,14 +34,15 @@
                                 'text-sky-500': uiState.statusColor === 'sky',
                                 'text-emerald-500': uiState.statusColor === 'emerald',
                                 'text-red-500': uiState.statusColor === 'red',
-                            }]" class="inline-block mr-2 font-exo tabular-nums text-sm font-semibold">
-                        {{ uiState.status }}
+                            }]" class="inline-block mr-2 font-exo tabular-nums text-sm font-semibold text-white">
+                        {{ uiState.status }} {{ uiState.file }}
                     </p>
                     <p class="inline-block mr-2 text-slate-400 tabular-nums font-exo">
                         {{ uiState.file }}
                     </p>
-                    <p v-if="debug_messages" class="inline-block mr-2 text-red-800 tabular-nums font-exo font-medium text-sm">
-                        {{ debug[downloader.client.status] }}
+                    <p v-if="is_debug_messages_enabled"
+                       class="inline-block mr-2 text-red-800 tabular-nums font-exo font-medium text-sm">
+                        {{ downloader.state.status }} {{ downloader.state.completionPercentage }}
                     </p>
                 </div>
                 <div class="flex gap-1">
@@ -74,9 +76,10 @@
                     </div>
                     <Settings :current_user="current_user" :downloader="downloader" @settings_closed="refreshUser">
 
-                        <button class="flex gap-2 items-center font-exo font-medium px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-all text-white rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 ring-offset-black"
+                        <button
+                            class="flex gap-2 items-center font-exo font-medium px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-all text-white rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 ring-offset-black"
 
-                                type="button">
+                            type="button">
                             <Cog6ToothIcon class="h-6 w-6 text-slate-500"></Cog6ToothIcon>
                             Settings
                         </button>
@@ -121,8 +124,10 @@
                                 <div class="flex items-start">
                                     <div class="shrink-0">
                                         <svg aria-hidden="true" class="w-6 h-6 text-emerald-400"
-                                             fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"
+                                             fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                  stroke-linecap="round" stroke-linejoin="round"
                                                   stroke-width="2"/>
                                         </svg>
                                     </div>
@@ -131,8 +136,9 @@
                                         <p class="text-sm font-semibold text-gray-500">{{ notification.text }}</p>
                                     </div>
                                     <div class="flex ml-4 shrink-0">
-                                        <button class="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-                                                @click="close(notification.id)">
+                                        <button
+                                            class="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+                                            @click="close(notification.id)">
                                             <span class="sr-only">Close</span>
                                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
                                                  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -153,33 +159,33 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, inject, onMounted, reactive, ref} from 'vue';
+import {computed, inject, onMounted, reactive, ref, watch} from 'vue';
 import LoadingBar from '@/views/components/electron/loading-bar.vue';
+// @ts-ignore
 import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
-import ScarletDownloader, {Status as ClientStatus} from '@/scripts/downloader/downloader'
-import Status from '@/views/components/electron/status.vue'
+import ScarletDownloader, {type Status as StatusType, Status as StatusValue} from '@/scripts/downloader/downloader'
 import ElectronToolbar from '@/views/components/electron/electron-toolbar.vue'
 import {User} from "@/scripts/downloader/user";
 import Settings from '@/views/components/electron/settings.vue'
 import {ArrowTopRightOnSquareIcon, Cog6ToothIcon, LockClosedIcon} from '@heroicons/vue/24/solid'
-import Debug from "@/scripts/downloader/debug";
 import useLocalStorage from "@/scripts/useLocalStorage";
+import Status from "@/views/components/electron/status.vue";
 
 const props = defineProps({
     current_user: {
         type: Object as () => User,
-        default: {username: '', steamID: ''}
+        required: true
     },
     arma_server: {
         type: Object,
-        default: {}
+        required: true
     },
     launcher_image_url: {
         type: String,
         default: 'https://i.imgur.com/0cm9dip.png'
     }
-})
+});
 
 let current_user_instance = computed(() => {
     return Object.assign(new User(
@@ -188,126 +194,104 @@ let current_user_instance = computed(() => {
     ), props.current_user)
 })
 
-let downloader = reactive(new ScarletDownloader())
+const downloader = reactive(new ScarletDownloader());
+const uiState = computed(() => {
+    const state = downloader.state;
+    return {
+        statusColor: getStatusColor(state.status),
+        status: getStatusText(state.status),
+        file: state.currentFilePath,
+        buttons: {
+            start: {
+                label: getStartButtonLabel(state.status),
+                enabled: state.status === StatusValue.Ready || state.status === StatusValue.Downloading
+            },
+            changeLocation: {
+                label: 'Change Download Location',
+                enabled: state.status === StatusValue.Ready
+            },
+        }
+    };
+});
 
-let uiState = reactive({
-    statusColor: "sky",
-    status: "Hello " + props.current_user.username,
-    file: '',
-    buttons: {
-        start: {
-            label: 'Start Download',
-            enabled: false
-        },
-        changeLocation: {
-            label: 'Change Download Location',
-            enabled: false
-        },
-    },
-})
-
-function onDisconnected() {
-    onReady()
-    uiState.status = "Updater Disconnected"
-    uiState.file = 'Please make sure the agent is running.'
-    uiState.buttons.start.enabled = false
-    uiState.buttons.changeLocation.enabled = false
-    uiState.statusColor = 'red'
-}
-
-function onReady() {
-    uiState.status = "Hello " + props.current_user.username
-    uiState.buttons.start.label = "Start Download";
-    if (!props.current_user?.installDir) {
-        uiState.buttons.start.enabled = false
-        uiState.file = 'Please set your installation directory.'
-    } else {
-        uiState.buttons.start.enabled = true
-        uiState.file = "Current Install Location is: " + props.current_user.installDir + "\\@Mods_AAF"
+// Helper functions
+function getStatusColor(status: StatusType): string {
+    switch (status) {
+        case StatusValue.Ready:
+        case StatusValue.Downloading:
+            return 'sky';
+        case StatusValue.Done:
+            return 'emerald';
+        case StatusValue.Error:
+            return 'red';
+        default:
+            return 'gray';
     }
-    uiState.buttons.changeLocation.enabled = true
-    uiState.statusColor = 'sky'
 }
 
-function onCompleted() {
-    uiState.buttons.start.label = "Revalidate";
-    uiState.buttons.start.enabled = true
-    uiState.buttons.changeLocation.enabled = true
-    uiState.file = "Download & validation completed successfully."
-    uiState.status = "Success"
-    uiState.statusColor = 'emerald'
-
+function getStatusText(status: StatusType): string {
+    switch (status) {
+        case StatusValue.Ready:
+            return `Hello ${current_user_instance.value?.username || ''}`;
+        case StatusValue.Downloading:
+            return 'Downloading...';
+        case StatusValue.Verifying:
+            return 'Verifying...';
+        case StatusValue.Done:
+            return 'Download Complete';
+        case StatusValue.Error:
+            return 'Error Occurred';
+        default:
+            return 'Initializing...';
+    }
 }
 
-downloader.on('ready', () => onReady())
-downloader.on('complete', () => onCompleted())
-downloader.on('disconnected', () => onDisconnected())
-
-// Downloading
-downloader.on('downloading', () => {
-    onReady()
-    uiState.buttons.start.label = "Stop Download";
-    uiState.buttons.changeLocation.enabled = false
-})
-
-downloader.on('statusUpdate', (evt) => uiState.status = evt.data.trim() ?? uiState.status)
-downloader.on('fileUpdate', (evt) => uiState.file = evt.data.trim() ?? uiState.file)
-
-
-/** Get ARMA details */
-onMounted(() => {
-    onDisconnected()
-    Inertia.reload({only: ['arma_server']})
-})
-
-/** Updating user after a settings page update */
-function refreshUser() {
-    console.log('Refreshing User')
-    Inertia.reload({only: ['current_user']})
-    onReady()
+function getStartButtonLabel(status: StatusType): string {
+    return status === StatusValue.Downloading ? 'Stop Download' : 'Start Download';
 }
-
-/**
- * Agent Controls
- */
 
 function toggleDownload() {
-    if (props.current_user?.installDir && uiState.buttons.start.enabled) {
-        if (downloader.client.status === ClientStatus.Ready) {
-            downloader.startDownload(props.current_user.installDir)
-        } else if (downloader.client.status === ClientStatus.Downloading) {
-            downloader.stopDownload()
+    if (props.current_user?.installDir) {
+        if (downloader.state.status === StatusValue.Ready) {
+            downloader.startDownload(props.current_user.installDir).catch(e => {
+                downloader.ping()
+            });
+        } else if (downloader.state.status === StatusValue.Downloading) {
+            downloader.stopDownload();
         }
     }
 }
 
-let debug = Debug
+onMounted(() => {
+    downloader.ping()
+    Inertia.reload({only: ['arma_server']})
+})
 
-
-/**
- * Admin Outlink
- */
+function refreshUser() {
+    console.log('Refreshing User')
+    Inertia.reload({only: ['current_user']})
+}
 
 function open_admin_page_in_browser() {
-    if (isElectron) {
+    if (isElectron.value) {
         window.scarlet.open_admin_page_in_browser()
     }
 }
 
-let isElectron = ref(typeof window.scarlet !== 'undefined')
+const isElectron = ref(typeof window.scarlet !== 'undefined')
 
-/**
- * Debug Messages
- */
-const debug_messages = useLocalStorage('scarlet_debug_messages', false)
+const is_debug_messages_enabled = useLocalStorage('scarlet_debug_messages', false)
 
-let $route = inject('$route')
-
+const $route: any = inject('$route')
 </script>
+
 
 <style>
 body {
     user-select: none;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-font-smoothing: subpixel-antialiased !important;
 }
 
 .isElectron :not(input):not(textarea),

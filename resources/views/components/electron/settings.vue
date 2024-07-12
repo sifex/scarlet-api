@@ -154,13 +154,13 @@ import {
     DialogTitle,
 } from '@headlessui/vue'
 
-import {Cog6ToothIcon, ArrowDownOnSquareIcon, ArrowLeftOnRectangleIcon} from '@heroicons/vue/24/solid'
+import {Cog6ToothIcon} from '@heroicons/vue/24/solid'
 import {User} from "@/scripts/downloader/user";
 import {useForm} from "@inertiajs/inertia-vue3";
 import {notify} from "notiwind"
-import ScarletDownloader, {Status as ClientStatus} from "@/scripts/downloader/downloader";
 import {Switch} from '@headlessui/vue'
 import useLocalStorage from "@/scripts/useLocalStorage";
+import type ScarletDownloader from "@/scripts/downloader/downloader";
 
 
 const isOpen = ref(false)

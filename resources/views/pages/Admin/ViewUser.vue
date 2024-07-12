@@ -23,7 +23,7 @@
                 <div class="shrink">
                     <b class="md:block pr-4 text-slate-600 text-sm">Player ID <span
                         class="text-slate-400 whitespace-nowrap">(Steam ID)</span>:</b>
-                    <span class="text-sm" v-if="user.playerID">{{ user.playerID }}</span>
+                    <a :href="'https://steamcommunity.com/profiles/' + user.playerID" class="text-sm text-red-800 font-medium" v-if="user.playerID">{{ user.playerID }}</a>
                     <XMarkIcon v-else class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XMarkIcon>
                 </div>
                 <div class="shrink">
@@ -86,6 +86,7 @@
                         <div class="basis-full md:basis-2/12"></div>
                         <div class="basis-full md:basis-5/12">
                             <input name="user_username" type="text" v-model="alter_user_form.username"
+                                   :disabled="user.deleted_at !== null" :class="{'bg-gray-100 text-slate-600': user.deleted_at !== null}"
                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.username }}</span>
                         </div>
@@ -101,6 +102,7 @@
                         <div class="basis-full md:basis-2/12"></div>
                         <div class="basis-full md:basis-5/12">
                             <member-type-dropdown name="user_role"
+                                                  :disabled="user.deleted_at !== null" :class="{'bg-gray-100 text-slate-600': user.deleted_at !== null}"
                                                   v-model="alter_user_form.type"></member-type-dropdown>
                             <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.type }}</span>
                         </div>
@@ -116,6 +118,7 @@
                         <div class="basis-full md:basis-2/12"></div>
                         <div class="basis-full md:basis-5/12">
                             <input placeholder="The Squad XML Remark" name="user_remark" type="text"
+                                   :disabled="user.deleted_at !== null" :class="{'bg-gray-100 text-slate-600': user.deleted_at !== null}"
                                    v-model="alter_user_form.remark"
                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.remark }}</span>
@@ -133,6 +136,7 @@
                         <div class="basis-full md:basis-5/12">
                             <input placeholder="Website Comment" name="user_remark" type="text"
                                    v-model="alter_user_form.comment"
+                                   :disabled="user.deleted_at !== null" :class="{'bg-gray-100 text-slate-600': user.deleted_at !== null}"
                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <span class="italic text-red-600 text-sm">{{ alter_user_form.errors.comment }}</span>
                         </div>
@@ -255,6 +259,13 @@ function update_user() {
                     group: "generic",
                     title: "Success",
                     text: "User updated"
+                })
+            },
+            onError: (error) => {
+                notify({
+                    group: "error",
+                    title: "Error",
+                    text: error[0]
                 })
             }
         }
