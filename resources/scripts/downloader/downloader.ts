@@ -12,6 +12,10 @@ interface ScarletIPC {
     open_choose_install_dir(installDir: string | undefined): void;
 
     on_select_install_dir(param: (event: any, directory: string) => void): void;
+
+    update_available(param: (event: any, test: string) => void): void;
+
+    update_downloaded(param: (event: any, test: string) => void): void;
 }
 
 // Extend the global Window interface to include the scarlet property
@@ -50,7 +54,7 @@ export interface ScarletUpdateProgress {
 // Main ScarletDownloader class
 export default class ScarletDownloader {
     public state: ScarletUpdateProgress;
-    private pollingInterval: number = 100; // ms
+    public pollingInterval: number = 100; // ms
 
     constructor() {
         this.state = {
@@ -62,76 +66,56 @@ export default class ScarletDownloader {
             currentFileTotalSize: 0,
             currentFilePath: '',
             get completionPercentage() {
-                return this.filesTotal === 0 ? 0 : (this.filesTotalCompleted / this.filesTotal) * 100;
+                return (this.filesTotal === 0 ? 0 : (this.filesTotalCompleted / this.filesTotal) * 100) + (this.status === Status.Downloading ? (this.currentFileDownloaded / this.currentFileTotalSize) * 100 / this.filesTotal : 0);
             }
         };
     }
 
     public ping(): void {
         if (window.scarlet) {
-            console.debug('Pinging Scarlet');
             window.scarlet.ping().then((res: string) => {
                 console.debug('Ping response:', res);
-                if (res === 'pong') {
-                    this.updateStatus(Status.Ready);
-                }
             }).catch((error) => {
                 console.error('Ping failed:', error);
-                this.updateStatus(Status.Error);
             });
         } else {
             console.error('Scarlet IPC not available');
-            this.updateStatus(Status.Error);
         }
     }
 
-    private updateStatus(newStatus: Status): void {
-        this.state.status = newStatus;
+    public startDownload(destination_folder: string): Promise<void> {
+        const prom = window.scarlet.start_download(destination_folder).then((test) => {
+            console.log('test', test);
+        }).catch(
+            (error) => {
+                console.error('Failed to start download:', error);
+            }
+        );
+
+        return prom;
     }
 
-    private reset(): void {
-        this.state.status = Status.NotReady;
-        this.state.filesTotal = 0;
-        this.state.filesTotalCompleted = 0;
-        this.state.verificationTotalCompleted = 0;
-        this.state.currentFileDownloaded = 0;
-        this.state.currentFileTotalSize = 0;
-        this.state.currentFilePath = '';
-    }
-
-    public async startDownload(destination_folder: string): Promise<void> {
-        try {
-            this.reset();
-            this.updateStatus(Status.Downloading);
-            await window.scarlet.start_download(destination_folder).then((test) => {
-                console.log('test', test);
-                return this.checkProgressAndContinue();
-            });
-        } catch (error) {
-            console.error('Failed to start download:', error);
-            this.updateStatus(Status.Error);
-        }
-    }
-
-    private async checkProgressAndContinue(): Promise<void> {
-
-        await new Promise(resolve => setTimeout(resolve, 100));
-        while (this.state.status === Status.Downloading || this.state.status === Status.Verifying) {
+    public async checkProgressAndContinue(): Promise<void> {
+        while (true) {
+            this.pollingInterval = 50
             try {
                 const progress: ScarletUpdateProgress = await window.scarlet.get_progress();
+                // console.debug('Progress:', progress);
                 this.updateProgress(progress);
 
-                if (progress.status === Status.Done) {
-                    this.updateStatus(Status.Ready);
-                    break;
-                }
+                // if (progress.status === Status.Done) {
+                //     this.pollingInterval = 500;
+                // }
             } catch (error) {
-                console.error('Error checking progress:', error);
-                this.updateStatus(Status.Error);
+                this.failure(error);
                 break;
             }
             await new Promise(resolve => setTimeout(resolve, this.pollingInterval));
         }
+    }
+
+    private failure(error: any): void {
+        console.error('Failed to download' + (error ? ': ' + error : ''), error);
     }
 
     private updateProgress(progress: ScarletUpdateProgress): void {
@@ -147,11 +131,8 @@ export default class ScarletDownloader {
     public async stopDownload(): Promise<void> {
         try {
             await window.scarlet.stop_download();
-            this.reset();
-            this.updateStatus(Status.Ready);
         } catch (error) {
-            console.error('Failed to stop download:', error);
-            this.updateStatus(Status.Error);
+            this.failure(error);
         }
     }
 
@@ -163,3 +144,30 @@ export default class ScarletDownloader {
         }
     }
 }
+
+const formatFileSize = (bytes: number): string => {
+    const units = ['B', 'KB', 'MB', 'GB'];
+    let size = bytes;
+    let unitIndex = 0;
+
+    while (size >= 1024 && unitIndex < units.length - 1) {
+        size /= 1024;
+        unitIndex++;
+    }
+
+    return `${size.toFixed(1)}${units[unitIndex]}`;
+};
+
+export const formatDownloadProgress = (downloaded: number, total: number): string => {
+    const downloadedStr = formatFileSize(downloaded);
+    const totalStr = formatFileSize(total);
+    return `${downloadedStr} / ${totalStr}`;
+};
+
+export const calculateDownloadSpeed = (
+    bytesDownloaded: number,
+    elapsedTimeInSeconds: number
+): string => {
+    const speedBytesPerSecond = bytesDownloaded / elapsedTimeInSeconds;
+    return `${formatFileSize(speedBytesPerSecond)}/s`;
+};

@@ -167,7 +167,7 @@ const isOpen = ref(false)
 
 const props = defineProps<{
     current_user: User,
-    downloader: ScarletDownloader
+    downloader: ScarletDownloader,
 }>();
 
 const emit = defineEmits<{

@@ -42,7 +42,7 @@ const props = defineProps({
     current_user: Object as () => User,
     token: String,
     protocol: {
-        default: 'scarlet-dev',
+        default: 'scarlet',
         type: String
     }
 })

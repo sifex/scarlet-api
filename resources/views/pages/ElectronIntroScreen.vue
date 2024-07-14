@@ -2,7 +2,7 @@
     <div class="absolute h-full w-full bg-[#080e1f] bg-scarlet-background retina:bg-scarlet-background-2x bg-cover bg-center font-weight-bolder">
         <electron-toolbar></electron-toolbar>
         <div class="min-h-full flex items-center justify-center py-12">
-            <div class="w-full space-y-4 bg-white px-4 py-8">
+            <div class="rounded-xl space-y-4 bg-white px-12 py-12">
                 <div class="max-w-lg mx-auto">
                 <div v-if="!current_user?.username" class="space-y-4">
                     <h2 class=" text-3xl font-extrabold text-gray-800">

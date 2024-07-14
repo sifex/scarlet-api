@@ -33,7 +33,7 @@ class AppController extends Controller
     public function home(): Response
     {
         return Inertia::render('Home', [
-            'protocol' => App::environment('production') ? 'scarlet' : 'scarlet-dev',
+            'protocol' => 'scarlet',
             'scarlet_download' => Inertia::lazy(
                 fn() => Auth::check() ? self::getLatestScarletDownloadLink() : ''
             )
@@ -75,7 +75,7 @@ class AppController extends Controller
 
         return Inertia::render('BrowserElectronVerify', [
             'token' => $token->token ?? '',
-            'protocol' => App::environment('production') ? 'scarlet' : 'scarlet-dev'
+            'protocol' => 'scarlet'
         ]);
     }
 

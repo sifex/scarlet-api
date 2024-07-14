@@ -12,10 +12,11 @@
                 </div>
                 <div class="grow"></div>
                 <div class="flex-none pr-6 pt-8">
-                    <status :color="arma_server?.gq_online" :players="arma_server?.gq_numplayers"
-                            title="AAF Arma Server"></status>
-                    <status :color="!([StatusValue.Error, StatusValue.NotReady].includes(downloader.state.status))"
-                            title="Scarlet Updater"></status>
+                    <status-indicator :color="arma_server?.gq_online" :players="arma_server?.gq_numplayers"
+                                      title="AAF Arma Server"></status-indicator>
+                    <status-indicator
+                        :color="!([StatusValue.Error, StatusValue.NotReady].includes(downloader.state.status))"
+                        title="Scarlet Updater"></status-indicator>
                 </div>
             </div>
 
@@ -35,13 +36,20 @@
                                 'text-emerald-500': uiState.statusColor === 'emerald',
                                 'text-red-500': uiState.statusColor === 'red',
                             }]" class="inline-block mr-2 font-exo tabular-nums text-sm font-semibold text-white">
-                        {{ uiState.status }} {{ uiState.file }}
+                        {{ uiState.status }}
                     </p>
                     <p class="inline-block mr-2 text-slate-400 tabular-nums font-exo">
                         {{ uiState.file }}
                     </p>
+                    <p class="kbs-downloaded inline-block mr-2" v-if="downloader.state.currentFileTotalSize !== 0">
+                        <span class="text-sky-500 tabular-nums font-exo font-medium text-sm">
+                            {{ formatDownloadProgress(
+                            downloader.state.currentFileDownloaded,
+                            downloader.state.currentFileTotalSize) }}
+                        </span>
+                    </p>
                     <p v-if="is_debug_messages_enabled"
-                       class="inline-block mr-2 text-red-800 tabular-nums font-exo font-medium text-sm">
+                       class="inline-block mr-2 text-red-500 tabular-nums font-exo font-medium text-sm">
                         {{ downloader.state.status }} {{ downloader.state.completionPercentage }}
                     </p>
                 </div>
@@ -53,7 +61,11 @@
                                 'bg-red-600 hover:bg-red-500 focus-visible:ring-red-600': uiState.statusColor === 'red',
                             }]"
                             class="font-exo font-medium px-6 py-2 hover:bg-sky-500 transition-all text-white rounded ring-offset-black focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                            @click="toggleDownload">
+                            @click="onDownloadButtonPress">
+                        <svg v-if="uiState.buttons.start.loadingIcon" class="inline-block animate-spin -ml-2 -mt-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
                         {{ uiState.buttons.start.label }}
                     </button>
                     <div class="grow"></div>
@@ -164,13 +176,20 @@ import LoadingBar from '@/views/components/electron/loading-bar.vue';
 // @ts-ignore
 import aaf_logo_2x from '@/images/aaf_logo_2x.png'
 import {Inertia} from "@inertiajs/inertia";
-import ScarletDownloader, {type Status as StatusType, Status as StatusValue} from '@/scripts/downloader/downloader'
+import ScarletDownloader, {
+    calculateDownloadSpeed,
+    formatDownloadProgress,
+    type Status as StatusType,
+    Status as StatusValue
+} from '@/scripts/downloader/downloader'
 import ElectronToolbar from '@/views/components/electron/electron-toolbar.vue'
 import {User} from "@/scripts/downloader/user";
 import Settings from '@/views/components/electron/settings.vue'
 import {ArrowTopRightOnSquareIcon, Cog6ToothIcon, LockClosedIcon} from '@heroicons/vue/24/solid'
 import useLocalStorage from "@/scripts/useLocalStorage";
-import Status from "@/views/components/electron/status.vue";
+import StatusIndicator from "@/views/components/electron/status-indicator.vue";
+
+import {notify} from "notiwind"
 
 const props = defineProps({
     current_user: {
@@ -194,22 +213,24 @@ let current_user_instance = computed(() => {
     ), props.current_user)
 })
 
+/**
+ * Download State
+ */
 const downloader = reactive(new ScarletDownloader());
 const uiState = computed(() => {
     const state = downloader.state;
     return {
         statusColor: getStatusColor(state.status),
+        statusClass: getStatusClasses(state.status),
         status: getStatusText(state.status),
-        file: state.currentFilePath,
+        file: getFileText(state.status, state.currentFilePath),
         buttons: {
             start: {
                 label: getStartButtonLabel(state.status),
-                enabled: state.status === StatusValue.Ready || state.status === StatusValue.Downloading
-            },
-            changeLocation: {
-                label: 'Change Download Location',
-                enabled: state.status === StatusValue.Ready
-            },
+                enabled: isStartButtonEnabled(state.status),
+                classes: getStartButtonClasses(state.status),
+                loadingIcon: state.status === StatusValue.Downloading || state.status === StatusValue.Verifying || state.status === StatusValue.InitialCheck
+            }
         }
     };
 });
@@ -219,6 +240,8 @@ function getStatusColor(status: StatusType): string {
     switch (status) {
         case StatusValue.Ready:
         case StatusValue.Downloading:
+        case StatusValue.InitialCheck:
+        case StatusValue.Verifying:
             return 'sky';
         case StatusValue.Done:
             return 'emerald';
@@ -229,6 +252,10 @@ function getStatusColor(status: StatusType): string {
     }
 }
 
+function getStatusClasses(status: StatusType): string {
+    return `text-${getStatusColor(status)}-500`;
+}
+
 function getStatusText(status: StatusType): string {
     switch (status) {
         case StatusValue.Ready:
@@ -237,6 +264,8 @@ function getStatusText(status: StatusType): string {
             return 'Downloading...';
         case StatusValue.Verifying:
             return 'Verifying...';
+        case StatusValue.InitialCheck:
+            return 'Checking files...';
         case StatusValue.Done:
             return 'Download Complete';
         case StatusValue.Error:
@@ -246,25 +275,108 @@ function getStatusText(status: StatusType): string {
     }
 }
 
-function getStartButtonLabel(status: StatusType): string {
-    return status === StatusValue.Downloading ? 'Stop Download' : 'Start Download';
+function getFileText(status: StatusType, file: string): string {
+    switch (status) {
+        case StatusValue.Ready:
+            if (!props.current_user?.installDir) {
+                return 'Please set your installation directory.'
+            } else {
+                return "Current Install Location is: " + props.current_user.installDir + "\\@Mods_AAF"
+            }
+        case StatusValue.Done:
+            return 'All files are up to date.';
+        default:
+            return file.split('/').pop() || '';
+    }
 }
 
-function toggleDownload() {
-    if (props.current_user?.installDir) {
-        if (downloader.state.status === StatusValue.Ready) {
-            downloader.startDownload(props.current_user.installDir).catch(e => {
-                downloader.ping()
-            });
-        } else if (downloader.state.status === StatusValue.Downloading) {
-            downloader.stopDownload();
-        }
+function getStartButtonLabel(status: StatusType): string {
+    if (status === StatusValue.Ready && !props.current_user?.installDir) {
+        return 'Set Install Location'
+    }
+
+    switch (status) {
+        case StatusValue.Ready:
+        case StatusValue.Error:
+            return 'Start Download';
+        case StatusValue.Downloading:
+        case StatusValue.Verifying:
+        case StatusValue.InitialCheck:
+            return 'Stop Download';
+        case StatusValue.Done:
+            return 'Verify Again';
+        default:
+            return 'Start Download';
+    }
+}
+
+function isStartButtonEnabled(status: StatusType): boolean {
+    return (props.current_user?.installDir !== null || status === StatusValue.Ready);
+}
+
+function getStartButtonClasses(status: StatusType): string {
+    const baseClasses = "font-exo font-medium px-6 py-2 transition-all text-white rounded ring-offset-black focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
+    const colorClasses = {
+        [StatusValue.Ready]: "bg-sky-600 hover:bg-sky-500 focus-visible:ring-sky-600",
+        [StatusValue.Downloading]: "bg-sky-600 hover:bg-sky-500 focus-visible:ring-sky-600",
+        [StatusValue.InitialCheck]: "bg-sky-600 hover:bg-sky-500 focus-visible:ring-sky-600",
+        [StatusValue.Verifying]: "bg-emerald-600 hover:bg-emerald-500 focus-visible:ring-emerald-600",
+        [StatusValue.Done]: "bg-emerald-600 hover:bg-emerald-500 focus-visible:ring-emerald-600",
+        [StatusValue.Error]: "bg-red-600 hover:bg-red-500 focus-visible:ring-red-600",
+        [StatusValue.NotReady]: "bg-gray-600 hover:bg-gray-500 focus-visible:ring-gray-600",
+    };
+
+    return `${baseClasses} ${colorClasses[status] || colorClasses[StatusValue.NotReady]}`;
+}
+
+function onDownloadButtonPress() {
+    if (!props.current_user?.installDir) {
+        Inertia.visit('/settings')
+        return
+    }
+
+    switch (downloader.state.status) {
+        case StatusValue.Ready:
+        case StatusValue.Error:
+        case StatusValue.Done:
+            return downloader.startDownload(props.current_user.installDir)
+                .catch(e => {
+                    downloader.ping()
+                });
+        case StatusValue.Downloading:
+        case StatusValue.Verifying:
+        case StatusValue.InitialCheck:
+            return downloader.stopDownload();
+        default:
+            return;
     }
 }
 
 onMounted(() => {
-    downloader.ping()
     Inertia.reload({only: ['arma_server']})
+
+    /**
+     * Download Status Polling
+     */
+    downloader.ping()
+    downloader.pollingInterval = 100
+    downloader.checkProgressAndContinue()
+
+    window.scarlet.update_available((event, directory) => {
+        notify({
+            group: "generic",
+            title: "Success",
+            text: "Settings saved successfully"
+        })
+    })
+
+    window.scarlet.update_downloaded((event, directory) => {
+        notify({
+            group: "generic",
+            title: "Success",
+            text: "Settings saved successfully"
+        })
+    })
 })
 
 function refreshUser() {
