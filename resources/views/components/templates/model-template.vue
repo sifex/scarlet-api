@@ -1,13 +1,13 @@
 <template>
     <div
-        class="absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center p-0 md:p-12 font-weight-bolder">
+        class="absolute h-full w-full bg-[#080e1f] bg-aaf-background retina:bg-aaf-background-2x bg-cover bg-center p-0 md:px-12 font-weight-bolder">
 
         <transition appear
                     enter-active-class="duration-700 ease-out"
                     enter-from-class="transform opacity-0 translate-y-4"
                     enter-to-class="opacity-100 translate-y-none"
         >
-            <div class="min-h-full flex flex-col gap-5 items-center justify-center py-12 px-6 md:px-0 lg:px-8">
+            <div class="min-h-full flex flex-col gap-5 items-center justify-center px-6 md:px-0 lg:px-8">
                 <div class="max-w-5xl w-full bg-white rounded-xl shadow-2xl shadow-black/60">
                     <div class="flex-none md:flex">
                         <div
@@ -50,7 +50,7 @@
                             enter-from-class="transform opacity-0 translate-y-4"
                             enter-to-class="opacity-100 translate-y-none"
                 >
-                    <div id="copyright" class="text-slate-300/20 align-middle">
+                    <div id="copyright" v-if="enable_copyright" class="text-slate-300/20 align-middle">
                         Powered by
                         <ScarletLogo class="text-slate-300/40 inline-block h-5 w-5 mb-1"/>
                         Scarlet
@@ -76,6 +76,10 @@ const props = defineProps({
     welcome_image_url: {
         type: String,
         default: 'https://i.imgur.com/YVMCtcN.png'
+    },
+    enable_copyright: {
+        type: Boolean,
+        default: true
     }
 })
 

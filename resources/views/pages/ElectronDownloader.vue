@@ -198,7 +198,7 @@ const props = defineProps({
     },
     arma_server: {
         type: Object,
-        required: true
+        required: false
     },
     launcher_image_url: {
         type: String,

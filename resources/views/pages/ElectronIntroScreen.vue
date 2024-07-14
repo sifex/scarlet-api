@@ -1,28 +1,35 @@
 <template>
-    <div class="absolute h-full w-full bg-[#080e1f] bg-scarlet-background retina:bg-scarlet-background-2x bg-cover bg-center font-weight-bolder">
+    <div class="absolute h-full w-full bg-cover bg-center font-weight-bolder">
         <electron-toolbar></electron-toolbar>
-        <div class="min-h-full flex items-center justify-center py-12">
-            <div class="rounded-xl space-y-4 bg-white px-12 py-12">
-                <div class="max-w-lg mx-auto">
-                <div v-if="!current_user?.username" class="space-y-4">
-                    <h2 class=" text-3xl font-extrabold text-gray-800">
-                        Welcome to Scarlet
-                    </h2>
-                    <p class="mt-2 text-sm text-gray-600">
-                        Please login using your Steam Account<br />to download the modset.
+        <model-template :enable_copyright="false" :welcome_image_url="welcome_image_url" class="bg-scarlet-background retina:bg-scarlet-background-2x ">
+            <Head>
+                <title>Scarlet - {{ !current_user ? 'Login' : ('Welcome ' + current_user.username) }}</title>
+                <meta name="description" content="Your page description">
+            </Head>
+            <div class="px-6 md:px-10 py-10 md:py-16 space-y-4">
+                <h2 class="text-center text-3xl font-extrabold text-gray-800">
+                    Sign in to Scarlet
+                </h2>
+
+                <div class="flex justify-center">
+                    <p class="text-justify text-sm font-medium bg-slate-200 text-slate-600 py-2 md:py-1 px-3 rounded relative">
+
+                    <span class="-top-1.5 -right-1.5 absolute inline-flex rounded-full h-3 w-3 bg-rose-500">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    </span>
+                        Scarlet has been updated to provide a better user-experience.
                     </p>
-
-
-                    <div class="rounded-lg bg-green-100 p-4 text-md border-green-300 border-2">
-                        <b class="font-weight-bold text-lg text-green-800">👋 Hey!</b><br/>
-                        <span class="text-green-700">Scarlet has been updated to use your Steam ID to authenticate with. Click the "Login with Steam" button below to get started!</span>
-                    </div>
-
-                    <LoginWithSteam/>
                 </div>
+                <p class="text-center text-sm text-gray-600">
+                    Please login using your Steam Account
+                </p>
+                <div class="rounded-lg bg-green-100 p-4 text-md border-green-300 border-2">
+                    <b class="font-weight-bold text-lg text-green-800">👋 Hey!</b><br/>
+                    <span class="text-green-700">Scarlet has been updated to use your Steam ID to authenticate with. Click the "Login with Steam" button below to get started!</span>
                 </div>
+                <LoginWithSteam/>
             </div>
-        </div>
+        </model-template>
     </div>
 </template>
 
@@ -30,6 +37,14 @@
 import {User} from "@/scripts/downloader/user";
 import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ElectronToolbar from '@/views/components/electron/electron-toolbar.vue'
+import {ChevronRightIcon} from "@heroicons/vue/24/solid";
+import {Head, Link} from "@inertiajs/inertia-vue3";
+import ModelTemplate from "@/views/components/templates/model-template.vue";
+import {ArrowDownTrayIcon} from "@heroicons/vue/24/outline";
+import {inject} from "vue";
+
+
+const $route = inject('$route')
 
 const props = defineProps<{
     current_user: User
