@@ -2,39 +2,41 @@
 
 namespace Deployer;
 
-use Dotenv\Dotenv;
-
 require 'recipe/laravel.php';
-// require './setup/deploy/deploy.php';
-// require './setup/deploy/build.php';
-// require './setup/deploy/status.php'; // TODO Removed for now, will re-instate later
-// require './setup/deploy/sentry.php'; // Custom Override
 
-/*
- * Laravel
- */
-// Set it so apache can write to cache
-set('writable_chmod_mode', '777');
+// Config
 
-// Env
-// with(new Dotenv());
+set('repository', 'git@github.com:sifex/scarlet-api.git');
 
-// Project name
-set('application', 'Scarlet');
-
-// Project repository
-set('repository', 'git@github.com:sifex/scarlet.australianarmedforces.org.git');
-set('allow_anonymous_stats', false);
-
-/*
- * Sentry
- */
-//set('sentry', [
-//    'organization' => 'platform',
-//    'project' => 'api',
-//    'token' => 'cc4d6627ba3d44b5a742723dbdff313810ba63e552644e7088a5aa8100c06c4f',
-//]);
-// after('success', 'deploy:sentry');
+add('shared_files', []);
+add('shared_dirs', []);
+add('writable_dirs', []);
 
 // Hosts
-inventory('.hosts.yml');
+
+host('staging')
+    ->setHostname('100.121.183.99')
+    ->setRemoteUser('pilot')
+    ->setPort(1827)
+    ->set('target', 'neo')
+    ->setDeployPath('/var/www/staging.scarlet.australianarmedforces.org');
+
+host('production')
+    ->setHostname('100.121.183.99')
+    ->setRemoteUser('pilot')
+    ->setPort(1827)
+    ->set('target', 'master')
+    ->setDeployPath('/var/www/scarlet.australianarmedforces.org');
+
+
+// Tasks
+task('build', function () {
+    cd('{{release_path}}');
+    run('npm install');
+    run('npm run build');
+    run('rm -rf node_modules/');
+});
+
+after('deploy:vendors', 'build');
+
+after('deploy:failed', 'deploy:unlock');

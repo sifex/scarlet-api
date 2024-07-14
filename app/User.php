@@ -2,13 +2,20 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enum\UserRole;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Shetabit\TokenBuilder\Traits\HasTemporaryTokens;
+use Uuid;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasFactory;
+    use HasTemporaryTokens;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +25,8 @@ class User extends Authenticatable
     protected $fillable = [
         'username',
         'installDir',
-        'clanID',
         'type',
-        'steamID',
+        'playerID',
         'comment',
         'remark'
     ];
@@ -29,14 +35,14 @@ class User extends Authenticatable
      * Visible
      */
     protected $visible = [
+        'uuid',
         'username',
         'installDir',
-        'key',
-        'clanID',
         'type',
-        'steamID',
+        'playerID',
         'comment',
-        'remark'
+        'remark',
+        'deleted_at'
     ];
 
     /**
@@ -55,30 +61,46 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'type' => UserRole::class
     ];
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::creating(static function (User $user) {
-            $user->key = $user->generateKey();
-        });
+    protected $attributes = [
+        'type' => UserRole::APPLICANT
+    ];
 
-        static::updating(static function (User $user) {
-            $user->key = $user->generateKey();
-        });
+    public function notes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserNote::class)->orderByDesc('created_at');
     }
 
     /**
-     * Generate User Key
+     * Get the route key for the model.
+     *
      * @return string
      */
-    private function generateKey(): string
+    public function getRouteKeyName(): string
     {
-        return md5(strtolower($this->username) . 'E6hJ9X2AptWH6bqU32');
+        return 'uuid';
+    }
+
+    /**
+     *  Setup model event hooks
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string) Uuid::generate(4);
+        });
+    }
+
+    public function isAdministrator(): bool
+    {
+        return collect([
+            UserRole::STAFF,
+            UserRole::LEADER,
+//            UserRole::SPECIAL,
+//            UserRole::VETERAN
+        ])->contains($this->type);
     }
 }
