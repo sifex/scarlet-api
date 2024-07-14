@@ -22,7 +22,8 @@ jobs:
           path: /tmp/composer-cache
           key: "${{ runner.os }}-${{ hashFiles('**/composer.lock') }}"
       - uses: php-actions/composer@v6
-
+        with:
+          php_extensions: gmp zip bz2
       - name: Generate key
         run: php artisan key:generate
       - name: Directory Permissions
