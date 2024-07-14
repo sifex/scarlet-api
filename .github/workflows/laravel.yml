@@ -23,6 +23,7 @@ jobs:
           key: "${{ runner.os }}-${{ hashFiles('**/composer.lock') }}"
       - uses: php-actions/composer@v6
         with:
+          php_version: '8.3'
           php_extensions: gmp zip bz2
       - name: Generate key
         run: php artisan key:generate
