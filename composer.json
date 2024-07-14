@@ -18,7 +18,7 @@
         "graham-campbell/github": "^10.5",
         "guzzlehttp/guzzle": "^7.4",
         "http-interop/http-factory-guzzle": "^1.0",
-        "inertiajs/inertia-laravel": "0.6.9",
+        "inertiajs/inertia-laravel": "^0.6.9",
         "kanalumaddela/laravel-steam-login": "^2.5",
         "knplabs/github-api": "^3.0",
         "laravel/framework": "^v9.29.0",
