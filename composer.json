@@ -21,7 +21,7 @@
         "inertiajs/inertia-laravel": "^0.6.9",
         "kanalumaddela/laravel-steam-login": "^2.5",
         "knplabs/github-api": "^3.0",
-        "laravel/framework": "^v9.29.0",
+        "laravel/framework": "^v9",
         "laravel/pint": "^0.1.7",
         "laravel/sail": "^1.14",
         "laravel/tinker": "^2.0",

@@ -18,7 +18,7 @@ host('staging')
     ->setHostname('100.121.183.99')
     ->setRemoteUser('pilot')
     ->setPort(1827)
-    ->set('target', 'neo')
+    ->set('target', 'staging')
     ->setDeployPath('/var/www/staging.scarlet.australianarmedforces.org');
 
 host('production')
