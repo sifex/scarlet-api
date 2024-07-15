@@ -14,7 +14,7 @@ class AddedPlayerIDColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('steamID')->nullable();
+            $table->renameColumn('steamID', 'playerID');
         });
     }
 
@@ -26,7 +26,7 @@ class AddedPlayerIDColumn extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('steamID');
+            $table->renameColumn('playerID', 'steamID');
         });
     }
 }
