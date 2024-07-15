@@ -17,7 +17,7 @@ class UserControllerTest extends TestCase
      */
     public function getAllUsers()
     {
-        factory(User::class, 4)->create();
+        User::factory(4)->create();
 
         $response = $this->get(
             route('api/user/getAll')
@@ -32,7 +32,7 @@ class UserControllerTest extends TestCase
      */
     public function getUser()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->get(
             route('api/user/get', [
@@ -75,7 +75,7 @@ class UserControllerTest extends TestCase
      */
     public function updateUser()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'installDir' => 'old_install_dir'
         ]);
 
@@ -102,7 +102,7 @@ class UserControllerTest extends TestCase
      */
     public function deleteUser()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->delete(
             route('api/user/remove', [
