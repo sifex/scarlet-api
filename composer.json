@@ -29,7 +29,7 @@
         "nunomaduro/collision": "^6.1",
         "pestphp/pest-plugin-laravel": "^1.2",
         "phpunit/phpunit": "^9.0",
-        "sentry/sentry-laravel": "^3.3",
+        "sentry/sentry-laravel": "3.8.2",
         "shetabit/token-builder": "^1.2",
         "servo/fluidxml": "^1.20.3",
         "spatie/laravel-csp": "^2.7",

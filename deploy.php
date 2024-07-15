@@ -25,7 +25,7 @@ host('production')
     ->setHostname('100.121.183.99')
     ->setRemoteUser('pilot')
     ->setPort(1827)
-    ->set('target', 'master')
+    ->set('target', 'main')
     ->setDeployPath('/var/www/scarlet.australianarmedforces.org');
 
 

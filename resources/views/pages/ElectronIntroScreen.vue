@@ -6,7 +6,7 @@
                 <title>Scarlet - {{ !current_user ? 'Login' : ('Welcome ' + current_user.username) }}</title>
                 <meta name="description" content="Your page description">
             </Head>
-            <div class="px-6 md:px-10 py-10 md:py-16 space-y-4">
+            <div class="px-6 md:px-10 py-10 md:py-16 space-y-4" v-if="electron">
                 <h2 class="text-center text-3xl font-extrabold text-gray-800">
                     Sign in to Scarlet
                 </h2>
@@ -29,26 +29,58 @@
                 </div>
                 <LoginWithSteam/>
             </div>
+            <div class="px-6 md:px-10 py-10 md:py-16 space-y-4" v-if="oldElectron">
+                <h2 class="text-center text-3xl font-extrabold text-gray-800">
+                    Update your Scarlet
+                </h2>
+
+                <div class="flex justify-center">
+                    <p class="text-justify text-sm font-medium bg-slate-200 text-slate-600 py-2 md:py-1 px-3 rounded relative">
+
+                    <span class="-top-1.5 -right-1.5 absolute inline-flex rounded-full h-3 w-3 bg-rose-500">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    </span>
+                        Scarlet has been updated to provide a better user-experience.
+                    </p>
+                </div>
+                <p class="text-center text-sm text-gray-600">
+                    Hey, it looks like you're not using the latest version of Scarlet. Please update to the latest version to continue.
+                </p>
+
+            </div>
         </model-template>
     </div>
 </template>
 
 <script lang="ts" setup>
-import {User} from "@/scripts/downloader/user";
+import type {User} from "@/scripts/downloader/user";
 import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ElectronToolbar from '@/views/components/electron/electron-toolbar.vue'
-import {ChevronRightIcon} from "@heroicons/vue/24/solid";
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import ModelTemplate from "@/views/components/templates/model-template.vue";
-import {ArrowDownTrayIcon} from "@heroicons/vue/24/outline";
-import {inject} from "vue";
+import {inject, onMounted, ref} from "vue";
 
 
 const $route = inject('$route')
 
 const props = defineProps<{
-    current_user: User
+    current_user: User,
+    welcome_image_url: string
 }>()
+
+
+let electron = ref(false)
+let oldElectron = ref(false)
+
+onMounted(() => {
+    if(typeof window.scarlet !== 'undefined') {
+        electron.value = true
+    }
+    if(typeof window.module !== 'undefined') {
+        oldElectron.value = true
+    }
+})
+
 </script>
 
 
