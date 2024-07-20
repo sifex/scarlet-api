@@ -69,7 +69,7 @@ const props = defineProps<{
 }>()
 
 
-let electron = ref(false)
+let electron = ref(true)
 let oldElectron = ref(false)
 
 onMounted(() => {

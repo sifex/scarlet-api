@@ -13,8 +13,4 @@ return [
      */
     'teamspeak' => env('TEAMSPEAK_SERVER', 'ts.australianarmedforces.org:9987'),
 
-    /**
-     * Redirect to do go after login
-     */
-    'redirect_electron' => env('REDIRECT_ELECTRON', 'https://australianarmedforces.org/mods/electron/')
 ];
