@@ -7,9 +7,6 @@ import {resolve} from "path";
 
 export default defineConfig({
     server: {
-        hmr: {
-            host: '100.121.235.7'
-        }
     },
     plugins: [
         laravel(['resources/scripts/main.ts']),

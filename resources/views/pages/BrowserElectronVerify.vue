@@ -64,7 +64,8 @@ onMounted(() => {
         }, 2000)
     } else {
         setTimeout(() => {
-            window.location.href = props.protocol + '://' + props.token
+            window.location.href = props.protocol + '://open?token=' + props.token
+
             setTimeout(() => {
                 // window.close()
                 youCanCloseThisWindowNow.value = true

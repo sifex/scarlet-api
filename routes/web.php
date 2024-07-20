@@ -35,7 +35,7 @@ Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'
 //Route::post('@me', [UserController2::class, 'update']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/electron', [WebDownloaderController::class, 'electron'])
+    Route::get('/electron', [AppController::class, 'electron'])
         ->name('electron');
 
     Route::patch('user/{user}', [UserController::class, 'update'])->name('user.update');

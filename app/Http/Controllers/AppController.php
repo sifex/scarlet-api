@@ -32,8 +32,13 @@ class AppController extends Controller
 
     public function home(): Response
     {
+        if (Auth::check()) {
+            $token = $this->getNewToken();
+        }
+
         return Inertia::render('Home', [
             'protocol' => 'scarlet',
+            'token' => $token->token ?? '',
             'scarlet_download' => Inertia::lazy(
                 fn() => Auth::check() ? self::getLatestScarletDownloadLink() : ''
             )
@@ -65,12 +70,7 @@ class AppController extends Controller
     public function browser_electron_steam_verify_page(Request $request): Response
     {
         if (Auth::check()) {
-            $date = Carbon::now()->addMinutes(5);
-            $token = Auth::user()
-                ->temporaryTokenBuilder()
-                ->setUsageLimit(1)
-                ->setExpireDate($date)
-                ->build();
+            $token = $this->getNewToken();
         }
 
         return Inertia::render('BrowserElectronVerify', [
@@ -127,5 +127,29 @@ class AppController extends Controller
         $GameQ->setOption('timeout', 5); // seconds
 
         return collect($GameQ->process())->first();
+    }
+
+    /**
+     * @return \Shetabit\TokenBuilder\Models\Token
+     */
+    private function getNewToken(): \Shetabit\TokenBuilder\Models\Token
+    {
+        $date = Carbon::now()->addMinutes(5);
+        $token = Auth::user()
+            ->temporaryTokenBuilder()
+            ->setUsageLimit(1)
+            ->setExpireDate($date)
+            ->build();
+
+        return $token;
+
+    }
+
+    public function electron(): Response
+    {
+        return Inertia::render('ElectronDownloader', [
+            'arma_server' => Inertia::lazy(fn () => AppController::queryArmaServer()),
+            'launcher_image_url' => Settings::latest()->first()->launcher_image_url
+        ]);
     }
 }

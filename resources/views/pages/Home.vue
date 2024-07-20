@@ -104,11 +104,13 @@ const {
     current_user,
     scarlet_download = '',
     protocol,
+    token = '',
 } = defineProps<{
     current_user: User,
     scarlet_download?: string
     welcome_image_url: String,
-    protocol: String
+    protocol: String,
+    token: String
 }>()
 
 let current_user_instance = computed(() => {
@@ -128,7 +130,8 @@ onMounted(() => {
 
 
 function open_scarlet() {
-    window.location.href = protocol + '://open'
+    const scarlet_api_url = window.location.origin + '/'
+    window.location.href = protocol + '://open?token=' + token + '&scarlet_api_url=' + scarlet_api_url
 }
 
 
