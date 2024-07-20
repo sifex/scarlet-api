@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserNoteController;
 use App\Http\Controllers\Admin\XMLAdminController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\SteamLoginController;
+use App\Http\Controllers\ModsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebDownloaderController;
 use App\Http\Controllers\XMLController;
@@ -31,6 +32,12 @@ Route::get('/browser/steam/verify', [AppController::class, 'browser_electron_ste
 
 Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'])
     ->name('electron.steam.verify');
+
+Route::get('/mods', [ModsController::class, 'get_mods'])
+    ->name('mods');
+
+Route::get('/mods/regenerate', [ModsController::class, 'regenerate_mods'])
+    ->name('mods.regenerate');
 
 //Route::post('@me', [UserController2::class, 'update']);
 

@@ -1,8 +1,12 @@
-import {EventEmitter} from "@billjs/event-emitter";
+export interface FileDownload {
+    url: string;
+    path: string;
+    sha256_hash: string;
+}
 
 // Define the ScarletIPC interface for type-checking window.scarlet methods
 interface ScarletIPC {
-    start_download: (destination_folder: string) => Promise<any>;
+    start_download: (destination_folder: string, files: Array<FileDownload>) => Promise<any>;
     stop_download: () => Promise<any>;
     ping: () => Promise<string>;
     get_progress: () => Promise<ScarletUpdateProgress>;
@@ -84,15 +88,16 @@ export default class ScarletDownloader {
     }
 
     public startDownload(destination_folder: string): Promise<void> {
-        const prom = window.scarlet.start_download(destination_folder).then((test) => {
-            console.log('test', test);
-        }).catch(
-            (error) => {
-                console.error('Failed to start download:', error);
-            }
-        );
-
-        return prom;
+        return fetch('/mods')
+            .then(response => response.json())
+            .then(data => window.scarlet.start_download(destination_folder, data))
+            .then((test) => {
+                console.log('test', test);
+            }).catch(
+                (error) => {
+                    console.error('Failed to start download:', error);
+                }
+            );
     }
 
     public async checkProgressAndContinue(): Promise<void> {
