@@ -130,7 +130,7 @@ onMounted(() => {
 
 
 function open_scarlet() {
-    const scarlet_api_url = encodeURI(window.location.origin + '//')
+    const scarlet_api_url = encodeURIComponent(window.location.origin + '/')
     window.location.href = protocol + '://open?token=' + token + '&scarlet_api_url=' + scarlet_api_url
 }
 
