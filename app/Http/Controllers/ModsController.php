@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Cache;
 use Config;
-use FluidXml\FluidXml;
 use Illuminate\Http\JsonResponse;
 use Storage;
 use Str;
 
 class ModsController extends Controller
 {
-    const MODS_PREFIX = '@Mods_AAF';
+    public const MODS_PREFIX = '@Mods_AAF';
 
     public function get_mods(): JsonResponse
     {
@@ -47,8 +45,8 @@ class ModsController extends Controller
     private static function format_files(array $files, string $pull_zone_url = ''): array
     {
         return collect($files)
-            ->filter(fn($file) => $file['type'] === 'file')
-            ->map(fn($file) => [
+            ->filter(fn ($file) => $file['type'] === 'file')
+            ->map(fn ($file) => [
                 'url' => Str::finish($pull_zone_url, '/') . $file['path'],
                 'path' => Str::finish(self::MODS_PREFIX, '/') . $file['path'],
                 'sha256_hash' => Str::lower($file['extra_metadata']['checksum']),

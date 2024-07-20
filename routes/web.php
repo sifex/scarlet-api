@@ -8,7 +8,6 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\SteamLoginController;
 use App\Http\Controllers\ModsController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\WebDownloaderController;
 use App\Http\Controllers\XMLController;
 use Illuminate\Support\Facades\Route;
 

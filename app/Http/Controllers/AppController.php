@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use App\Settings;
 use Auth;
 use Carbon\Carbon;
@@ -40,7 +39,7 @@ class AppController extends Controller
             'protocol' => 'scarlet',
             'token' => $token->token ?? '',
             'scarlet_download' => Inertia::lazy(
-                fn() => Auth::check() ? self::getLatestScarletDownloadLink() : ''
+                fn () => Auth::check() ? self::getLatestScarletDownloadLink() : ''
             )
         ]);
     }
@@ -142,7 +141,6 @@ class AppController extends Controller
             ->build();
 
         return $token;
-
     }
 
     public function electron(): Response
