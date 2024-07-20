@@ -2,7 +2,7 @@
 
 use App\User;
 
-$existing_database_state = '--path database/migrations/2014_10_12_000000_create_users_table.php --path database/migrations/2014_10_12_100000_create_password_resets_table.php --path database/migrations/2016_11_02_070159_create_tokens_table.php --path database/migrations/2017_06_08_073337_CreateScarClansTable.php --path database/migrations/2017_06_09_063459_AddRemarkColumn.php --path database/migrations/2017_06_12_062658_AddedPlayerIDColumn.php';
+$existing_database_state = '--path database/migrations/2014_10_12_000000_create_users_table.php --path database/migrations/2014_10_12_100000_create_password_resets_table.php --path database/migrations/2016_11_02_070159_create_tokens_table.php --path database/migrations/2017_06_08_073337_CreateScarClansTable.php --path database/migrations/2017_06_09_063459_AddRemarkColumn.php --path database/migrations/2017_06_12_062658_AddedPlayerIDColumn.php --path database/migrations/2017_07_12_062658_RenamedPlayerIDColumn.php';
 
 
 it('tests that everything will work after the neo migration', function () use ($existing_database_state) {
