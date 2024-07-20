@@ -27,6 +27,8 @@ sail test
 
 ## Development
 
+### Standard Browser Login
+
 ```mermaid
 sequenceDiagram
     participant U as User
@@ -48,7 +50,18 @@ sequenceDiagram
     B->>L: GET "/auth/steam"
     L-->>B: Set session, redirect to app
     B-->>U: Show app features
+```
 
+### Electron Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant E as Electron App
+    participant B as Browser
+    participant L as Laravel Backend
+    participant S as Steam
+    
     %% Electron Flow
     U->>E: Click Electron login
     E->>B: Open "/browser/steam/verify"
