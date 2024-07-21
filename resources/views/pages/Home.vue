@@ -131,7 +131,9 @@ onMounted(() => {
 
 function open_scarlet() {
     const scarlet_api_url = encodeURIComponent(window.location.origin + '/')
-    window.location.href = protocol + '://open?token=' + token + '&scarlet_api_url=' + scarlet_api_url
+    const redirect_url = protocol + '://open?token=' + token + '&scarlet_api_url=' + scarlet_api_url
+    console.log(redirect_url)
+    window.location.href = redirect_url
 }
 
 
