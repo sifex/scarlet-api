@@ -72,7 +72,7 @@
             <div class="sm:flex space-y-4 sm:space-y-0 sm:space-x-4">
                 <button
                     class="grow block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-slate-200 hover:bg-slate-700 hover:text-white transition-colors"
-                    @click="open_scarlet">
+                    @click="open_app">
                     Open Scarlet
                     <ChevronRightIcon class="inline-block h-4 w-4"/>
                 </button>
@@ -97,6 +97,7 @@ import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ModelTemplate from "@/views/components/templates/model-template.vue";
 import {User} from "@/scripts/downloader/user";
 import { Head } from '@inertiajs/inertia-vue3'
+import {open_scarlet} from "@/scripts/downloader/protocol";
 
 const $route = inject('$route')
 
@@ -108,9 +109,9 @@ const {
 } = defineProps<{
     current_user: User,
     scarlet_download?: string
-    welcome_image_url: String,
-    protocol: String,
-    token: String
+    welcome_image_url: string,
+    protocol: string,
+    token: string
 }>()
 
 let current_user_instance = computed(() => {
@@ -129,11 +130,10 @@ onMounted(() => {
 })
 
 
-function open_scarlet() {
-    const scarlet_api_url = encodeURIComponent(window.location.origin + '#')
-    const redirect_url = protocol + '://open?token=' + token + '&scarlet_api_url=' + scarlet_api_url
-    console.log(redirect_url)
-    window.location.href = redirect_url
+function open_app() {
+    open_scarlet(
+        token
+    )
 }
 
 

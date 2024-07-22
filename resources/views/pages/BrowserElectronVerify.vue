@@ -37,6 +37,7 @@
 import {inject, onMounted, ref} from 'vue';
 import {CheckCircleIcon} from "@heroicons/vue/24/outline";
 import {User} from "@/scripts/downloader/user";
+import {open_scarlet} from "@/scripts/downloader/protocol";
 
 const props = defineProps({
     current_user: Object as () => User,
@@ -64,7 +65,9 @@ onMounted(() => {
         }, 2000)
     } else {
         setTimeout(() => {
-            window.location.href = props.protocol + '://open?token=' + props.token
+            open_scarlet(
+                props.token
+            )
 
             setTimeout(() => {
                 // window.close()
