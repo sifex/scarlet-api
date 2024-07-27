@@ -22,7 +22,6 @@ export class User implements UserInterface {
     public installDir?: string;
     public remark?: string;
     public deleted_at?: string;
-    public archived_at?: string;
 
     constructor(username: string, playerID: string) {
         this.username = username

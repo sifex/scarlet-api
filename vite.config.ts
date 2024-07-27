@@ -16,12 +16,12 @@ export default defineConfig({
         // visualizer(),
         svgLoader(),
         vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
+            // template: {
+            //     transformAssetUrls: {
+            //         base: null,
+            //         includeAbsolute: false,
+            //     },
+            // },
         }),
     ],
     resolve: {

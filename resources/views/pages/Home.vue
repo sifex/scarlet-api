@@ -62,7 +62,7 @@
             <div class="" v-if="current_user_instance.isAdminEnough()">
             <Link
 
-                class="grow block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-rose-500 text-white hover:bg-rose-700 hover:text-white transition-colors"
+                class="grow text-center px-4 py-2 text-sm font-medium rounded-md bg-rose-500 text-white hover:bg-rose-700 hover:text-white transition-colors flex justify-center items-center gap-2"
                 :href="$route('admin.user.index')">
                 Go to Admin Page
                 <ChevronRightIcon class="inline-block h-4 w-4"/>
@@ -71,11 +71,19 @@
 
             <div class="sm:flex space-y-4 sm:space-y-0 sm:space-x-4">
                 <button
-                    class="grow block text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md bg-slate-200 hover:bg-slate-700 hover:text-white transition-colors"
+                    class="grow text-center px-4 py-2 text-sm font-medium rounded-md bg-slate-200 hover:bg-slate-700 hover:text-white transition-colors flex justify-center items-center gap-2"
                     @click="open_app">
                     Open Scarlet
-                    <ChevronRightIcon class="inline-block h-4 w-4"/>
+                    <ChevronRightIcon class="h-4 w-4"/>
                 </button>
+
+                <Settings :current_user="current_user_instance" @settings_closed="refresh_user">
+                    <button
+                       class="text-center px-4 py-2 text-sm font-medium rounded-md text-slate-800 bg-slate-200 hover:bg-slate-500 hover:text-white transition-colors flex items-center gap-2">
+                        <Cog6ToothIcon class="h-5 w-5 text-slate-700"></Cog6ToothIcon>
+                        Settings
+                    </button>
+                </Settings>
 
                 <a :href="$route('logout')"
                    class="block text-center px-4 py-2 text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-500 hover:text-white transition-colors">
@@ -87,8 +95,9 @@
 </template>
 
 <script lang="ts" setup>
+import Settings from "@/views/components/electron/settings.vue";
 import {computed, inject, onMounted} from 'vue';
-import {ChevronRightIcon} from '@heroicons/vue/24/solid'
+import {ChevronRightIcon, Cog6ToothIcon} from '@heroicons/vue/24/solid'
 import {ArrowDownTrayIcon} from '@heroicons/vue/24/outline'
 import {Inertia} from "@inertiajs/inertia";
 import {Link} from '@inertiajs/inertia-vue3'
@@ -131,9 +140,11 @@ onMounted(() => {
 
 
 function open_app() {
-    open_scarlet(
-        token
-    )
+    open_scarlet(token)
+}
+
+function refresh_user() {
+    Inertia.reload({only: ['current_user']})
 }
 
 

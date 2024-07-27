@@ -8,7 +8,7 @@
         <div class="rounded-lg min-h-full py-8 px-3 sm:px-4 md:px-6 lg:px-10 bg-white ">
             <div class="flex flex-col gap-2">
                 <div class="flex flex-col gap-6">
-                    <label class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
+                    <label class="flex flex-col gap-1 text-sm font-medium text-gray-700">
                         Launcher Background Image URL
                         <span v-if="settings_form.errors.launcher_image_url" class="italic text-red-600 text-sm">
                             {{ settings_form.errors.launcher_image_url }}
@@ -17,7 +17,7 @@
                                class="block w-full flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                type="text"/>
                     </label>
-                    <label class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
+                    <label class="flex flex-col gap-1 text-sm font-medium text-gray-700">
                         Welcome Background Image URL
                         <span v-if="settings_form.errors.welcome_image_url" class="italic text-red-600 text-sm">
                             {{ settings_form.errors.welcome_image_url }}

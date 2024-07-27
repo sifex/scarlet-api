@@ -20,6 +20,7 @@
                             >
                                 <div
                                     class="rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute top-0 left-0 right-0 bottom-0 h-full w-full overflow-hidden">
+
                                     <div
                                         class="bg-[#070E21] rounded-t-xl md:rounded-tr-none md:rounded-l-xl  absolute top-0 left-0 right-0 bottom-0 h-full w-full bg-cover bg-center "
                                         :style="{ backgroundImage: 'url(\'' + welcome_image_url + '\')'}"></div>

@@ -54,12 +54,7 @@
                     </p>
                 </div>
                 <div class="flex gap-1">
-                    <button :class="[{
-                                'opacity-30': !uiState.buttons.start.enabled,
-                                'bg-sky-600 hover:bg-sky-500 focus-visible:ring-sky-600': uiState.statusColor === 'sky',
-                                'bg-emerald-600 hover:bg-emerald-500 focus-visible:ring-emerald-600': uiState.statusColor === 'emerald',
-                                'bg-red-600 hover:bg-red-500 focus-visible:ring-red-600': uiState.statusColor === 'red',
-                            }]"
+                    <button :class="uiState.buttons.start.classes"
                             class="font-exo font-medium px-6 py-2 hover:bg-sky-500 transition-all text-white rounded ring-offset-black focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
                             @click="onDownloadButtonPress">
                         <svg v-if="uiState.buttons.start.loadingIcon" class="inline-block animate-spin -ml-2 -mt-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -100,7 +95,7 @@
             </div>
         </div>
 
-        <div v-if="current_user.archived_at" id="locked" class="fixed top-0 left-0 right-0 bottom-0 bg-black/40">
+        <div v-if="current_user.deleted_at" id="locked" class="fixed top-0 left-0 right-0 bottom-0 bg-black/40">
             <div class="fixed z-200 top-10 left-10 right-10 bottom-10 bg-white rounded-2xl">
                 <div class="flex w-full h-full flex-col text-center items-center justify-center gap-5 max-w-sm mx-auto">
                     <LockClosedIcon class="h-10 w-10 text-red-500"></LockClosedIcon>

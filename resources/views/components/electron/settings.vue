@@ -58,7 +58,7 @@
                                                    v-model="alter_user_form.username"/>
                                         </label>
 
-                                        <label for="company-website" class="flex flex-col gap-1 block text-sm font-medium text-gray-700">
+                                        <label for="company-website" class="flex flex-col gap-1 text-sm font-medium text-gray-700" v-if="isElectron">
                                             Installation Directory
                                             <span class="font-normal text-slate-400">Your installation directory is where your Addons will be installed.</span>
                                             <span v-if="alter_user_form.errors.installDir" class="italic text-red-600 text-sm">
@@ -81,7 +81,7 @@
                                             </div>
                                         </label>
 
-                                        <label for="company-website" class="flex gap-4 items-center block text-sm font-medium text-gray-700">
+                                        <label for="company-website" class="flex gap-4 items-center text-sm font-medium text-gray-700" v-if="isElectron">
                                             <span class="order-2 flex flex-col">
                                                 Debug Messages
                                                 <span class="font-normal text-slate-400 mb-1">Not a really helpful toggle but may give some indication of what can go wrong with Scarlet.</span>
@@ -115,6 +115,7 @@
                                            type="button"
                                            class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                                            @click="closeModal"
+                                           v-if="isElectron"
                                         >
                                             Logout
                                         </a>

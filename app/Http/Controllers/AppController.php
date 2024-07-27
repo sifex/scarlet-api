@@ -18,7 +18,7 @@ class AppController extends Controller
 {
     public function __construct()
     {
-        $settings = Settings::latest()->firstOrCreate([
+        $settings = Settings::latest('created_at')->firstOrCreate([], [
             'launcher_image_url' => 'https://i.imgur.com/0cm9dip.png',
             'welcome_image_url' => 'https://i.imgur.com/YVMCtcN.png',
         ]);
