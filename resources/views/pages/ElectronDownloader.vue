@@ -100,7 +100,6 @@
             </div>
         </div>
 
-
         <div v-if="current_user.archived_at" id="locked" class="fixed top-0 left-0 right-0 bottom-0 bg-black/40">
             <div class="fixed z-200 top-10 left-10 right-10 bottom-10 bg-white rounded-2xl">
                 <div class="flex w-full h-full flex-col text-center items-center justify-center gap-5 max-w-sm mx-auto">
@@ -111,7 +110,6 @@
                 </div>
             </div>
         </div>
-
 
         <NotificationGroup group="generic">
             <div class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none z-50">
@@ -401,9 +399,6 @@ const $route: any = inject('$route')
 <style>
 body {
     user-select: none;
-    -webkit-backface-visibility: visible !important;
-    backface-visibility: visible !important;
-    -webkit-font-smoothing: subpixel-antialiased !important;
 }
 
 .isElectron :not(input):not(textarea),
@@ -414,7 +409,4 @@ body {
     cursor: default;
 }
 
-/*.isElectron input, .isElectron button, .isElectron textarea, .isElectron :focus {*/
-/*    outline: none;*/
-/*}*/
 </style>

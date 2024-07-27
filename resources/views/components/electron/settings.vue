@@ -66,9 +66,10 @@
                                                 </span>
 
                                             <div class="flex md:flex-row flex-col gap-2">
-                                                <input type="text" disabled
-                                                       class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                       v-model="alter_user_form.installDir">
+                                                <span type="text"
+                                                       class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                                    {{ alter_user_form.installDir }}<span class="text-slate-400">\@Mods_AAF</span>
+                                                </span>
 
                                                 <button
                                                     type="button"

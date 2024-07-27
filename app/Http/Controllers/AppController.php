@@ -98,6 +98,8 @@ class AppController extends Controller
     {
         if (app()->environment(['testing', 'local'])) {
             return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        } elseif (app()->environment(['staging'])) {
+            return 'https://github.com/sifex/scarlet/releases/download/v2.0.0-alpha1/scarlet-windows-latest.zip';
         } else {
             $github_release_information = GitHub::connection('main')->api('repo')->releases()->latest('sifex', 'scarlet');
             $assets = collect($github_release_information)->get('assets');
@@ -108,6 +110,7 @@ class AppController extends Controller
             return collect($download_asset)->get('browser_download_url');
         }
     }
+
 
     /**
      * @throws \Exception
