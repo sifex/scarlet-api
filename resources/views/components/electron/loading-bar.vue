@@ -1,9 +1,7 @@
 <template>
     <div class="progress-wrapper">
         <div class="progress" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-            <canvas :class="{
-                'bg-sky-600': color === 'sky',
-                'bg-emerald-600': color === 'emerald'}"
+            <canvas :class="loadingBarClass"
                 class="progress-meter" :style="{ width: width + '%' }"></canvas>
         </div>
     </div>
@@ -12,7 +10,7 @@
 <script>
 export default {
     name: 'loading-bar',
-    props: ['width', 'color'],
+    props: ['width', 'loadingBarClass'],
     methods: {
         updateWitdh(width) {
             this.width = width
