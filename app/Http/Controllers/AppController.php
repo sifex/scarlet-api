@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Settings;
 use Auth;
+use Cache;
 use Carbon\Carbon;
 use GameQ\GameQ;
 use GrahamCampbell\GitHub\Facades\GitHub;
@@ -96,19 +97,27 @@ class AppController extends Controller
      */
     private static function getLatestScarletDownloadLink(): string
     {
-        if (app()->environment(['testing', 'local'])) {
-            return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-        } elseif (app()->environment(['staging'])) {
-            return 'https://github.com/sifex/scarlet/releases/download/v2.0.0-alpha2/scarlet-windows-latest.zip';
-        } else {
-            $github_release_information = GitHub::connection('main')->api('repo')->releases()->latest('sifex', 'scarlet');
-            $assets = collect($github_release_information)->get('assets');
-            throw_if(sizeof($assets) === 0, \Exception::class, 'No current available Scarlet download link');
-            $download_asset = collect($assets)->filter(function ($asset) {
-                return str_ends_with($asset['name'], '.exe');
-            })->first();
-            return collect($download_asset)->get('browser_download_url');
+        if (Cache::has('scarlet_download_link')) {
+            return Cache::get('scarlet_download_link');
         }
+
+        $link = self::generateGithubDownloadLink();
+        Cache::put('scarlet_download_link', $link, now()->addDays(5));
+        return $link;
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    private static function generateGithubDownloadLink(): string
+    {
+        $github_release_information = GitHub::connection('main')->api('repo')->releases()->latest('sifex', 'scarlet');
+        $assets = collect($github_release_information)->get('assets');
+        throw_if(sizeof($assets) === 0, \Exception::class, 'No current available Scarlet download link');
+        $download_asset = collect($assets)->filter(function ($asset) {
+            return str_ends_with($asset['name'], '.exe');
+        })->first();
+        return collect($download_asset)->get('browser_download_url');
     }
 
 

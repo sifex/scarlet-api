@@ -44,8 +44,14 @@
                     </p>
                 </div>
                 <p class="text-center text-sm text-gray-600">
-                    Hey, it looks like you're not using the latest version of Scarlet. Please update to the latest version to continue.
+                    Hey, it looks like you're not using the latest version of Scarlet.<br />Please update to the latest version to continue.
                 </p>
+
+                <div class="flex justify-center">
+                    <button @click="open_scarlet_website_old_electron" class="flex justify-center px-4 py-3 font-semibold leading-6 text-sm shadow rounded-md text-white transition-colors ease-in-out duration-150 bg-emerald-500 hover:bg-emerald-400">
+                        Visit the Scarlet Website to Download <ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2 mt-0.5 -mb-0.5"/>
+                    </button>
+                </div>
 
             </div>
         </model-template>
@@ -53,6 +59,7 @@
 </template>
 
 <script lang="ts" setup>
+import {ArrowTopRightOnSquareIcon} from "@heroicons/vue/16/solid";
 import type {User} from "@/scripts/downloader/user";
 import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
 import ElectronToolbar from '@/views/components/electron/electron-toolbar.vue'
@@ -69,18 +76,17 @@ const props = defineProps<{
 }>()
 
 
-let electron = ref(true)
+let electron = ref(false)
 let oldElectron = ref(false)
 
 onMounted(() => {
-    if(typeof window.scarlet !== 'undefined') {
-        electron.value = true
-    }
-    if(typeof window.module !== 'undefined') {
-        oldElectron.value = true
-    }
+    electron.value = typeof window.scarlet !== 'undefined';
+    oldElectron.value = typeof window.module !== 'undefined';
 })
 
+function open_scarlet_website_old_electron() {
+    require('electron').shell.openExternal('https://staging.scarlet.australianarmedforces.org/')
+}
 </script>
 
 
