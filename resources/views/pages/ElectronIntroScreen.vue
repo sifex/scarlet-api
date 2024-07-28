@@ -85,7 +85,7 @@ onMounted(() => {
 })
 
 function open_scarlet_website_old_electron() {
-    require('electron').shell.openExternal('https://staging.scarlet.australianarmedforces.org/')
+    require('electron').shell.openExternal('https://scarlet.australianarmedforces.org/')
 }
 </script>
 
