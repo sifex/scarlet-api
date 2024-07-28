@@ -1,4 +1,5 @@
 /node_modules
+/public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -15,3 +16,14 @@ _ide*
 _ide_helper.php
 /tests/Browser/_browser_ide_helper.php
 .phpstorm.meta.php
+
+report/
+
+clover.xml
+
+bootstrap/cache/
+/bun.lockb
+
+rr
+
+.rr.yaml
