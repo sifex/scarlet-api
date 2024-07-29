@@ -17,8 +17,7 @@ class UserController extends Controller
                     'sometimes',
                     'required',
                     'string',
-                    'max:50',
-                    Rule::unique('users')->ignore($request->user()->id)
+                    'max:50'
                 ],
                 'remark' => [
                     'sometimes',
