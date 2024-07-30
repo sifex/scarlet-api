@@ -39,7 +39,14 @@
             <!-- Download section -->
             <div id="download-section-bottom" class="relative text-white">
                 <LoadingBar :downloader="downloader" class="-mt-5 mx-8"></LoadingBar>
-                {{ downloader}}
+            </div>
+
+            <div class="relative px-8" v-if="is_debug_messages_enabled">
+                <div class="p-2 rounded bg-slate-950">
+                    <code class="text-slate-400">
+                        {{ downloader }}
+                    </code>
+                </div>
             </div>
 
             <!-- Buttons and status section -->

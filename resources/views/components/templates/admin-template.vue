@@ -1,6 +1,6 @@
 <template>
     <div
-        class="absolute h-full w-full bg-slate-950 bg-cover bg-center font-weight-bolder">
+        class="bg-slate-950 ">
 
         <nav class="bg-gradient-to-r from-[#c42d4d] to-[#df4c49] pb-64">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 border-b border-1 border-slate-300/20">
@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-10 mt-6 mb-20">
+        <div class="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-10 pt-6 pb-20">
             <span id="copyright" class="text-sm text-slate-700">Copyright &copy; {{ (new Date()).getFullYear() }} Australian Armed Forces</span>
         </div>
 
