@@ -195,7 +195,7 @@ const props = defineProps<{
     current_user: User
 }>()
 
-let $route = inject('$route')
+let $route: any = inject('$route')
 
 /** ---------- **/
 

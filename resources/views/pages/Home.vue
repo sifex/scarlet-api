@@ -59,7 +59,7 @@
                 </a>
             </div>
 
-            <div class="" v-if="current_user_instance.isAdminEnough()">
+            <div class="" v-if="current_user_instance.isAdmin()">
             <Link
 
                 class="grow text-center px-4 py-2 text-sm font-medium rounded-md bg-rose-500 text-white hover:bg-rose-700 hover:text-white transition-colors flex justify-center items-center gap-2"
@@ -95,7 +95,7 @@
 </template>
 
 <script lang="ts" setup>
-import Settings from "@/views/components/electron/settings.vue";
+import Settings from "@/views/components/electron/SettingsModal.vue";
 import {computed, inject, onMounted} from 'vue';
 import {ChevronRightIcon, Cog6ToothIcon} from '@heroicons/vue/24/solid'
 import {ArrowDownTrayIcon} from '@heroicons/vue/24/outline'

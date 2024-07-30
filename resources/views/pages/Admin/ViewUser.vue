@@ -341,6 +341,6 @@ function delete_note(note_id: number) {
     )
 }
 
-let $route = inject('$route')
+let $route: any = inject('$route')
 </script>
 

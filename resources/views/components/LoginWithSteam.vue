@@ -12,7 +12,7 @@
 import {inject} from "vue";
 import SteamLogo from '@/images/steam_logo.svg'
 
-let $route = inject('$route')
+let $route: any = inject('$route')
 
 let loginToSteam = () => {
     if(typeof window.scarlet !== 'undefined') {

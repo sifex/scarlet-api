@@ -193,6 +193,6 @@ onMounted(() => {
     // })
 })
 
-let $route = inject('$route')
+let $route: any = inject('$route')
 </script>
 

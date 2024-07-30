@@ -28,7 +28,7 @@ export class User implements UserInterface {
         this.playerID = playerID
     }
 
-    public isAdminEnough() {
+    public isAdmin() {
         // console.warn(this.type)
         return ([
             MemberType.leader,
