@@ -27,6 +27,7 @@ class ModsController extends Controller
             );
         }
 
+
         return response()->json(
             $this->regenerate_mods()
         );
