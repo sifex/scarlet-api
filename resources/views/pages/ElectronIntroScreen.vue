@@ -62,7 +62,7 @@
 import {ArrowTopRightOnSquareIcon} from "@heroicons/vue/16/solid";
 import type {User} from "@/scripts/downloader/user";
 import LoginWithSteam from "@/views/components/LoginWithSteam.vue";
-import ElectronToolbar from '@/views/components/electron/electron-toolbar.vue'
+import ElectronToolbar from '@/views/components/electron/ElectronWindowControls.vue'
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import ModelTemplate from "@/views/components/templates/model-template.vue";
 import {inject, onMounted, ref} from "vue";

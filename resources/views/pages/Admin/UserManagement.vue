@@ -50,7 +50,7 @@
                     Username
                 </div>
 
-                <div class="basis-1/12 font-medium text-slate-500 text-left">
+                <div class="basis-3/12 font-medium text-slate-500 text-left">
                     Player ID
                 </div>
 
@@ -62,13 +62,16 @@
                     Installed
                 </div>
 
-                <div class="basis-5/12 font-medium text-slate-500 text-left hidden md:block">
-                    Installation Directory
+<!--                <div class="basis-5/12 font-medium text-slate-500 text-left hidden md:block">-->
+<!--                    Installation Directory-->
+<!--                </div>-->
+
+                <div class="basis-2/12 font-medium text-slate-500 text-center">
+                    Last Login
                 </div>
 
-                <div class="basis-4/12 font-medium text-slate-500 text-right pr-4">
-
-
+                <div class="basis-2/12 font-medium text-slate-500 text-center">
+                    Last Download
                 </div>
             </div>
 
@@ -80,7 +83,7 @@
                 <div class="basis-2/12 truncate md:pl-4">
                     {{ user.item.username }}
                 </div>
-                <div class="basis-1/12 truncate text-sm">
+                <div class="basis-3/12 truncate text-sm">
                     {{ user.item.playerID }}
                 </div>
                 <div class="basis-1/12 truncate">
@@ -94,13 +97,15 @@
                         <XMarkIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XMarkIcon>
                     </template>
                 </div>
-                <div class="basis-5/12 truncate text-sm hidden md:block">
-                    {{ user.item.installDir }}
-                </div>
-                <div class="basis-4/12 text-slate-600 text-right pr-4">
-                    <div class="flex">
 
-                    </div>
+                <div class="basis-2/12 font-medium text-slate-500 text-center">
+                    <span class="italic text-red-800 opacity-40" v-if="!user.item.last_login_time">Never</span>
+                    <span class="text-slate-600" v-else>{{ dayjs(user.item.last_login_time).fromNow() }}</span>
+                </div>
+
+                <div class="basis-2/12 font-medium text-slate-500 text-center">
+                    <span class="italic text-red-800 opacity-40" v-if="!user.item.last_download_time">Never</span>
+                    <span class="text-slate-600" v-else>{{ dayjs(user.item.last_download_time).fromNow() }}</span>
                 </div>
             </Link>
 
@@ -121,6 +126,10 @@ import {User} from "@/scripts/downloader/user";
 import {Inertia} from "@inertiajs/inertia";
 
 import {TabGroup, TabList, Tab, TabPanels, TabPanel} from '@headlessui/vue'
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime)
 
 const props = defineProps<{
     current_user: User,
@@ -193,6 +202,6 @@ onMounted(() => {
     // })
 })
 
-let $route = inject('$route')
+let $route: any = inject('$route')
 </script>
 

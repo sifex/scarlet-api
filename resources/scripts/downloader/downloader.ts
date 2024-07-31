@@ -33,9 +33,8 @@ declare global {
 export const Status = {
     NotReady: 'NotReady',
     Ready: 'Ready',
-    InitialCheck: 'InitialCheck',
+    Initiating: 'Initiating',
     Downloading: 'Downloading',
-    Verifying: "Verifying",
     Done: 'Done',
     Error: 'Error',
 } as const;
@@ -52,6 +51,7 @@ export interface ScarletUpdateProgress {
     currentFileDownloaded: number;
     currentFileTotalSize: number;
     currentFilePath: string;
+    failedFiles: { [key: string]: string }; // New field for failed files
     readonly completionPercentage: number;
 }
 
@@ -62,15 +62,28 @@ export default class ScarletDownloader {
 
     constructor() {
         this.state = {
-            status: Status.NotReady,
+            status: Status.Ready,
             filesTotal: 0,
             filesTotalCompleted: 0,
             verificationTotalCompleted: 0,
             currentFileDownloaded: 0,
             currentFileTotalSize: 0,
             currentFilePath: '',
+            failedFiles: {},
             get completionPercentage() {
-                return (this.filesTotal === 0 ? 0 : (this.filesTotalCompleted / this.filesTotal) * 100) + (this.status === Status.Downloading ? (this.currentFileDownloaded / this.currentFileTotalSize) * 100 / this.filesTotal : 0);
+                if(this.filesTotal == 0) {
+                    return 0;
+                }
+
+                let files_percentage = (this.filesTotalCompleted / this.filesTotal) * 100;
+
+                if(this.currentFileTotalSize == 0) {
+                    return files_percentage;
+                }
+
+                let current_file_percentage = (this.currentFileDownloaded / this.currentFileTotalSize) * 100;
+
+                return files_percentage + (current_file_percentage / this.filesTotal);
             }
         };
     }
@@ -87,17 +100,15 @@ export default class ScarletDownloader {
         }
     }
 
-    public startDownload(destination_folder: string): Promise<void> {
-        return fetch('/mods')
-            .then(response => response.json())
-            .then(data => window.scarlet.start_download(destination_folder, data))
-            .then((test) => {
-                console.log('test', test);
-            }).catch(
-                (error) => {
-                    console.error('Failed to start download:', error);
-                }
-            );
+    public async startDownload(destination_folder: string): Promise<void> {
+        try {
+            let response = await fetch('/mods');
+            let data: any = await response.json();
+            let test: any = await window.scarlet.start_download(destination_folder, data);
+            console.log('test', test);
+        } catch (error) {
+            console.error('Failed to start download:', error);
+        }
     }
 
     public async checkProgressAndContinue(): Promise<void> {
@@ -131,6 +142,7 @@ export default class ScarletDownloader {
         this.state.currentFileDownloaded = progress.currentFileDownloaded;
         this.state.currentFileTotalSize = progress.currentFileTotalSize;
         this.state.currentFilePath = progress.currentFilePath;
+        this.state.failedFiles = progress.failedFiles; // Update the failedFiles object
     }
 
     public async stopDownload(): Promise<void> {
@@ -138,14 +150,6 @@ export default class ScarletDownloader {
             await window.scarlet.stop_download();
         } catch (error) {
             this.failure(error);
-        }
-    }
-
-    public openAdminPageInBrowser(): void {
-        if (window.scarlet) {
-            window.scarlet.open_admin_page_in_browser();
-        } else {
-            console.error('Scarlet IPC not available');
         }
     }
 }

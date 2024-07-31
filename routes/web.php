@@ -32,12 +32,6 @@ Route::get('/browser/steam/verify', [AppController::class, 'browser_electron_ste
 Route::get('/electron/steam/verify', [AppController::class, 'electron_call_home'])
     ->name('electron.steam.verify');
 
-Route::get('/mods', [ModsController::class, 'get_mods'])
-    ->name('mods');
-
-Route::get('/mods/regenerate', [ModsController::class, 'regenerate_mods'])
-    ->name('mods.regenerate');
-
 //Route::post('@me', [UserController2::class, 'update']);
 
 Route::middleware('auth')->group(function () {
@@ -45,6 +39,12 @@ Route::middleware('auth')->group(function () {
         ->name('electron');
 
     Route::patch('user/{user}', [UserController::class, 'update'])->name('user.update');
+
+    Route::get('/mods', [ModsController::class, 'get_mods'])
+        ->name('mods');
+
+    Route::get('/mods/regenerate', [ModsController::class, 'regenerate_mods'])
+        ->name('mods.regenerate');
 
 
     Route::prefix('admin')->middleware('admin')->group(function () {

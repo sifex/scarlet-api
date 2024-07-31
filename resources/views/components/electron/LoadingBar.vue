@@ -7,16 +7,28 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'loading-bar',
-    props: ['width', 'loadingBarClass'],
-    methods: {
-        updateWitdh(width) {
-            this.width = width
-        }
-    }
-};
+<script setup lang="ts">
+import {computed, defineProps} from 'vue';
+import ScarletDownloader, {Status as StatusValue, type Status as StatusType} from "@/scripts/downloader/downloader";
+
+const props = defineProps<{
+    downloader: ScarletDownloader,
+}>();
+
+const width = computed(() => props.downloader.state.completionPercentage);
+
+
+const loadingBarClass = computed(() => {
+    const colorMap = {
+        [StatusValue.Ready]: 'bg-sky-500',
+        [StatusValue.Initiating]: 'bg-sky-500',
+        [StatusValue.Downloading]: 'bg-sky-500',
+        [StatusValue.Done]: 'bg-emerald-500',
+        [StatusValue.Error]: 'bg-red-500',
+    };
+
+    return [colorMap[props.downloader.state.status]] || ['bg-grey-500'];
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -39,7 +51,7 @@ export default {
             //background-color: #3787d0;
             height: 100%;
             width: 0;
-            transition: width 200ms;
+            transition: width 50ms;
             border-radius: 4px;
 
             #granim-canvas {

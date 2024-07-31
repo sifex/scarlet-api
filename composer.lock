@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7c96a1baeb0b538519bf29eb4d47b01",
+    "content-hash": "84ec2bb957cd62c1ed212f679db27931",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -637,6 +637,48 @@
                 }
             ],
             "time": "2024-05-27T13:40:54+00:00"
+        },
+        {
+            "name": "corbpie/bunny-cdn-api",
+            "version": "v1.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cp6/BunnyCDN-API.git",
+                "reference": "afedc3dfa1a8720726d7ac98e21d8852a780131f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cp6/BunnyCDN-API/zipball/afedc3dfa1a8720726d7ac98e21d8852a780131f",
+                "reference": "afedc3dfa1a8720726d7ac98e21d8852a780131f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-ftp": "*",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Corbpie\\BunnyCdn\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "corbpie",
+                    "email": "contact@corbpie.com"
+                }
+            ],
+            "description": "Bunny net CDN API class for handling pull zones, storage zones, video streaming and DNS.",
+            "support": {
+                "issues": "https://github.com/cp6/BunnyCDN-API/issues",
+                "source": "https://github.com/cp6/BunnyCDN-API/tree/v1.9.2"
+            },
+            "time": "2023-02-16T00:34:01+00:00"
         },
         {
             "name": "deployer/recipes",

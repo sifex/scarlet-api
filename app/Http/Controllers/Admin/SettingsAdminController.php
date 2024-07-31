@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Settings;
 use Auth;
+use Cache;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,6 +23,7 @@ class SettingsAdminController extends Controller
         }
 
         return Inertia::render('Admin/Settings', [
+            'mods_ttl' => Cache::get('mods_ttl'),
             ...$settings->only([
                 'launcher_image_url',
                 'welcome_image_url'

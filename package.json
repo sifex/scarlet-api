@@ -32,7 +32,7 @@
         "@sentry/vue": "^7.40.0",
         "@tauri-apps/api": "^1.0.1",
         "class-transformer": "^0.5.1",
-        "dayjs": "^1.11.3",
+        "dayjs": "^1.11.12",
         "exponential-backoff": "^3.1.0",
         "fuse.js": "^6.6.2",
         "highlight.js": "^11.6.0",
