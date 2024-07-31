@@ -23,17 +23,27 @@
                 <div class="shrink">
                     <b class="md:block pr-4 text-slate-600 text-sm">Player ID <span
                         class="text-slate-400 whitespace-nowrap">(Steam ID)</span>:</b>
-                    <a :href="'https://steamcommunity.com/profiles/' + user.playerID" class="text-sm text-red-800 font-medium" v-if="user.playerID">{{ user.playerID }}</a>
+                    <a :href="'https://steamcommunity.com/profiles/' + user.playerID" class="text-sm text-indigo-700 underline font-medium" v-if="user.playerID">{{ user.playerID }}</a>
                     <XMarkIcon v-else class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XMarkIcon>
                 </div>
                 <div class="shrink">
-                    <b class="md:block pr-4 text-slate-600 text-sm">Scarlet Installed:</b>
+                    <b class="md:block pr-4 text-slate-600 text-sm">Installed:</b>
                     <template v-if="user.installDir">
                         <CheckIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-emerald-500"></CheckIcon>
                     </template>
                     <template v-else>
                         <XMarkIcon class="inline-block h-5 w-5 mr-1 -ml-1 text-rose-500"></XMarkIcon>
                     </template>
+                </div>
+                <div class="shrink">
+                    <b class="md:block pr-4 text-slate-600 text-sm">Last Login:</b>
+                    <span class="italic text-red-800 opacity-40" v-if="!user.last_login_time">Never</span>
+                    <span class="text-slate-600" v-else>{{ dayjs(user.last_login_time).fromNow() }}</span>
+                </div>
+                <div class="shrink">
+                    <b class="md:block pr-4 text-slate-600 text-sm">Last Download:</b>
+                    <span class="italic text-red-800 opacity-40" v-if="!user.last_download_time">Never</span>
+                    <span class="text-slate-600" v-else>{{ dayjs(user.last_download_time).fromNow() }}</span>
                 </div>
                 <div class="grow"></div>
                 <div class="shrink flex gap-4">

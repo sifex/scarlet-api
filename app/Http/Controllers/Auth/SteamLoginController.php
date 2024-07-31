@@ -35,6 +35,9 @@ class SteamLoginController extends AbstractSteamLoginController
 
         // login the user using the Auth facade
         Auth::login($user);
+
+        $user->last_login_time = now();
+        $user->save();
     }
 
     public function logout(Request $request)

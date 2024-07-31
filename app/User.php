@@ -42,7 +42,9 @@ class User extends Authenticatable
         'playerID',
         'comment',
         'remark',
-        'deleted_at'
+        'deleted_at',
+        'last_login_time',
+        'last_download_time'
     ];
 
     /**

@@ -205,3 +205,9 @@ let topRightMenuOpen = ref(false)
 
 </script>
 
+<style>
+html, body {
+    @apply bg-slate-950;
+}
+</style>
+

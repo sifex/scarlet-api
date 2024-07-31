@@ -188,7 +188,7 @@ function getStatusClasses(status: StatusType) {
 
 function getStatusText(status: StatusType): string {
     const statusMap = {
-        [StatusValue.Ready]: `Hello ${props.current_user.value?.username || ''}`,
+        [StatusValue.Ready]: `Hello ${props.current_user ?.username || ''}`,
         [StatusValue.Initiating]: 'Initiating...',
         [StatusValue.Downloading]: 'Downloading...',
         [StatusValue.Done]: 'Download Complete',

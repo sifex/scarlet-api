@@ -10,6 +10,8 @@ export interface UserInterface {
     installDir?: string
     remark?: string
     deleted_at?: string
+    last_download_time?: string
+    last_login_time?: string
 }
 
 export class User implements UserInterface {
@@ -22,6 +24,8 @@ export class User implements UserInterface {
     public installDir?: string;
     public remark?: string;
     public deleted_at?: string;
+    public last_download_time?: string;
+    public last_login_time?: string
 
     constructor(username: string, playerID: string) {
         this.username = username

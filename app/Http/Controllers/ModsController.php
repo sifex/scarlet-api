@@ -18,6 +18,9 @@ class ModsController extends Controller
 
     public function get_mods(): JsonResponse
     {
+        // Update user last download time
+        $this->update_user_last_download_time();
+
         if (Cache::has('mods')) {
             return response()->json(
                 self::format_files(
@@ -79,5 +82,12 @@ class ModsController extends Controller
         return $bunny->purgePullZone(
             Config::get('bunnycdn.pull_zone_id'),
         );
+    }
+
+    public function update_user_last_download_time()
+    {
+        $user = auth()->user();
+        $user->last_download_time = now();
+        $user->save();
     }
 }
