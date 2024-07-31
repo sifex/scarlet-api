@@ -71,7 +71,19 @@ export default class ScarletDownloader {
             currentFilePath: '',
             failedFiles: {},
             get completionPercentage() {
-                return (this.filesTotal === 0 ? 0 : (this.filesTotalCompleted / this.filesTotal) * 100) + (this.status === Status.Downloading ? (this.currentFileDownloaded / this.currentFileTotalSize) * 100 / this.filesTotal : 0);
+                if(this.filesTotal == 0) {
+                    return 0;
+                }
+
+                let files_percentage = (this.filesTotalCompleted / this.filesTotal) * 100;
+
+                if(this.currentFileTotalSize == 0) {
+                    return files_percentage;
+                }
+
+                let current_file_percentage = (this.currentFileDownloaded / this.currentFileTotalSize) * 100;
+
+                return files_percentage + (current_file_percentage / this.filesTotal);
             }
         };
     }
