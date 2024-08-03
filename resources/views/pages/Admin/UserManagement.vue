@@ -100,12 +100,12 @@
 
                 <div class="basis-2/12 font-medium text-slate-500 text-center">
                     <span class="italic text-red-800 opacity-40" v-if="!user.item.last_login_time">Never</span>
-                    <span class="text-slate-600" v-else>{{ dayjs(user.item.last_login_time).fromNow() }}</span>
+                    <span class="text-slate-600" v-else>{{ dayjs.tz(user.item.last_login_time, 'utc').fromNow() }}</span>
                 </div>
 
                 <div class="basis-2/12 font-medium text-slate-500 text-center">
                     <span class="italic text-red-800 opacity-40" v-if="!user.item.last_download_time">Never</span>
-                    <span class="text-slate-600" v-else>{{ dayjs(user.item.last_download_time).fromNow() }}</span>
+                    <span class="text-slate-600" v-else>{{ dayjs.tz(user.item.last_download_time, 'utc').fromNow() }}</span>
                 </div>
             </Link>
 
@@ -125,11 +125,14 @@ import {Link} from "@inertiajs/inertia-vue3";
 import {User} from "@/scripts/downloader/user";
 import {Inertia} from "@inertiajs/inertia";
 
-import {TabGroup, TabList, Tab, TabPanels, TabPanel} from '@headlessui/vue'
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 dayjs.extend(relativeTime)
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const props = defineProps<{
     current_user: User,

@@ -38,12 +38,12 @@
                 <div class="shrink">
                     <b class="md:block pr-4 text-slate-600 text-sm">Last Login:</b>
                     <span class="italic text-red-800 opacity-40" v-if="!user.last_login_time">Never</span>
-                    <span class="text-slate-600" v-else>{{ dayjs(user.last_login_time).fromNow() }}</span>
+                    <span class="text-slate-600" v-else>{{ dayjs.tz(user.last_login_time, 'utc').fromNow() }}</span>
                 </div>
                 <div class="shrink">
                     <b class="md:block pr-4 text-slate-600 text-sm">Last Download:</b>
                     <span class="italic text-red-800 opacity-40" v-if="!user.last_download_time">Never</span>
-                    <span class="text-slate-600" v-else>{{ dayjs(user.last_download_time).fromNow() }}</span>
+                    <span class="text-slate-600" v-else>{{ dayjs.tz(user.last_download_time, 'utc').fromNow() }}</span>
                 </div>
                 <div class="grow"></div>
                 <div class="shrink flex gap-4">
@@ -238,12 +238,16 @@ import {Link, useForm} from "@inertiajs/inertia-vue3";
 import {User} from "@/scripts/downloader/user";
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 // @ts-ignore
 // noinspection TypeScriptCheckImport
 import {notify} from "notiwind"
 import MemberTypeDropdown from '@/views/components/member-type-dropdown.vue'
 
 dayjs.extend(relativeTime)
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const props = defineProps<{
     current_user: User,
