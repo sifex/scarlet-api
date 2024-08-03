@@ -118,6 +118,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import {Inertia} from "@inertiajs/inertia";
 
 dayjs.extend(relativeTime)
+
 const props = defineProps<{
     current_user: User,
     mods_ttl: string,
