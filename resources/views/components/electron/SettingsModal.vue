@@ -73,7 +73,7 @@
                                             <div class="flex md:flex-row flex-col gap-2">
                                                 <span class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                       type="text">
-                                                    {{ alter_user_form.installDir }}<span class="text-slate-400">\@Mods_AAF</span>
+                                                    {{ alter_user_form.installDir }}<span class="text-slate-400">\{{mods_prefix}}</span>
                                                 </span>
 
                                                 <SelectInstallDirectory
@@ -199,20 +199,34 @@ const alter_user_form = useForm({
 })
 
 let isElectron = ref(typeof window.scarlet !== 'undefined')
-
+let mods_prefix = '@Mods_AAF'
 
 /**
  * Installation Directory
  */
 function on_select_install_dir(directory: string) {
-    alter_user_form.installDir = directory
+    alter_user_form.installDir = transformInstallDir(directory)
 }
+
+function transformInstallDir(installDir: string | null): string | null {
+    if (installDir === null) {
+        return null;
+    }
+
+    // Remove "/Directory" or "/Directory/" suffix if it exists
+    installDir = installDir.replace(new RegExp(`/${mods_prefix}/?$`), '');
+
+    // Remove "\Directory\" or "\Directory" suffix if it exists (for Windows-style paths)
+    installDir = installDir.replace(new RegExp(`\\\\${mods_prefix}\\\\?$`), '');
+
+    // Remove trailing slash or backslash if it exists
+    return installDir.replace(/[/\\]$/, '');
+}
+
 
 function update_user() {
     alter_user_form.patch(
-        $route('user.update', {
-            user: alter_user_form.uuid
-        }), {
+        $route('user.update'), {
             preserveScroll: true,
             onSuccess: () => {
                 notify({

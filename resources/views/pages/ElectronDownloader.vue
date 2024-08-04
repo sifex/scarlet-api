@@ -317,7 +317,7 @@ function showLocationDialog() {
         if (directory) {
             alter_user_form.installDir = directory
             alter_user_form.patch(
-                $route('user.update', {user: alter_user_form.uuid}), {
+                $route('user.update'), {
                     preserveScroll: true,
                     onSuccess: () => {
                         notify({
