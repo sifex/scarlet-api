@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/electron', [AppController::class, 'electron'])
         ->name('electron');
 
-    Route::patch('user/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::patch('user', [UserController::class, 'update'])->name('user.update');
 
     Route::get('/mods', [ModsController::class, 'get_mods'])
         ->name('mods');

@@ -11,6 +11,11 @@ class UserController extends Controller
     {
         $this->authorize('update', $request->user());
 
+        // Transform installDir before validation
+        $request->merge([
+            'installDir' => UserController::transformInstallDir($request->input('installDir'))
+        ]);
+
         $request->user()->update(
             $request->validate([
                 'username' => [
@@ -36,5 +41,19 @@ class UserController extends Controller
         );
 
         return redirect()->back();
+    }
+
+    public static function transformInstallDir($installDir): ?string
+    {
+        if ($installDir === null) {
+            return null;
+        }
+
+        // Remove "/Directory" or "/Directory/" suffix if it exists
+        $installDir = preg_replace('~/' . ModsController::MODS_PREFIX . '/?$~', '', $installDir);
+        $installDir = preg_replace("~\\\\" . ModsController::MODS_PREFIX . "\\\\?\$~", '', $installDir);
+
+        // Remove trailing slash if it exists
+        return rtrim($installDir, '\/');
     }
 }

@@ -21,7 +21,7 @@ export class User implements UserInterface {
     public 'type': keyof MemberType;
     public playerID: string;
     public comment?: string;
-    public installDir?: string;
+    public installDir?: string | null;
     public remark?: string;
     public deleted_at?: string;
     public last_download_time?: string;
