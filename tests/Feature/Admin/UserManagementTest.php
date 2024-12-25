@@ -3,6 +3,7 @@
 use App\Enum\UserRole;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
@@ -21,7 +22,7 @@ test("it can't see a user as non-admin", function () {
 
     actingAs($regular_user)
         ->get(route('admin.user.show', [
-            'user' => collect($other_users)->random(1)->first()->uuid
+            'user' => collect($other_users)->random(1)->first()->uuid,
         ]))
         ->assertStatus(403);
 });
@@ -29,8 +30,7 @@ test("it can't see a user as non-admin", function () {
 /**
  * Admins
  */
-
-test("it can view users as admin", function () {
+test('it can view users as admin', function () {
     $admin = User::factory()->admin()->create();
 
     actingAs($admin)
@@ -43,7 +43,7 @@ test("it can't set a custom role", function () {
     actingAs(User::factory()->admin()->create())
         ->post(route('admin.user.store'), [
             'username' => 'Omega',
-            'type' => 'member123'
+            'type' => 'member123',
         ])
         ->assertSessionHasErrors(['type']);
 });
@@ -54,7 +54,7 @@ test('it can create a user as an admin', function () {
     actingAs($admin)
         ->post(route('admin.user.store'), [
             'username' => 'Shadow',
-            'type' => 'member'
+            'type' => 'member',
         ])
         ->assertSessionHasNoErrors()
         ->assertStatus(302);
@@ -67,14 +67,14 @@ test('it can update a user as an admin', function () {
     $admin = User::factory()->admin()->create();
 
     $other_user = User::factory()->member()->create([
-        'username' => 'Omega123'
+        'username' => 'Omega123',
     ]);
 
     actingAs($admin)
         ->patch(route('admin.user.update', [
-            'user' => $other_user->uuid
+            'user' => $other_user->uuid,
         ]), [
-            'username' => 'Testing 1827'
+            'username' => 'Testing 1827',
         ])
         ->assertSessionHasNoErrors()
         ->assertStatus(302);
@@ -83,7 +83,6 @@ test('it can update a user as an admin', function () {
         ->toBe('Testing 1827');
 });
 
-
 test('it can update a user role as an admin', function () {
     $admin = User::factory()->admin()->create();
 
@@ -91,9 +90,9 @@ test('it can update a user role as an admin', function () {
 
     actingAs($admin)
         ->patch(route('admin.user.update', [
-            'user' => $other_user->uuid
+            'user' => $other_user->uuid,
         ]), [
-            'type' => 'leader'
+            'type' => 'leader',
         ])
         ->assertSessionHasNoErrors()
         ->assertStatus(302);
@@ -103,9 +102,9 @@ test('it can update a user role as an admin', function () {
 
     actingAs($admin)
         ->patch(route('admin.user.update', [
-            'user' => $other_user->uuid
+            'user' => $other_user->uuid,
         ]), [
-            'type' => UserRole::VETERAN->value
+            'type' => UserRole::VETERAN->value,
         ])
         ->assertSessionHasNoErrors()
         ->assertStatus(302);
@@ -114,25 +113,20 @@ test('it can update a user role as an admin', function () {
         ->toEqual(UserRole::VETERAN);
 });
 
-
-
 test('it ensures an admin cannot change their own role', function () {
     $admin = User::factory()->admin()->create([
-        'type' => UserRole::STAFF->value
+        'type' => UserRole::STAFF->value,
     ]);
 
     actingAs($admin)
         ->patch(route('admin.user.update', [
-            'user' => $admin->uuid
+            'user' => $admin->uuid,
         ]), [
-            'type' => UserRole::LEADER->value
+            'type' => UserRole::LEADER->value,
         ])
         ->assertSessionHasErrors()
         ->assertStatus(302);
 });
-
-
-
 
 test('it ensures an admin can delete a user', function () {
     $admin = User::factory()->admin()->create();
@@ -140,7 +134,7 @@ test('it ensures an admin can delete a user', function () {
 
     actingAs($admin)
         ->delete(route('admin.user.destroy', [
-            'user' => $user->uuid
+            'user' => $user->uuid,
         ]))
         ->assertStatus(302)
         ->assertSessionHasNoErrors();
@@ -163,7 +157,7 @@ test('it ensures an admin can recover a user', function () {
         ->delete(route('admin.user.destroy', [
             'user' => $user->uuid,
         ]), [
-            'restore' => true
+            'restore' => true,
         ])
         ->assertStatus(302)
         ->assertSessionHasNoErrors();
@@ -180,7 +174,7 @@ test('it ensures an admin can\'t delete themselves', function () {
         ->delete(route('admin.user.destroy', [
             'user' => $admin->uuid,
         ]), [
-            'restore' => true
+            'restore' => true,
         ])
         ->assertSessionHasErrors()
         ->assertStatus(302);

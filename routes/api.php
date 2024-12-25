@@ -5,7 +5,6 @@ use App\Http\Controllers\APIController;
 /**
  * Old API
  */
-
 Route::get('/', [APIController::class, 'api_root'])->name('api.index');
 Route::get('/arma/', [APIController::class, 'arma_server'])->name('api.armaserver');
 Route::get('/teamspeak/', [APIController::class, 'teamspeak'])->name('api.teamspeak');
@@ -16,7 +15,6 @@ Route::get('/ip/', 'GeneralController@index'); // TODO LEGACY
 /**
  * ARMA Server Ping
  */
-
 
 /**
  * Teamspeak Ping

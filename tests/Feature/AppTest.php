@@ -2,11 +2,11 @@
 
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
-
 
 test('it can visit the homepage', function () {
     get('/')
@@ -25,7 +25,6 @@ test('it can see self as non-admin', function () {
         })
         ->assertStatus(200);
 });
-
 
 test('it can see the homepage not logged in', function () {
     get(route('home'))

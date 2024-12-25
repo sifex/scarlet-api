@@ -20,7 +20,7 @@ class UserNoteFactory extends Factory
         return [
             'contents' => fake()->paragraph,
             'user_id' => fn () => User::factory()->create()->id,
-            'author_id' => fn () => User::factory()->admin()->create()->id
+            'author_id' => fn () => User::factory()->admin()->create()->id,
         ];
     }
 }

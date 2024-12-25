@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Laravel Steam Login.
  *
@@ -26,7 +27,7 @@ return [
      *
      * @var string
      */
-    'method'  => env('STEAM_LOGIN_PROFILE_DATA_METHOD', env('STEAM_LOGIN_PROFILE_METHOD', 'xml')),
+    'method' => env('STEAM_LOGIN_PROFILE_DATA_METHOD', env('STEAM_LOGIN_PROFILE_METHOD', 'xml')),
 
     /*
      * Timeout (seconds) for any requests performed
@@ -40,8 +41,8 @@ return [
      *
      * @var array
      */
-    'routes'  => [
+    'routes' => [
         'login' => env('STEAM_LOGIN_ROUTE', env('STEAM_LOGIN_ROUTE_NAME', 'login')),
-        'auth'  => env('STEAM_LOGIN_AUTH_ROUTE', env('STEAM_AUTH_ROUTE_NAME', 'auth.steam')),
+        'auth' => env('STEAM_LOGIN_AUTH_ROUTE', env('STEAM_AUTH_ROUTE_NAME', 'auth.steam')),
     ],
 ];

@@ -13,18 +13,16 @@ class IsAdministrator
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure(Request): (Response|RedirectResponse) $next
+     * @param  Closure(Request): (Response|RedirectResponse)  $next
      * @return Response|RedirectResponse
+     *
      * @throws AuthorizationException
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user()->isAdministrator()) {
+        if (! $request->user()->isAdministrator()) {
             throw new AuthorizationException('User is not an administrator');
         }
-
-
 
         return $next($request);
     }

@@ -46,7 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/mods/regenerate', [ModsController::class, 'regenerate_mods'])
         ->name('mods.regenerate');
 
-
     Route::prefix('admin')->middleware('admin')->group(function () {
         Route::get('/', [UserManagementController::class, 'redirect_to_user_management'])
             ->name('admin');
@@ -85,17 +84,15 @@ Route::match(['get', 'post'], 'logout', [SteamLoginController::class, 'logout'])
 
 Route::get('/xml/', [XMLController::class, 'display'])->name('xml');
 
-
 /**
  * Legacy Routes
  */
-Route::group(['name'=>'legacy_routes'], function () {
+Route::group(['name' => 'legacy_routes'], function () {
     Route::get('/key/electron/', fn () => redirect()->route('electron.intro'));
     Route::get('/key/', fn () => redirect()->route('electron.intro'));
-    Route::get("/auth/electron", fn () => redirect()->route('electron.intro'));
-    Route::get("/auth", fn () => redirect()->route('electron.intro'));
+    Route::get('/auth/electron', fn () => redirect()->route('electron.intro'));
+    Route::get('/auth', fn () => redirect()->route('electron.intro'));
 });
-
 
 Route::get('/debug-sentry', function () {
     throw new Exception('My first Sentry error!');

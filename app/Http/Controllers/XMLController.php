@@ -42,12 +42,12 @@ class XMLController extends Controller
             if ($user->playerID !== null && $user->playerID !== '') {
                 $book->addChild('member', true, [
                     'id' => $user->playerID,
-                    'nick' => ucwords($user->username)
+                    'nick' => ucwords($user->username),
                 ])->addChild([
                     'name' => ucwords($user->username),
                     'email' => 'N/A',
                     'icq' => 'N/A',
-                    'remark' => ucwords($user->remark)
+                    'remark' => ucwords($user->remark),
                 ]);
             }
         }

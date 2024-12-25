@@ -41,13 +41,13 @@ class AppController extends Controller
             'token' => $token->token ?? '',
             'scarlet_download' => Inertia::lazy(
                 fn () => Auth::check() ? self::getLatestScarletDownloadLink() : ''
-            )
+            ),
         ]);
     }
 
     public function error(): Response|RedirectResponse
     {
-        if (sizeof(session()->get('errors', app(ViewErrorBag::class))) === 0) {
+        if (count(session()->get('errors', app(ViewErrorBag::class))) === 0) {
             return redirect()->route('home');
         }
 
@@ -63,10 +63,6 @@ class AppController extends Controller
         return Inertia::render('ElectronIntroScreen');
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     */
     public function browser_electron_steam_verify_page(Request $request): Response
     {
         if (Auth::check()) {
@@ -75,7 +71,7 @@ class AppController extends Controller
 
         return Inertia::render('BrowserElectronVerify', [
             'token' => $token->token ?? '',
-            'protocol' => 'scarlet'
+            'protocol' => 'scarlet',
         ]);
     }
 
@@ -83,7 +79,7 @@ class AppController extends Controller
     {
         $token = TokenBuilder::setUniqueId($request->get('token'))->findValidToken();
 
-        if (!$token) {
+        if (! $token) {
             return redirect()->route('electron.intro');
         }
 
@@ -103,6 +99,7 @@ class AppController extends Controller
 
         $link = self::generateGithubDownloadLink();
         Cache::put('scarlet_download_link', $link, now()->addDays(5));
+
         return $link;
     }
 
@@ -113,13 +110,13 @@ class AppController extends Controller
     {
         $github_release_information = GitHub::connection('main')->api('repo')->releases()->latest('sifex', 'scarlet');
         $assets = collect($github_release_information)->get('assets');
-        throw_if(sizeof($assets) === 0, \Exception::class, 'No current available Scarlet download link');
+        throw_if(count($assets) === 0, \Exception::class, 'No current available Scarlet download link');
         $download_asset = collect($assets)->filter(function ($asset) {
             return str_ends_with($asset['name'], '.exe');
         })->first();
+
         return collect($download_asset)->get('browser_download_url');
     }
-
 
     /**
      * @throws \Exception
@@ -130,19 +127,16 @@ class AppController extends Controller
             [
                 'type' => 'armedassault3',
                 'host' => '58.162.184.102:2302',
-            ]
+            ],
         ];
 
-        $GameQ = new GameQ();
+        $GameQ = new GameQ;
         $GameQ->addServers($servers);
         $GameQ->setOption('timeout', 5); // seconds
 
         return collect($GameQ->process())->first();
     }
 
-    /**
-     * @return \Shetabit\TokenBuilder\Models\Token
-     */
     private function getNewToken(): \Shetabit\TokenBuilder\Models\Token
     {
         $date = Carbon::now()->addMinutes(5);
@@ -159,7 +153,7 @@ class AppController extends Controller
     {
         return Inertia::render('ElectronDownloader', [
             'arma_server' => Inertia::lazy(fn () => AppController::queryArmaServer()),
-            'launcher_image_url' => Settings::latest()->first()->launcher_image_url
+            'launcher_image_url' => Settings::latest()->first()->launcher_image_url,
         ]);
     }
 }

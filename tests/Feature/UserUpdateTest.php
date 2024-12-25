@@ -11,14 +11,14 @@ test('it allows users to update their own user', function () {
         ->patch(route('user.update', $user), [
             'username' => 'new-username',
             'remark' => 'new-remark',
-            'installDir' => 'new-installDir'
+            'installDir' => 'new-installDir',
         ])
         ->assertStatus(302);
 
     $this->assertDatabaseHas('users', [
         'username' => 'new-username',
         'remark' => 'new-remark',
-        'installDir' => 'new-installDir'
+        'installDir' => 'new-installDir',
     ]);
 });
 
@@ -28,7 +28,7 @@ test('it checks the mods suffix protection feature', function ($installDir, $exp
         ->patch(route('user.update', $user), [
             'username' => 'new-username',
             'remark' => 'new-remark',
-            'installDir' => $installDir
+            'installDir' => $installDir,
         ])
         ->assertStatus(302);
 

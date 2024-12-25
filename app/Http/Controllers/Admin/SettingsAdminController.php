@@ -26,10 +26,11 @@ class SettingsAdminController extends Controller
             'mods_ttl' => Cache::get('mods_ttl'),
             ...$settings->only([
                 'launcher_image_url',
-                'welcome_image_url'
-            ])
+                'welcome_image_url',
+            ]),
         ]);
     }
+
     public function update(Request $request, Auth $auth)
     {
         $request->validate([
@@ -40,7 +41,7 @@ class SettingsAdminController extends Controller
         $settings = Settings::create([
             'launcher_image_url' => $request->get('launcher_image_url'),
             'welcome_image_url' => $request->get('welcome_image_url'),
-            'changed_by' => auth()->user()->id
+            'changed_by' => auth()->user()->id,
         ]);
 
         return back()->with('success', 'Image uploaded Successfully!')

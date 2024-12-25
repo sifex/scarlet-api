@@ -12,6 +12,6 @@ class Settings extends Model
     protected $fillable = [
         'launcher_image_url',
         'welcome_image_url',
-        'changed_by'
+        'changed_by',
     ];
 }

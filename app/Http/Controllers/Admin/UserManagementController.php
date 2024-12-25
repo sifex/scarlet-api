@@ -24,8 +24,8 @@ class UserManagementController extends Controller
      */
     public function __construct()
     {
-//        $this->authorizeResource(User::class, 'model');
-//        User::addGlobalScope('with_notes', fn(Builder $builder) => $builder->);
+        //        $this->authorizeResource(User::class, 'model');
+        //        User::addGlobalScope('with_notes', fn(Builder $builder) => $builder->);
     }
 
     public function redirect_to_user_management(): RedirectResponse
@@ -36,7 +36,6 @@ class UserManagementController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
      * @throws AuthorizationException
      */
     public function index(): Response
@@ -44,14 +43,13 @@ class UserManagementController extends Controller
         $this->authorize('viewAny', User::class);
 
         return Inertia::render('Admin/UserManagement', [
-            'all_users' => Inertia::lazy(fn () => User::withTrashed()->get())
+            'all_users' => Inertia::lazy(fn () => User::withTrashed()->get()),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return RedirectResponse
      * @throws AuthorizationException
      */
     public function create(): RedirectResponse
@@ -64,8 +62,6 @@ class UserManagementController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return RedirectResponse
      * @throws AuthorizationException
      */
     public function store(Request $request): RedirectResponse
@@ -77,7 +73,7 @@ class UserManagementController extends Controller
                 'username' => ['required', 'max:50'],
                 'type' => [
                     'required',
-                    new Enum(UserRole::class)
+                    new Enum(UserRole::class),
                 ],
             ])
         );
@@ -88,8 +84,6 @@ class UserManagementController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param User $user
-     * @return Response
      * @throws AuthorizationException
      */
     public function show(User $user): Response
@@ -97,26 +91,18 @@ class UserManagementController extends Controller
         $this->authorize('view', $user);
 
         return Inertia::render('Admin/ViewUser', [
-            'user' => $user->load('notes')->makeVisible(['notes'])
+            'user' => $user->load('notes')->makeVisible(['notes']),
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param User $user
-     * @return Response
      */
-    public function edit(User $user): Response
-    {
-    }
+    public function edit(User $user): Response {}
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param User $user
-     * @return RedirectResponse
      * @throws AuthorizationException
      */
     public function update(Request $request, User $user): RedirectResponse
@@ -126,7 +112,7 @@ class UserManagementController extends Controller
         // User cannot change deleted users
         if ($user->trashed()) {
             return redirect()->back()->withErrors([
-                'You cannot modify a deleted user'
+                'You cannot modify a deleted user',
             ]);
         }
 
@@ -145,7 +131,7 @@ class UserManagementController extends Controller
                         ) {
                             $fail('You cannot change your own role');
                         }
-                    }
+                    },
                 ],
                 'remark' => ['string', 'max:150', 'nullable'],
                 'comment' => ['string', 'nullable'],
@@ -153,7 +139,7 @@ class UserManagementController extends Controller
             ])
         );
 
-        Log::info(auth()->user()->username . ' just modified user ' . $user->username . ' with the following: (' . json_encode($request->toArray()) . ')');
+        Log::info(auth()->user()->username.' just modified user '.$user->username.' with the following: ('.json_encode($request->toArray()).')');
 
         return redirect()->back();
     }
@@ -161,9 +147,6 @@ class UserManagementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param User $user
-     * @param Request $request
-     * @return RedirectResponse
      * @throws AuthorizationException
      * @throws Throwable
      */
@@ -173,7 +156,7 @@ class UserManagementController extends Controller
 
         if ($user->uuid === auth()->user()->uuid) {
             return redirect()->back()->withErrors([
-                'You can\'t delete yourself'
+                'You can\'t delete yourself',
             ]);
         }
 
@@ -185,7 +168,7 @@ class UserManagementController extends Controller
             "Couldn't delete user"
         );
 
-        Log::info(auth()->user()->username . ' just deleted user ' . $user->username  . '.');
+        Log::info(auth()->user()->username.' just deleted user '.$user->username.'.');
 
         return redirect()->back();
     }

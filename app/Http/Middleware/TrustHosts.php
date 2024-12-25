@@ -8,7 +8,7 @@ class TrustHosts extends \Illuminate\Http\Middleware\TrustHosts
     {
         return [
             '*.orb.local',
-            'laravel.test.scarletaustralianarmedforcesorg.orb.local:5173'
+            'laravel.test.scarletaustralianarmedforcesorg.orb.local:5173',
         ];
     }
 }

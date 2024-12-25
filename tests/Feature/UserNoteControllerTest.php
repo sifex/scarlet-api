@@ -3,17 +3,17 @@
 use App\User;
 use App\UserNote;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
-
 
 test('it can view a users notes', function () {
     $note = UserNote::factory()->create();
 
     actingAs(User::factory()->admin()->create())
         ->get(route('admin.user.show', [
-            'user' => $note->user->uuid
+            'user' => $note->user->uuid,
         ]))
         ->assertStatus(200)
         ->assertSee($note->contents);
@@ -24,9 +24,9 @@ test('it can create a new user note', function () {
 
     actingAs(User::factory()->admin()->create())
         ->post(route('admin.user.note.store', [
-            'user' => $user->uuid
+            'user' => $user->uuid,
         ]), [
-            'contents' => 'asd'
+            'contents' => 'asd',
         ])->assertStatus(302);
 
     expect($user->notes()->count())
@@ -40,9 +40,9 @@ test("it can't create a new user note as a regular user", function () {
 
     actingAs(User::factory()->create())
         ->post(route('admin.user.note.store', [
-            'user' => $user->uuid
+            'user' => $user->uuid,
         ]), [
-            'contents' => 'asd'
+            'contents' => 'asd',
         ])
         ->assertStatus(403);
 });
@@ -55,7 +55,7 @@ test('it can delete a user note', function () {
     actingAs($note->author)
         ->delete(route('admin.user.note.destroy', [
             'user' => $note->user->uuid,
-            'note' => $note->id
+            'note' => $note->id,
         ]))
         ->assertStatus(302);
 
