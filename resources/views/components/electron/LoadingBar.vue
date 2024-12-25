@@ -32,40 +32,36 @@ const loadingBarClass = computed(() => {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style>
 .progress-wrapper {
     -webkit-user-select: none;
-
-    &, &:focus, .progress, .progress:focus {
-        outline: none;
-    }
-
-    .progress {
-        width: 100%;
-        height: 48px;
-        background-color: #050912;
-        border-radius: 4px;
-        padding: 6px;
-
-        .progress-meter {
-            //background-color: #3787d0;
-            height: 100%;
-            width: 0;
-            transition: width 50ms;
-            border-radius: 4px;
-
-            #granim-canvas {
-                height: 100%;
-                width: 100%;
-            }
-        }
-    }
-
-    #download.complete & {
-        .progress-meter {
-            background-color: #8edb59;
-        }
-    }
 }
 
+.progress-wrapper, .progress-wrapper:focus, .progress, .progress:focus {
+    outline: none;
+}
+
+.progress {
+    width: 100%;
+    height: 48px;
+    background-color: #050912;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+.progress-meter {
+    height: 100%;
+    width: 0;
+    transition: width 50ms;
+    border-radius: 4px;
+}
+
+#granim-canvas {
+    height: 100%;
+    width: 100%;
+}
+
+#download.complete .progress-meter {
+    background-color: #8edb59;
+}
 </style>
