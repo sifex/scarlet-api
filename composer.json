@@ -12,7 +12,6 @@
         "austinb/gameq": "^3.0",
         "barryvdh/laravel-ide-helper": "^2",
         "corbpie/bunny-cdn-api": "^1.9",
-        "deployer/recipes": "^6.0",
         "doctrine/dbal": "^3",
         "fakerphp/faker": "^1",
         "graham-campbell/github": "^12",
