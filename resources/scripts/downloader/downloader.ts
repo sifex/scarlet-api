@@ -17,6 +17,8 @@ interface ScarletIPC {
 
     on_select_install_dir(param: (event: any, directory: string) => void): void;
 
+    open_install_dir_in_explorer(installDir: string | undefined): void;
+
     update_available(param: (event: any, test: string) => void): void;
 
     update_downloaded(param: (event: any, test: string) => void): void;
