@@ -30,7 +30,6 @@ class ModsController extends Controller
             );
         }
 
-
         return response()->json(
             $this->regenerate_mods()
         );
@@ -69,16 +68,17 @@ class ModsController extends Controller
         return collect($files)
             ->filter(fn ($file) => $file['type'] === 'file')
             ->map(fn ($file) => [
-                'url' => Str::finish($pull_zone_url, '/') . $file['path'],
-                'path' => Str::finish(self::MODS_PREFIX, '/') . $file['path'],
+                'url' => Str::finish($pull_zone_url, '/').$file['path'],
+                'path' => Str::finish(self::MODS_PREFIX, '/').$file['path'],
                 'sha256_hash' => Str::lower($file['extra_metadata']['checksum']),
             ])->values()->toArray();
     }
 
     private function purge_bunnycdn_cache(): array
     {
-        $bunny = new BunnyAPIPull();
+        $bunny = new BunnyAPIPull;
         $bunny->apiKey(Config::get('bunnycdn.api_key'));
+
         return $bunny->purgePullZone(
             Config::get('bunnycdn.pull_zone_id'),
         );

@@ -47,7 +47,12 @@ createInertiaApp({
                 // new Sentry.BrowserTracing({
                 //     // routingInstrumentation: Sentry.vueRouterInstrumentation(router),
                 // }),
-                new Sentry.Replay(),
+                // new Sentry.Replay(),
+                Sentry.replayIntegration({
+                    // Additional SDK configuration goes in here, for example:
+                    maskAllText: true,
+                    blockAllMedia: true,
+                }),
             ],
             // Performance Monitoring
             tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!

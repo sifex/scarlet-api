@@ -13,7 +13,7 @@ class UserController extends Controller
 
         // Transform installDir before validation
         $request->merge([
-            'installDir' => UserController::transformInstallDir($request->input('installDir'))
+            'installDir' => UserController::transformInstallDir($request->input('installDir')),
         ]);
 
         $request->user()->update(
@@ -22,20 +22,21 @@ class UserController extends Controller
                     'sometimes',
                     'required',
                     'string',
-                    'max:50'
+                    'max:50',
+                    Rule::unique('users')->ignore($request->user()->id),
                 ],
                 'remark' => [
                     'sometimes',
                     'string',
                     'max:150',
-                    'nullable'
+                    'nullable',
                 ],
                 'installDir' => [
                     'sometimes',
                     'required',
                     'string',
-                    'max:350'
-                ]
+                    'max:350',
+                ],
             ])
         );
 
@@ -49,8 +50,8 @@ class UserController extends Controller
         }
 
         // Remove "/Directory" or "/Directory/" suffix if it exists
-        $installDir = preg_replace('~/' . ModsController::MODS_PREFIX . '/?$~', '', $installDir);
-        $installDir = preg_replace("~\\\\" . ModsController::MODS_PREFIX . "\\\\?\$~", '', $installDir);
+        $installDir = preg_replace('~/'.ModsController::MODS_PREFIX.'/?$~', '', $installDir);
+        $installDir = preg_replace('~\\\\'.ModsController::MODS_PREFIX.'\\\\?$~', '', $installDir);
 
         // Remove trailing slash if it exists
         return rtrim($installDir, '\/');

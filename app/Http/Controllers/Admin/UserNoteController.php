@@ -24,9 +24,9 @@ class UserNoteController extends Controller
 
         $user->notes()->create([
             ...$this->validate($request, [
-                'contents' => ['required']
+                'contents' => ['required'],
             ]),
-            'author_id' => auth()->user()->id
+            'author_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('admin.user.show', ['user' => $user]);

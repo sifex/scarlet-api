@@ -12,7 +12,7 @@ class XMLAdminController extends Controller
     {
         return Inertia::render('Admin/XMLAdministration', [
             'xml_content' => XMLController::generateXML(),
-            'xml_link' => route('xml')
+            'xml_link' => route('xml'),
         ]);
     }
 }

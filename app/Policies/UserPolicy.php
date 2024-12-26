@@ -12,9 +12,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can view any models.
-     *
-     * @param User $current_user
-     * @return Response|bool
      */
     public function viewAny(User $current_user): Response|bool
     {
@@ -23,10 +20,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param User $current_user
-     * @param User $model
-     * @return Response|bool
      */
     public function view(User $current_user, User $model): Response|bool
     {
@@ -35,9 +28,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can create models.
-     *
-     * @param User $current_user
-     * @return Response|bool
      */
     public function create(User $current_user): Response|bool
     {
@@ -46,10 +36,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @param User $current_user
-     * @param User $model
-     * @return Response|bool
      */
     public function edit(User $current_user, User $model): Response|bool
     {
@@ -58,10 +44,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @param User $current_user
-     * @param User $model
-     * @return Response|bool
      */
     public function update(User $current_user, User $model): Response|bool
     {
@@ -70,10 +52,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @param User $current_user
-     * @param User $model
-     * @return Response|bool
      */
     public function delete(User $current_user, User $model): Response|bool
     {
@@ -82,10 +60,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @param User $current_user
-     * @param User $model
-     * @return Response|bool
      */
     public function restore(User $current_user, User $model): Response|bool
     {
@@ -94,10 +68,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @param User $current_user
-     * @param User $model
-     * @return Response|bool
      */
     public function forceDelete(User $current_user, User $model): Response|bool
     {

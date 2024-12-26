@@ -18,7 +18,7 @@ class UserNote extends Model
     ];
 
     protected $with = [
-        'author:username,id,uuid'
+        'author:username,id,uuid',
     ];
 
     public function user(): BelongsTo

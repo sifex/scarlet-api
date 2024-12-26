@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'username' => $this->faker->name,
             'type' => UserRole::MEMBER,
             'installDir' => 'C:\Arma 3',
-            'playerID' => $this->faker->numberBetween(70000000000000000, 80000000000000000)
+            'playerID' => $this->faker->numberBetween(70000000000000000, 80000000000000000),
         ];
     }
 
@@ -29,7 +29,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'type' => UserRole::LEADER
+                'type' => UserRole::LEADER,
             ];
         });
     }
@@ -38,7 +38,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'type' => UserRole::MEMBER
+                'type' => UserRole::MEMBER,
             ];
         });
     }

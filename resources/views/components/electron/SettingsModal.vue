@@ -71,9 +71,20 @@
                                                 </span>
 
                                             <div class="flex md:flex-row flex-col gap-2">
-                                                <span class="grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                                <span class="relative grow bg-slate-100 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                       type="text">
                                                     {{ alter_user_form.installDir }}<span class="text-slate-400">\{{mods_prefix}}</span>
+
+                                                    <span class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                                        <button @click="open_install_dir_in_explorer"
+                                                                type="button"
+                                                                class="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2">
+                                                            Open
+                                                            <span class="block">
+                                                                <ArrowTopRightOnSquareIcon class="block h-3 w-3"/>
+                                                            </span>
+                                                        </button>
+                                                    </span>
                                                 </span>
 
                                                 <SelectInstallDirectory
@@ -167,6 +178,7 @@ import {Switch} from '@headlessui/vue'
 import useLocalStorage from "@/scripts/useLocalStorage";
 import type ScarletDownloader from "@/scripts/downloader/downloader";
 import SelectInstallDirectory from "@/views/components/electron/SelectInstallDirectory.vue";
+import {ArrowTopRightOnSquareIcon} from "@heroicons/vue/16/solid";
 
 
 const isOpen = ref(false)
@@ -206,6 +218,12 @@ let mods_prefix = '@Mods_AAF'
  */
 function on_select_install_dir(directory: string) {
     alter_user_form.installDir = transformInstallDir(directory)
+}
+
+function open_install_dir_in_explorer() {
+    if (alter_user_form.installDir) {
+        window.scarlet.open_install_dir_in_explorer(transformInstallDir(alter_user_form.installDir) + `/${mods_prefix}`)
+    }
 }
 
 function transformInstallDir(installDir: string | null): string | null {

@@ -28,7 +28,6 @@ host('production')
     ->set('target', 'main')
     ->setDeployPath('/var/www/scarlet.australianarmedforces.org');
 
-
 // Tasks
 task('build', function () {
     cd('{{release_path}}');

@@ -12,9 +12,9 @@ use Uuid;
 
 class User extends Authenticatable
 {
-    use Notifiable;
     use HasFactory;
     use HasTemporaryTokens;
+    use Notifiable;
     use SoftDeletes;
 
     /**
@@ -28,7 +28,7 @@ class User extends Authenticatable
         'type',
         'playerID',
         'comment',
-        'remark'
+        'remark',
     ];
 
     /**
@@ -44,7 +44,7 @@ class User extends Authenticatable
         'remark',
         'deleted_at',
         'last_login_time',
-        'last_download_time'
+        'last_download_time',
     ];
 
     /**
@@ -63,11 +63,11 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'type' => UserRole::class
+        'type' => UserRole::class,
     ];
 
     protected $attributes = [
-        'type' => UserRole::APPLICANT
+        'type' => UserRole::APPLICANT,
     ];
 
     public function notes(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -77,8 +77,6 @@ class User extends Authenticatable
 
     /**
      * Get the route key for the model.
-     *
-     * @return string
      */
     public function getRouteKeyName(): string
     {
@@ -101,8 +99,8 @@ class User extends Authenticatable
         return collect([
             UserRole::STAFF,
             UserRole::LEADER,
-//            UserRole::SPECIAL,
-//            UserRole::VETERAN
+            //            UserRole::SPECIAL,
+            //            UserRole::VETERAN
         ])->contains($this->type);
     }
 }

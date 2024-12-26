@@ -11,7 +11,6 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyCsrfToken;
-use Fruitcake\Cors\HandleCors;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -38,7 +37,6 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         TrustProxies::class,
-        HandleCors::class,
         CheckForMaintenanceMode::class,
         ValidatePostSize::class,
         TrimStrings::class,
@@ -60,7 +58,7 @@ class Kernel extends HttpKernel
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             HandleInertiaRequests::class,
-//            \Spatie\Csp\AddCspHeaders::class,
+            //            \Spatie\Csp\AddCspHeaders::class,
         ],
 
         'api' => [
@@ -91,6 +89,6 @@ class Kernel extends HttpKernel
         /**
          * Scarlet
          */
-        'admin' => IsAdministrator::class
+        'admin' => IsAdministrator::class,
     ];
 }

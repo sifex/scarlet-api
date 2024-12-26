@@ -2,7 +2,6 @@
 
 return [
 
-
     /**
      * Arma Server IP & Port
      */

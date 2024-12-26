@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\UserController;
 
 test('it literally acts as a basic unit test', function () {

@@ -28,7 +28,7 @@ class RegenerateMods extends Command
      */
     public function handle()
     {
-        $mods_controller = new ModsController();
+        $mods_controller = new ModsController;
         $mods_controller->regenerate_mods();
 
         return Command::SUCCESS;

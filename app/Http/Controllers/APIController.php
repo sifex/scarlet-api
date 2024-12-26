@@ -18,12 +18,12 @@ class APIController extends Controller
     {
         $servers = [
             [
-                'type'    => 'armedassault3',
-                'host'    => '58.162.184.102:2302',
-            ]
+                'type' => 'armedassault3',
+                'host' => '58.162.184.102:2302',
+            ],
         ];
 
-        $GameQ = new \GameQ\GameQ(); // or $GameQ = \GameQ\GameQ::factory();
+        $GameQ = new \GameQ\GameQ; // or $GameQ = \GameQ\GameQ::factory();
         $GameQ->addServers($servers);
         $GameQ->setOption('timeout', 5); // seconds
 
@@ -36,15 +36,15 @@ class APIController extends Controller
     {
         $servers = [
             [
-                'type'    => 'teamspeak3',
-                'host'    => 'ts.australianarmedforces.org:9987',
+                'type' => 'teamspeak3',
+                'host' => 'ts.australianarmedforces.org:9987',
                 'options' => [
                     'query_port' => 10011,
                 ],
-            ]
+            ],
         ];
 
-        $GameQ = new \GameQ\GameQ(); // or $GameQ = \GameQ\GameQ::factory();
+        $GameQ = new \GameQ\GameQ; // or $GameQ = \GameQ\GameQ::factory();
         $GameQ->addServers($servers);
         $GameQ->setOption('timeout', 5); // seconds
 
@@ -59,7 +59,7 @@ class APIController extends Controller
     {
         return response()->json(
             User::get([
-                'username', 'remark', 'type'
+                'username', 'remark', 'type',
             ])
         );
     }
